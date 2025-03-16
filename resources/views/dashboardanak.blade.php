@@ -1,375 +1,323 @@
-<!doctype html>
-<html lang="id">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard Anak</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <style>
-      body {
-        background-color: #f8f9fa;
-      }
-      .navbar {
-        box-shadow: 0 2px 4px rgba(0,0,0,.1);
-      }
-      .card {
-        border: none;
-        border-radius: 15px;
-        box-shadow: 0 4px 6px rgba(0,0,0,.1);
-        transition: all 0.3s ease;
-      }
-      .card-header {
-        background-color: #28a745;
-        color: white;
-        border-radius: 15px 15px 0 0 !important;
-      }
+{{-- views/dashboard/anak/index.blade.php --}}
+@extends('layouts.app')
 
-      @keyframes float {
-        0% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-        100% {
-          transform: translateY(0px);
-        }
-      }
+@section('title', 'Dashboard Anak')
 
-      .floating-image {
-        transition: all 0.3s ease;
-        animation: float 3s ease-in-out infinite;
-      }
-
-      .floating-image:hover {
-        transform: translateY(-10px);
-      }
-      .input-group {
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        border-radius: 25px;
-        overflow: hidden;
-        transition: all 0.3s ease;
-        border: 2px solid #28a745;
-        max-width: 250px;
-      }
-
-      .input-group:hover, .input-group:focus-within {
-        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        border-color: #218838;
-      }
-
-      .input-group .form-control {
-        border: none;
-        padding: 10px 15px;
-        font-size: 0.9rem;
-      }
-
-      .input-group .btn {
-        border-radius: 0 23px 23px 0;
-        padding: 10px 15px;
-        background-color: #28a745;
-        border-color: #28a745;
-      }
-
-      .input-group .btn:hover {
-        background-color: #218838;
-        border-color: #1e7e34;
-      }
-
-      .input-group .form-control:focus,
-      .input-group .btn:focus {
-        box-shadow: none;
-        outline: none;
-      }
-
-      #sidebar {
-        position: fixed;
-        top: 0;
-        right: -250px;
-        height: 100vh;
-        width: 250px;
-        background-color: #f8f9fa;
-        transition: 0.3s;
-        z-index: 1050;
-        overflow-y: auto;
-      }
-
-      #sidebar.active {
-        right: 0;
-      }
-
-      .overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 1049;
-        opacity: 0;
-        transition: all 0.5s ease-in-out;
-      }
-
-      .overlay.active {
-        display: block;
-        opacity: 1;
-      }
-
-      @media (min-width: 992px) {
-        #sidebar {
-          right: -250px !important;
-        }
-        #content {
-          margin-right: 0 !important;
-        }
-      }
-
-      .btn-action {
-        margin-bottom: 5px;
-        width: 100%;
-      }
-
-      @media (min-width: 768px) {
-        .btn-action {
-          width: auto;
-          margin-right: 5px;
-        }
-      }
-    </style>
-  </head>
-<body>
-
-<nav id="sidebar">
-    <div class="p-4">
-        <h3>Menu</h3>
-        <ul class="list-unstyled components mb-5">
-            <li>
-                <a href="{{ route('dashboardadmin') }}" class="btn btn-outline-success w-100 mb-2">
-                    <i class="fas fa-users"></i> Dashboard Admin
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('logout') }}" class="btn btn-danger w-100"
-                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="fas fa-sign-out-alt"></i> {{ __('Keluar') }}
-                </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
-                </form>
-            </li>
-        </ul>
+@section('content')
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-5 gap-3">
+        <div>
+            <h2 class="text-xl font-semibold">Selamat Datang, {{ Auth::user()->name }}</h2>
+            <p class="text-gray-600">Kelola data anak-anak di daycare Anda di sini.</p>
+        </div>
+        <input type="text" 
+               placeholder="Cari nama anak..." 
+               class="p-2 border border-gray-300 rounded w-full md:w-64 border-purple-300 text-purple-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+               value="{{ request('search') }}">
     </div>
-</nav>
-
-<div id="content">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <img src="" alt="Daycare Logo" height="40">
-            </a>
-            <button type="button" id="sidebarCollapse" class="btn btn-primary d-lg-none">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="d-none d-lg-block">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item me-2">
-                        <a class="btn btn-outline-success" href="{{ route('dashboardadmin') }}">
-                            <i class="fas fa-users"></i> Dashboard Admin
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-danger" href="{{ route('logout') }}"
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <i class="fas fa-sign-out-alt"></i> {{ __('Keluar') }}
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <main class="container my-5">
-        @session('success')
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ $value }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endsession
-
-        <div class="row align-items-center">
-            <div class="col-md-8">
-                <h1 class="display-4 fw-bold">Selamat Datang, {{ Auth::user()->name }}</h1>
-                <p class="lead">Kelola data anak-anak di daycare Anda di sini.</p>
-            </div>
-            <div class="col-md-4 text-end">
-                <img src="{{ asset('Upinipin.png') }}" alt="Upin & Ipin" class="img-fluid floating-image" style="max-width: 120px;">
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h3 class="mb-0"><i class="fas fa-child me-2"></i>Daftar Anak</h3>
-                    <form action="{{ route('children.search') }}" method="GET">
-                        <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Cari nama anak..." value="{{ request('search') }}" aria-label="Cari nama anak" aria-describedby="search-addon">
-                            <button class="btn btn-primary" type="submit" id="search-addon">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Nama</th>
-                                <th>Tanggal</th>
-                                <!-- <th>Keterangan</th> -->
-                                <th>Status Pengisian</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($children as $child)
-                                <tr class="clickable-row" data-href="{{ route('children.info', $child->id) }}">
-                                    <td>{{ $child->nama }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($child->tanggal)->format('d-m-Y') }}</td>
-                                    <!-- <td>{{ $child->keterangan ?? '-' }}</td> -->
-                                    <td>
-                                        @php
-                                            $today = \Carbon\Carbon::now()->format('Y-m-d');
-                                            $childHistory = $child->histories()
-                                                ->whereDate('tanggal', $today)
-                                                ->latest()
-                                                ->first();
-
-                                            $isComplete = $childHistory && 
-                                                !empty($childHistory->makan_pagi) && !empty($childHistory->makan_siang) && !empty($childHistory->makan_sore) &&
-                                                !empty($childHistory->susu_pagi) && !empty($childHistory->susu_siang) && !empty($childHistory->susu_sore) &&
-                                                !empty($childHistory->air_putih_pagi) && !empty($childHistory->air_putih_siang) && !empty($childHistory->air_putih_sore) &&
-                                                !empty($childHistory->bak_pagi) && !empty($childHistory->bak_siang) && !empty($childHistory->bak_sore) &&
-                                                !empty($childHistory->bab_pagi) && !empty($childHistory->bab_siang) && !empty($childHistory->bab_sore) &&
-                                                !empty($childHistory->tidur_pagi) && !empty($childHistory->tidur_siang) && !empty($childHistory->tidur_sore) &&
-                                                !empty($childHistory->kondisi);
-
-                                            if ($isComplete) {
-                                                $kegiatanOutdoor = json_decode($childHistory->kegiatan_outdoor, true);
-                                                $kegiatanIndoor = json_decode($childHistory->kegiatan_indoor, true);
-                                                $makananCamilanPagi = json_decode($childHistory->makanan_camilan_pagi, true);
-                                                $makananCamilanSiang = json_decode($childHistory->makanan_camilan_siang, true);
-                                                $makananCamilanSore = json_decode($childHistory->makanan_camilan_sore, true);
-                                                
-                                                $isComplete = $isComplete && 
-                                                    is_array($kegiatanOutdoor) && count($kegiatanOutdoor) > 0 &&
-                                                    is_array($kegiatanIndoor) && count($kegiatanIndoor) > 0 &&
-                                                    is_array($makananCamilanPagi) && count($makananCamilanPagi) > 0 &&
-                                                    is_array($makananCamilanSiang) && count($makananCamilanSiang) > 0 &&
-                                                    is_array($makananCamilanSore) && count($makananCamilanSore) > 0 &&
-                                                    !empty($childHistory->obat_pagi) &&
-                                                    !empty($childHistory->obat_siang) &&
-                                                    !empty($childHistory->obat_sore);
-                                            }
-                                        @endphp
-                                        @if ($isComplete)
-                                            <span class="badge bg-success">Lengkap</span>
-                                        @else
-                                            <span class="badge bg-danger">Belum Lengkap</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('children.editStatus', $child->id) }}" class="btn btn-primary btn-sm btn-action">
-                                            <i class="fas fa-edit"></i> Update Status
-                                        </a>
-                                        <a href="{{ route('children.info', $child->id) }}" class="btn btn-warning btn-sm btn-action">
-                                            <i class="fas fa-info-circle"></i> Informasi Anak
-                                        </a>
-                                        <button type="button" class="btn btn-danger btn-sm btn-action" data-bs-toggle="modal" data-bs-target="#deleteChildModal" data-childid="{{ $child->id }}" data-childname="{{ $child->nama }}">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <div class="modal fade" id="deleteChildModal" tabindex="-1" aria-labelledby="deleteChildModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="deleteChildModalLabel">Konfirmasi penghapusan</h5>
-          </div>
-          <div class="modal-body">
-            Apakah anda yakin ingin menghapus anak <b><span id="childNameToDelete"></span></b>?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-            <form id="deleteChildForm" action="" method="POST">
-              @csrf
-              @method('DELETE')
-              <button type="submit" class="btn btn-danger">Hapus</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-</div>
-
-<div class="overlay"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-<script>
-  var deleteChildModal = document.getElementById('deleteChildModal');
-  deleteChildModal.addEventListener('show.bs.modal', function (event) {
-    var button = event.relatedTarget;
-    var childId = button.getAttribute('data-childid');
-    var childName = button.getAttribute('data-childname');
-    var form = document.getElementById('deleteChildForm');
-    var childNameToDelete = document.getElementById('childNameToDelete');
     
-    form.action = '{{ route("children.destroy", "") }}/' + childId;
-    childNameToDelete.textContent = childName;
-  });
-</script>
+    <!-- Table view (hidden on mobile, visible on md screens and up) -->
+    <div class="hidden md:block overflow-x-auto bg-white rounded-lg shadow">
+        <table class="w-full border-collapse">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="p-3 text-left">Nama Anak</th>
+                    <th class="p-3 text-left">Nama Orang tua</th>
+                    <th class="p-3 text-left">Tanggal</th>
+                    <th class="p-3 text-left">Status</th>
+                    <th class="p-3 text-left">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($children as $child)
+                <tr class="border-b border-gray-100">
+                    <td class="p-3">{{ $child->nama }}</td>
+                    <td class="p-3">{{ $child->user->name ?? '-' }}</td>
+                    <td class="p-3">{{ \Carbon\Carbon::parse($child->tanggal)->format('d-m-Y') }}</td>
+                    <td class="p-3">
+                        @php
+                            $today = \Carbon\Carbon::now()->format('Y-m-d');
+                            $childHistory = $child->histories()
+                                ->whereDate('tanggal', $today)
+                                ->latest()
+                                ->first();
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const rows = document.querySelectorAll('.clickable-row');
-    rows.forEach(row => {
-        row.addEventListener('click', function(e) {
-            if (!e.target.closest('a, button')) {
-                window.location.href = this.dataset.href;
-            }
+                            $isComplete = $childHistory && 
+                                !empty($childHistory->makan_pagi) && !empty($childHistory->makan_siang) && !empty($childHistory->makan_sore) &&
+                                !empty($childHistory->susu_pagi) && !empty($childHistory->susu_siang) && !empty($childHistory->susu_sore) &&
+                                !empty($childHistory->air_putih_pagi) && !empty($childHistory->air_putih_siang) && !empty($childHistory->air_putih_sore) &&
+                                !empty($childHistory->bak_pagi) && !empty($childHistory->bak_siang) && !empty($childHistory->bak_sore) &&
+                                !empty($childHistory->bab_pagi) && !empty($childHistory->bab_siang) && !empty($childHistory->bab_sore) &&
+                                !empty($childHistory->tidur_pagi) && !empty($childHistory->tidur_siang) && !empty($childHistory->tidur_sore) &&
+                                !empty($childHistory->kondisi);
+
+                            if ($isComplete) {
+                                $kegiatanOutdoor = json_decode($childHistory->kegiatan_outdoor, true);
+                                $kegiatanIndoor = json_decode($childHistory->kegiatan_indoor, true);
+                                $makananCamilanPagi = json_decode($childHistory->makanan_camilan_pagi, true);
+                                $makananCamilanSiang = json_decode($childHistory->makanan_camilan_siang, true);
+                                $makananCamilanSore = json_decode($childHistory->makanan_camilan_sore, true);
+                                
+                                $isComplete = $isComplete && 
+                                    is_array($kegiatanOutdoor) && count($kegiatanOutdoor) > 0 &&
+                                    is_array($kegiatanIndoor) && count($kegiatanIndoor) > 0 &&
+                                    is_array($makananCamilanPagi) && count($makananCamilanPagi) > 0 &&
+                                    is_array($makananCamilanSiang) && count($makananCamilanSiang) > 0 &&
+                                    is_array($makananCamilanSore) && count($makananCamilanSore) > 0 &&
+                                    !empty($childHistory->obat_pagi) &&
+                                    !empty($childHistory->obat_siang) &&
+                                    !empty($childHistory->obat_sore);
+                            }
+                        @endphp
+                        
+                        @if ($isComplete)
+                            <span class="bg-green-500 text-white px-2 py-1 rounded text-xs">Lengkap</span>
+                        @else
+                            <span class="bg-red-500 text-white px-2 py-1 rounded text-xs">Belum Lengkap</span>
+                        @endif
+                    </td>
+                    <td class="p-3 flex gap-2">
+                        <a href="{{ route('children.editStatus', $child->id) }}" class="px-3 py-1.5 bg-purple-600 text-white text-xs rounded hover:bg-purple-700">
+                            <i class="fas fa-edit"></i> Update
+                        </a>
+                        <button class="px-3 py-1.5 bg-purple-500 text-white text-xs rounded hover:bg-purple-600" onclick="openModal({{ $child->id }}, '{{ $child->nama }}')">
+                            <i class="fas fa-info-circle"></i> Info
+                        </button>
+                        <button class="px-3 py-1.5 bg-purple-400 text-white text-xs rounded hover:bg-purple-500" 
+                                onclick="openEditModal({{ $child->id }}, '{{ $child->nama }}', {{ $child->user_id ?? 'null' }})">
+                            <i class="fas fa-sync"></i> Edit
+                        </button>
+                        <button class="px-3 py-1.5 bg-red-500 text-white text-xs rounded hover:bg-red-600" 
+                                onclick="openDeleteModal({{ $child->id }}, '{{ $child->nama }}')">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Card view (visible on mobile, hidden on md screens and up) -->
+    <div class="md:hidden space-y-4">
+        @foreach ($children as $child)
+        <div class="bg-white rounded-lg shadow p-4">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-medium text-lg">{{ $child->nama }}</h3>
+                @php
+                    $today = \Carbon\Carbon::now()->format('Y-m-d');
+                    $childHistory = $child->histories()
+                        ->whereDate('tanggal', $today)
+                        ->latest()
+                        ->first();
+
+                    $isComplete = $childHistory && 
+                        !empty($childHistory->makan_pagi) && !empty($childHistory->makan_siang) && !empty($childHistory->makan_sore) &&
+                        !empty($childHistory->susu_pagi) && !empty($childHistory->susu_siang) && !empty($childHistory->susu_sore) &&
+                        !empty($childHistory->air_putih_pagi) && !empty($childHistory->air_putih_siang) && !empty($childHistory->air_putih_sore) &&
+                        !empty($childHistory->bak_pagi) && !empty($childHistory->bak_siang) && !empty($childHistory->bak_sore) &&
+                        !empty($childHistory->bab_pagi) && !empty($childHistory->bab_siang) && !empty($childHistory->bab_sore) &&
+                        !empty($childHistory->tidur_pagi) && !empty($childHistory->tidur_siang) && !empty($childHistory->tidur_sore) &&
+                        !empty($childHistory->kondisi);
+
+                    if ($isComplete) {
+                        $kegiatanOutdoor = json_decode($childHistory->kegiatan_outdoor, true);
+                        $kegiatanIndoor = json_decode($childHistory->kegiatan_indoor, true);
+                        $makananCamilanPagi = json_decode($childHistory->makanan_camilan_pagi, true);
+                        $makananCamilanSiang = json_decode($childHistory->makanan_camilan_siang, true);
+                        $makananCamilanSore = json_decode($childHistory->makanan_camilan_sore, true);
+                        
+                        $isComplete = $isComplete && 
+                            is_array($kegiatanOutdoor) && count($kegiatanOutdoor) > 0 &&
+                            is_array($kegiatanIndoor) && count($kegiatanIndoor) > 0 &&
+                            is_array($makananCamilanPagi) && count($makananCamilanPagi) > 0 &&
+                            is_array($makananCamilanSiang) && count($makananCamilanSiang) > 0 &&
+                            is_array($makananCamilanSore) && count($makananCamilanSore) > 0 &&
+                            !empty($childHistory->obat_pagi) &&
+                            !empty($childHistory->obat_siang) &&
+                            !empty($childHistory->obat_sore);
+                    }
+                @endphp
+                
+                @if ($isComplete)
+                    <span class="bg-green-500 text-white px-2 py-1 rounded text-xs">Lengkap</span>
+                @else
+                    <span class="bg-red-500 text-white px-2 py-1 rounded text-xs">Belum Lengkap</span>
+                @endif
+            </div>
+            
+            <div class="space-y-2 mb-4">
+                <div class="flex items-start">
+                    <span class="text-gray-500 w-32">Orang Tua:</span>
+                    <span>{{ $child->user->name ?? '-' }}</span>
+                </div>
+                <div class="flex items-start">
+                    <span class="text-gray-500 w-32">Tanggal:</span>
+                    <span>{{ \Carbon\Carbon::parse($child->tanggal)->format('d-m-Y') }}</span>
+                </div>
+            </div>
+            
+            <div class="flex flex-wrap gap-2">
+                <a href="{{ route('children.editStatus', $child->id) }}" class="px-3 py-1.5 bg-purple-600 text-white text-xs rounded hover:bg-purple-700 flex-1">
+                    <i class="fas fa-edit"></i> Update
+                </a>
+                <button class="px-3 py-1.5 bg-purple-500 text-white text-xs rounded hover:bg-purple-600 flex-1" 
+                        onclick="openModal({{ $child->id }}, '{{ $child->nama }}')">
+                    <i class="fas fa-info-circle"></i> Info
+                </button>
+                <button class="px-3 py-1.5 bg-purple-400 text-white text-xs rounded hover:bg-purple-500 flex-1" 
+                        onclick="openEditModal({{ $child->id }}, '{{ $child->nama }}', {{ $child->user_id ?? 'null' }})">
+                    <i class="fas fa-sync"></i> Edit
+                </button>
+                <button class="px-3 py-1.5 bg-red-500 text-white text-xs rounded hover:bg-red-600 flex-1" 
+        onclick="openDeleteModal({{ $child->id }}, '{{ $child->name }}')">
+    <i class="fas fa-trash"></i> Hapus
+</button>
+            </div>
+        </div>
+        @endforeach
+    </div>
+
+    <!-- Modal Info -->
+    <div id="infoModal" class="fixed inset-0 hidden bg-black bg-opacity-50 items-center justify-center z-50 p-4">
+        <div class="bg-white p-5 w-11/12 max-w-lg shadow-lg rounded-lg text-left relative max-h-90vh overflow-y-auto">
+            <button class="absolute top-2 right-3 text-xl cursor-pointer bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-50 transition duration-550 ease-in-out" onclick="closeModal()">×</button>
+            <div class="text-lg font-bold mb-2.5 text-black">Informasi Tentang <span id="childNameInfo"></span></div>
+            <div id="childInfoContent" class="space-y-2">
+                <!-- This will be populated with AJAX/JavaScript -->
+                <div class="flex justify-center">
+                    <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-purple-500"></div>
+                </div>
+                <p class="text-center text-gray-500">Memuat informasi...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit -->
+    <div id="editModal" class="fixed inset-0 hidden bg-black bg-opacity-50 items-center justify-center z-50 p-4">
+        <div class="bg-white p-5 w-11/12 max-w-lg shadow-lg rounded-lg text-left relative max-h-90vh overflow-y-auto">
+            <button class="absolute top-2 right-3 text-xl cursor-pointer bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center" onclick="closeEditModal()">×</button>
+            <h2 class="text-lg font-bold mb-3">Edit Data Anak</h2>
+            <form id="editForm" class="relative pb-16" method="POST" action="{{ route('children.update', $child->id) }}">
+                @csrf
+                @method('PUT')
+                <div class="mb-4">
+                    <label class="block mb-2">Nama Anak:</label>
+                    <input type="text" id="edit_nama" name="nama" class="w-full p-2 border rounded mb-3" required>
+                </div>
+                <div class="mb-4">
+                <label class="block mb-2">Nama Orang Tua:</label>
+                <select id="edit_user_id" name="user_id" class="w-full p-2 border rounded mb-3" required>
+                    <option value="">Pilih orang tua...</option>
+                    @foreach($users as $user)
+                        @if($user->role === 'user')
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endif
+                    @endforeach
+                </select>
+
+
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById("infoModal").classList.remove("hidden");
+            document.getElementById("infoModal").classList.add("flex");
+        }
+
+        function closeModal() {
+            document.getElementById("infoModal").classList.add("hidden");
+        }
+
+        function openEditModal(id, nama, user_id) {
+            document.getElementById("editModal").classList.remove("hidden");
+            document.getElementById("editModal").classList.add("flex");
+
+            // Set input values
+            document.getElementById("edit_nama").value = nama;
+            document.getElementById("edit_user_id").value = user_id;
+
+            // Update form action dynamically
+            let form = document.getElementById("editForm");
+            form.action = "/children/" + id;
+        }
+
+
+
+        function closeEditModal() {
+            document.getElementById("editModal").classList.add("hidden");
+        }
+
+        function openDeleteModal() {
+            let modal = document.getElementById("deleteModal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function closeDeleteModal() {
+            let modal = document.getElementById("deleteModal");
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+        }
+
+        function toggleSidebar() {
+            let sidebar = document.getElementById("sidebar");
+            let overlay = document.getElementById("sidebarOverlay");
+            sidebar.classList.toggle("-translate-x-full");
+            overlay.classList.toggle("hidden");
+        }
+
+        function closeSidebar() {
+            let sidebar = document.getElementById("sidebar");
+            let overlay = document.getElementById("sidebarOverlay");
+            sidebar.classList.add("-translate-x-full");
+            overlay.classList.add("hidden");
+        }
+
+        document.getElementById("menuToggle").addEventListener("click", toggleSidebar);
+
+        document.querySelectorAll(".hapus-btn").forEach(button => {
+            button.addEventListener("click", openDeleteModal);
         });
-    });
 
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.querySelector('.overlay');
-    const sidebarCollapse = document.getElementById('sidebarCollapse');
+        document.querySelectorAll("#deleteModal, #infoModal, #editModal").forEach(modal => {
+            modal.addEventListener("click", function (event) {
+                if (event.target === modal) {
+                    modal.classList.add("hidden");
+                }
+            });
+        });
 
-    sidebarCollapse.addEventListener('click', function() {
-        sidebar.classList.toggle('active');
-        overlay.classList.toggle('active');
-    });
+        document.getElementById("editForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    
+    let form = this;
+    let formData = new FormData(form);
 
-    overlay.addEventListener('click', function() {
-        sidebar.classList.remove('active');
-        this.classList.remove('active');
-    });
+    fetch(form.action, {
+        method: 'POST', // Laravel treats PUT requests as POST with _method='PUT'
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+            'X-Requested-With': 'XMLHttpRequest' // Helps Laravel detect AJAX request
+        }
+    }).then(response => {
+        if (response.redirected) {
+            alert("Session expired! Redirecting to login...");
+            window.location.href = response.url; // Redirect to login if session expired
+        }
+        return response.json();
+    }).then(data => {
+        alert("Data berhasil diperbarui!");
+        closeEditModal();
+        location.reload(); // Refresh to see changes
+    }).catch(error => console.log('Error:', error));
 });
-</script>
 
-</body>
-</html>
+    </script>
+    @endsection
