@@ -168,10 +168,11 @@
                         onclick="openEditModal({{ $child->id }}, '{{ $child->nama }}', {{ $child->user_id ?? 'null' }})">
                     <i class="fas fa-sync"></i> Edit
                 </button>
-                <button class="px-3 py-1.5 bg-red-500 text-white text-xs rounded hover:bg-red-600 flex-1" 
-        onclick="openDeleteModal({{ $child->id }}, '{{ $child->name }}')">
+                <button class="px-3 py-1.5 bg-red-500 text-white text-xs rounded hover:bg-red-600 flex-1"
+        onclick="openDeleteModal({{ $child->id }}, '{{ $child->name }}', '{{ route('children.destroy', $child->id) }}')">
     <i class="fas fa-trash"></i> Hapus
 </button>
+
             </div>
         </div>
         @endforeach
@@ -224,7 +225,7 @@
         </div>
     </div>
 
-    <script>
+    <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.6/dist/notiflix-aio-3.2.6.min.js">
         function openModal() {
             document.getElementById("infoModal").classList.remove("hidden");
             document.getElementById("infoModal").classList.add("flex");
@@ -253,11 +254,48 @@
             document.getElementById("editModal").classList.add("hidden");
         }
 
-        function openDeleteModal() {
-            let modal = document.getElementById("deleteModal");
-            modal.classList.remove("hidden");
-            modal.classList.add("flex");
+        function openDeleteModal(id, name, url) {
+    Notiflix.Confirm.show(
+        'Konfirmasi Hapus',
+        `Apakah Anda yakin ingin menghapus <strong>${name}</strong>?`,
+        'Ya, Hapus',
+        'Batal',
+        function okCb() {
+            // Kirim AJAX DELETE
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: new URLSearchParams({ '_method': 'DELETE' })
+            })
+            .then(response => {
+                if (response.redirected) {
+                    Notiflix.Notify.failure('Sesi telah habis! Mengarahkan ke login...');
+                    window.location.href = response.url;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    Notiflix.Notify.success('Data berhasil dihapus!');
+                    location.reload();
+                } else {
+                    Notiflix.Notify.failure(data.message || 'Gagal menghapus data.');
+                }
+            })
+            .catch(error => {
+                Notiflix.Notify.failure('Terjadi kesalahan!');
+                console.error('Error:', error);
+            });
+        },
+        function cancelCb() {
+            Notiflix.Notify.info('Penghapusan dibatalkan.');
         }
+    );
+}
+
 
         function closeDeleteModal() {
             let modal = document.getElementById("deleteModal");
@@ -299,24 +337,83 @@
     let form = this;
     let formData = new FormData(form);
 
-    fetch(form.action, {
-        method: 'POST', // Laravel treats PUT requests as POST with _method='PUT'
-        body: formData,
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
-            'X-Requested-With': 'XMLHttpRequest' // Helps Laravel detect AJAX request
+fetch(form.action, {
+    method: 'POST',
+    body: formData,
+    headers: {
+        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+        'X-Requested-With': 'XMLHttpRequest'
+    }
+})
+.then(response => {
+    if (response.redirected) {
+        // Handle session expiration with Notiflix
+        if (typeof Notiflix === 'undefined') {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/notiflix@3.2.5/dist/notiflix-aio-3.2.5.min.js';
+            script.onload = function() {
+                setupNotiflixAndRedirect(response.url);
+            };
+            document.head.appendChild(script);
+        } else {
+            setupNotiflixAndRedirect(response.url);
         }
-    }).then(response => {
-        if (response.redirected) {
-            alert("Session expired! Redirecting to login...");
-            window.location.href = response.url; // Redirect to login if session expired
-        }
-        return response.json();
-    }).then(data => {
+        return Promise.reject('Data berhasil disimpan');
+    }
+    return response.json(); // Make sure to return this for the next then
+})
+.then(data => {
+    // Success handling with Notiflix instead of alert
+    if (typeof Notiflix !== 'undefined') {
+        Notiflix.Notify.init({
+            fontFamily: 'inherit',
+            position: 'center-top',
+            success: {
+                background: '#6d28d9',
+                textColor: '#ffffff',
+            }
+        });
+        Notiflix.Notify.success('Data berhasil diperbarui!');
+    } else {
         alert("Data berhasil diperbarui!");
-        closeEditModal();
-        location.reload(); // Refresh to see changes
-    }).catch(error => console.log('Error:', error));
+    }
+    closeEditModal();
+    location.reload();
+})
+.catch(error => {
+    console.log('Error:', error);
+    if (error !== 'Redirected due to session expiration') {
+        // Show error notification
+        if (typeof Notiflix !== 'undefined') {
+            Notiflix.Notify.failure('Terjadi kesalahan. Silakan coba lagi.');
+        } else {
+            alert('Terjadi kesalahan. Silakan coba lagi.');
+        }
+    }
+});
+
+// Function to configure Notiflix and handle redirection
+function setupNotiflixAndRedirect(redirectUrl) {
+    Notiflix.Notify.init({
+        fontFamily: 'inherit',
+        position: 'center-top',
+        backOverlay: true,
+        backOverlayColor: 'rgba(0,0,0,0.5)',
+        success: {
+            background: '#6d28d9',
+            textColor: '#ffffff',
+            childClassName: 'notiflix-notify-success',
+            notiflixIconColor: '#ffffff',
+        }
+    });
+    
+    Notiflix.Notify.success('Session expired! Redirecting to login...');
+    
+    setTimeout(() => {
+        window.location.href = redirectUrl;
+    }, 2000);
+}
+    
 });
 
     </script>

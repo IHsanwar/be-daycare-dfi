@@ -30,13 +30,19 @@ class ChildController extends Controller
         return redirect()->back()->with('success', 'Anak berhasil ditambahkan');
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $child = Child::findOrFail($id);
+        $child = Child::find($id);
+    
+        if (!$child) {
+            return response()->json(['success' => false, 'message' => 'Data tidak ditemukan.'], 404);
+        }
+    
         $child->delete();
-
-        return redirect()->route('dashboardanak')->with('success', 'Data anak berhasil dihapus.');
+    
+        return response()->json(['success' => true, 'message' => 'Data berhasil dihapus.']);
     }
+    
 
     public function updateStatus(Request $request, $id)
     {
