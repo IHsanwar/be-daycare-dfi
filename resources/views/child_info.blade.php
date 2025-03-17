@@ -76,7 +76,7 @@
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div>
                 <a href="{{ route('dashboardanak') }}" class="btn btn-primary me-3">
-                    <i class="fas fa-arrow-left"></i> Kembali
+                    <i class="fas fa-arrow-left"></i> Kembali woi
                 </a>
                 <h1 class="mb-0">Informasi {{ $child->nama }}</h1>
             </div>
