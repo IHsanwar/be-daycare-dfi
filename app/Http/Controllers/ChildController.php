@@ -147,8 +147,9 @@ class ChildController extends Controller
 
         return redirect()->route('dashboardanak')->with('success', 'Status anak berhasil diperbarui dan riwayat terbaru disimpan.');
     }
+    
 
-    public function editStatus($id)
+    public function editStatus($id, $type = null)
     {
         $child = Child::findOrFail($id);
         $today = Carbon::now()->format('Y-m-d');
@@ -157,7 +158,7 @@ class ChildController extends Controller
             ->whereDate('tanggal', $today)
             ->latest()
             ->first();
-
+    
         if ($todayHistory) {
             $child->fill($todayHistory->toArray());
             $child->kegiatan_outdoor = json_decode($todayHistory->kegiatan_outdoor, true) ?? [];
@@ -180,28 +181,34 @@ class ChildController extends Controller
                 'kegiatan_outdoor', 'kegiatan_indoor', 'keterangan',
                 'obat_pagi', 'obat_siang', 'obat_sore'
             ];
-
+    
             foreach ($fieldsToReset as $field) {
                 $child->$field = null;
             }
-
+    
             $child->makan_pagi_custom = null;
             $child->makan_siang_custom = null;
             $child->makan_sore_custom = null;
-
+    
             $child->kegiatan_outdoor = [];
             $child->kegiatan_indoor = [];
-
+    
             $child->makanan_camilan_pagi = null;
             $child->makanan_camilan_siang = null;
             $child->makanan_camilan_sore = null;
             $child->kondisi = null;
         }
-
+    
         $child->tanggal = $today;
-
-        return view('updatestatus', compact('child'));
+    
+        // **Determine which view to load based on the route type**
+        if ($type === 'makan-cemilan') {
+            return view('updatestatus.updatemakan', compact('child'));
+        } else {
+            return view('editstatus', compact('child'));
+        }
     }
+    
     public function search(Request $request)
     {
         $search = $request->input('search');

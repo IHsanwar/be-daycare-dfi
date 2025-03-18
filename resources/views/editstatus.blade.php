@@ -184,15 +184,14 @@
                 </div>
 
                 <!-- Menu Grid -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
-                    <a href="update_makan_cmlan.html" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl 
-                    shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out 
-                    hover:bg-gradient-to-r hover:from-purple-600 hover:to-purple-800 hover:-translate-y-2 hover:scale-105 hover:shadow-xl">
-                        <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-utensils text-lg"></i>
-                        </div>
-                        <div class="font-medium text-sm group-hover:animate-pulse">Menu Makan & Camilan</div>
-                    </a>
+                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+<!-- Dashboard link that opens the meal update modal -->
+<a onclick="openIframeModal('{{ $child->id }}', 'Menu Makan & Camilan - {{ $child->nama }}')" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-purple-600 hover:to-purple-800 hover:-translate-y-2 hover:scale-105 hover:shadow-xl">
+    <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+        <i class="fas fa-utensils text-lg"></i>
+    </div>
+    <div class="font-medium text-sm group-hover:animate-pulse">Menu Makan & Camilan</div>
+</a>
 
                     <a href="update_anak_buangair.html" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
                         <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
@@ -289,37 +288,88 @@
             </div>
         </div>
     </div>
-    
+    <!-- Modal for iframe content -->
+<div id="infoIframeModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 p-4">
+    <div class="relative w-full max-w-4xl bg-white rounded-xl shadow-2xl">
+        <!-- Modal header -->
+        <div class="flex items-center justify-between p-4 border-b border-gray-200">
+            <h3 id="childNameIframe" class="text-xl font-bold text-purple-700">Menu Makan & Camilan</h3>
+            <button onclick="closeIframeModal()" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- Modal loading indicator -->
+        <div id="iframeLoader" class="flex items-center justify-center p-12" style="display: none;">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-700"></div>
+        </div>
+        
+        <!-- Modal iframe content -->
+        <div class="iframe-container" style="height: 80vh;">
+            <iframe id="childInfoIframe" class="w-full h-full" frameborder="0"></iframe>
+        </div>
+    </div>
+</div>
+
+<!-- Close modal function -->
+<script>
+    function closeIframeModal() {
+        const modal = document.getElementById("infoIframeModal");
+        if (modal) {
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+            
+            // Reset iframe source when closing to stop any processes
+            const iframe = document.getElementById("childInfoIframe");
+            if (iframe) {
+                iframe.src = "";
+            }
+        }
+    }
+</script>
     
       
     </body>
     </html>
     <script>
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('-translate-x-full');
-        });
-
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const menuToggle = document.getElementById('menuToggle');
-
-            if (window.innerWidth < 768 && 
-                !sidebar.contains(event.target) && 
-                !menuToggle.contains(event.target) && 
-                !sidebar.classList.contains('-translate-x-full')) {
-                sidebar.classList.add('-translate-x-full');
+        // JavaScript function to open iframe modal
+function openIframeModal(id, nama) {
+    // Make sure the modal element exists
+    const modal = document.getElementById("infoIframeModal");
+    if (!modal) {
+        console.error("Modal element not found. Make sure to add the modal HTML to your page.");
+        return;
+    }
+    
+    // Set the child name in the modal title if the element exists
+    const childNameElement = document.getElementById("childNameIframe");
+    if (childNameElement) {
+        childNameElement.textContent = nama;
+    }
+    
+    // Show the loading indicator if it exists
+    const loaderElement = document.getElementById("iframeLoader");
+    if (loaderElement) {
+        loaderElement.style.display = "flex";
+    }
+    
+    // Set the iframe source if it exists
+    const iframe = document.getElementById("childInfoIframe");
+    if (iframe) {
+        iframe.src = `/children/{id}/edit-status/makan-cemilan`;
+        
+        // Hide the loading indicator when the iframe is loaded
+        iframe.onload = function() {
+            if (loaderElement) {
+                loaderElement.style.display = "none";
             }
-        });
-
-        window.addEventListener('resize', function() {
-            const sidebar = document.getElementById('sidebar');
-            if (window.innerWidth >= 768) {
-                sidebar.classList.remove('-translate-x-full');
-            } else {
-                sidebar.classList.add('-translate-x-full');
-            }
-        });
+        };
+    }
+    
+    // Show the modal
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+}
     </script>
 </body>
 </html>
