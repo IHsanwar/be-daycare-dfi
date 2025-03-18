@@ -25,7 +25,7 @@
         <div class="text-gray-400 uppercase text-xs font-bold mt-3 mb-2 px-2">Menu</div>
               
         <!-- Dashboard User -->
-        <a href="/dashboarduser" class="w-full p-2.5 text-left font-medium ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
+        <a href="/dashboardadmin" class="w-full p-2.5 text-left font-medium ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
             <i class="fas fa-chart-pie mr-3 text-purple-500"></i>
             Dashboard User
         </a>

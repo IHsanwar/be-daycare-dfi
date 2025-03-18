@@ -185,28 +185,13 @@
             @endforeach
         </div>
 
-        <!-- Modal Info -->
-        <div id="infoModal" class="fixed inset-0 hidden bg-black bg-opacity-50 items-center justify-center z-50 p-4">
-            <div class="bg-white p-5 w-11/12 max-w-lg shadow-lg rounded-lg text-left relative max-h-90vh overflow-y-auto">
-                <button class="absolute top-2 right-3 text-xl cursor-pointer bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-50 transition duration-550 ease-in-out" onclick="closeModal()">×</button>
-                <div class="text-lg font-bold mb-2.5 text-black">Informasi Tentang <span id="childNameInfo"></span></div>
-                <div id="childInfoContent" class="space-y-2">
-                    <!-- This will be populated with AJAX/JavaScript -->
-                    <div class="flex justify-center">
-                        <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-purple-500"></div>
-                    </div>
-                    <p class="text-center text-gray-500">Memuat informasi...</p>
-                </div>
-            </div>
-        </div>
+        
                         <!-- Modal for displaying dashboardanak/info/{id} -->
 <div id="infoIframeModal" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 items-center justify-center p-4">
     <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-4xl h-5/6 flex flex-col relative">
         <!-- Modal Header -->
         <div class="flex justify-between items-center p-4 border-b">
             <h3 class="text-lg font-semibold">Informasi Anak: <span id="childNameIframe"></span></h3>
-            <button type="button" onclick="closeIframeModal()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex items-center justify-center">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                 </svg>
             </button>

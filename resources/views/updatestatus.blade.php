@@ -1,612 +1,325 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Status Anak</title>
-    <link rel="icon" type="image/png" href="{{ asset('Upinipin.png') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Update Anak</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/e16c014aae.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    },
+                    colors: {
+                        'purple': {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body, html {
-            height: 100%;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .container {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            padding: 10px;
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(124, 58, 237, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); }
         }
-        .card {
-            width: 100%;
-            max-width: 500px;
-            margin: auto;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        
+        .menu-item {
+            animation: fadeIn 0.3s ease-out forwards;
+            opacity: 0;
         }
-        .card-header {
-            background-color: #007bff;
-            color: white;
-            border-radius: 15px 15px 0 0 !important;
-            padding: 15px;
+        
+        .menu-item:nth-child(1) { animation-delay: 0.05s; }
+        .menu-item:nth-child(2) { animation-delay: 0.1s; }
+        .menu-item:nth-child(3) { animation-delay: 0.15s; }
+        .menu-item:nth-child(4) { animation-delay: 0.2s; }
+        .menu-item:nth-child(5) { animation-delay: 0.25s; }
+        .menu-item:nth-child(6) { animation-delay: 0.3s; }
+        .menu-item:nth-child(7) { animation-delay: 0.35s; }
+        .menu-item:nth-child(8) { animation-delay: 0.4s; }
+        
+        .hover-scale {
+            transition: transform 0.2s ease;
         }
-        .card-body {
-            padding: 15px;
+        
+        .hover-scale:hover {
+            transform: scale(1.03);
         }
-        .form-label {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
+        
+        .pulse-effect {
+            animation: pulse 2s infinite;
         }
-        .meal-group {
-            background-color: #f1f3f5;
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        .meal-group h6 {
-            color: #007bff;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-        }
-        .form-check-inline {
-            margin-right: 0.5rem;
-            margin-bottom: 0.25rem;
-        }
-        .form-check-label {
-            font-size: 0.9rem;
-        }
-        .custom-input {
-            width: 60px !important;
-            display: inline-block;
-            margin-left: 0.5rem;
-        }
-        @media (max-width: 576px) {
-            .card-header h2 {
-                font-size: 1.25rem;
-            }
-        }
-        .milk-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-        }
-        .milk-item {
-            flex: 1;
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        .milk-icon {
-            font-size: 1.5rem;
-            color: #007bff;
-            margin-bottom: 5px;
-        }
-        .milk-label {
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: #6c757d;
-            margin-top: 5px;
-        }
-        .milk-item .input-group {
-            justify-content: center;
-        }
-        .milk-item .form-control {
-            text-align: center;
-            border-radius: 5px 0 0 5px;
-        }
-        .milk-item .input-group-text {
-            border-radius: 0 5px 5px 0;
-            background-color: #007bff;
-            color: white;
-        }
-        .form-row {
-            display: flex;
-            flex-wrap: nowrap;
-            gap: 10px;
-        }
-        .form-row > div {
-            flex: 1;
-            min-width: 0;
-        }
-        .date-input-group {
-            position: relative;
-        }
-        .date-input-group .form-control {
-            padding-right: 30px;
-        }
-        .date-input-group .calendar-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: black;
-            pointer-events: none;
-        }
-        @media (max-width: 576px) {
-            .form-row {
-                flex-direction: row;
-            }
-            .form-row > div {
-                width: 50%;
-            }
-            .form-control {
-                font-size: 0.875rem;
-            }
-            .form-label {
-                font-size: 0.875rem;
-            }
-        }
-        @media (max-width: 767px) {
-            .menu-container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-            .menu-item {
-                flex: 1 1 calc(50% - 5px);
-                margin-bottom: 0 !important;
-            }
-        }
-        .obat-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .obat-item {
-            flex: 1;
-            min-width: 0;
-        }
-        @media (max-width: 767px) {
-            .obat-container {
-                flex-direction: row;
-            }
-            
-            .obat-item {
-                width: calc(33.333% - 7px);
-                padding: 0;
-            }
-            
-            .obat-item .input-group {
-                width: 100%;
-            }
 
-            .obat-item label {
-                font-size: 0.8rem;
-            }
-
-            .obat-item .form-control,
-            .obat-item .input-group-text {
-                font-size: 0.75rem;
-                padding: 0.25rem 0.5rem;
-            }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="card">
-            <div class="card-header">
-                <h2 class="mb-0"><i class="fas fa-user-edit me-2"></i>Update Status</h2>
+<body class="font-inter bg-gray-50 text-gray-800 overflow-x-hidden">
+    <div class="flex flex-col md:flex-row min-h-screen relative">
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden fixed top-4 right-4 z-30">
+            <button id="menuToggle" class="bg-white text-purple-600 p-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Sidebar -->
+        <div id="sidebar" class="w-full md:w-64 bg-white h-screen fixed md:sticky top-0 z-20 -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out shadow-lg no-scrollbar flex flex-col">
+            <div class="p-4 flex items-center">
+                <div class="h-10 w-10 rounded-full bg-gradient-to-r from-purple-500 to-purple-700 flex items-center justify-center text-white mr-3">
+                    <i class="fas fa-child"></i>
+                </div>
+                <h2 class="text-xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 text-transparent bg-clip-text">Dashboard Anak</h2>
             </div>
-            <div class="card-body">
-                <form id="updateStatusForm" action="{{ route('children.updateStatus', $child->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="mb-2">
-                        <p class="mb-1"><strong><i class="fas fa-child me-2"></i>Nama Anak: {{ $child->nama }}</strong></p>
+            
+            <div class="sidebar-content px-4 py-2 flex-grow overflow-y-auto">
+                <button class="w-full mb-3 p-2.5 text-left font-medium bg-purple-100 text-purple-800 rounded-lg flex items-center transition-all hover:bg-purple-200">
+                    <i class="fas fa-tachometer-alt mr-3 text-purple-600"></i>
+                    Dashboard Anak
+                </button>
+                
+                <div class="text-gray-400 uppercase text-xs font-bold mt-3 mb-2 px-2">Menu</div>
+                
+                <div class="space-y-1">
+                    <button onclick="window.location.href='/dashboard_anak.html'"
+                    class="w-full p-2.5 text-left font-medium text-gray-600 rounded-lg flex items-center transition-all hover:bg-purple-50">
+                    <i class="fas fa-circle-arrow-left mr-3 text-purple-500"></i>
+                    Kembali
+                </button>
+                
+                <button onclick="window.location.href='/dashboard_user.html'" 
+                class="w-full p-2.5 text-left font-medium text-gray-600 rounded-lg flex items-center transition-all hover:bg-purple-50">
+                <i class="fas fa-user mr-3 text-purple-500"></i>
+                Dashboard User
+                  </button>
+            
+                </div>
+            </div>
+            
+            <div class="bottom-0 left-0 right-0 p-4">
+                <button class="w-full p-2.5 text-white bg-gradient-to-r from-red-500 to-red-700 rounded-lg flex items-center justify-center transition-all hover:shadow-lg">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 md:ml-2">
+            <!-- Header -->
+            <div class="bg-white p-3 shadow-sm sticky top-0 z-10">
+                <div class="flex items-center">
+                    <div class="text-purple-600 mr-3">
+                        <i class="fas fa-edit"></i>
                     </div>
-                    <div class="form-row mb-2">
-                        <div>
-                            <label for="nama_pendamping" class="form-label"><i class="fas fa-user me-2"></i>Nama Pendamping</label>
-                            <input type="text" class="form-control form-control-sm" id="nama_pendamping" name="nama_pendamping" value="{{ $child->nama_pendamping }}">
+                    <span class="font-bold text-gray-800">Update Status Anak</span>
+                </div>
+            </div>
+            
+            <!-- Child Info Card -->
+            <div class="p-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
+                    <div class="flex flex-col md:flex-row md:justify-between gap-4">
+                        <!-- Child and companion info -->
+                        <div class="flex flex-col space-y-4">
+                            <div class="flex items-center">
+                                <div class="h-10 w-10 bg-gradient-to-r from-purple-500 to-purple-700 rounded-full flex items-center justify-center text-white shadow-md mr-3">
+                                    <i class="fas fa-child text-sm"></i>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-gray-500">Nama Anak</div>
+                                    <div class="font-semibold">{{ $child->nama }}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="h-10 w-10 bg-gradient-to-r from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white shadow-md mr-3">
+                                    <i class="fas fa-user text-sm"></i>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-gray-500">Nama Pendamping</div>
+                                    <div class="font-semibold">{{ $child->getOriginal('nama_pendamping') }}</div>
+                                    <div class="font-semibold">{{ $child->getOriginal('keterangan') }}</div>
+                                </div>
+                            </div>
+
                         </div>
-                        <div>
-                            <label for="tanggal" class="form-label"><i class="fas fa-calendar-alt me-2"></i>Tanggal</label>
-                            <div class="date-input-group">
-                                <input type="text" class="form-control form-control-sm" id="tanggal" name="tanggal" 
-                                    value="{{ $child->tanggal ? (\Carbon\Carbon::parse($child->tanggal)->format('d-m-Y')) : '' }}" required>
-                                <i class="fas fa-calendar-alt calendar-icon"></i>
+                         <!-- Date -->
+                        <div class="flex items-center">
+                            <div class="h-12 w-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mr-3 pulse-effect">
+                                <i class="far fa-calendar-alt text-lg"></i>
                             </div>
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <label class="form-label"><i class="fas fa-utensils me-2"></i>Makan</label>
-                        @foreach(['Pagi', 'Siang', 'Sore'] as $meal)
-                            <div class="meal-group">
-                                <h6>
-                                    <i class="fas fa-{{ $meal == 'Pagi' ? 'sun text-warning' : ($meal == 'Siang' ? 'cloud-sun text-primary' : 'moon text-info') }} me-2"></i>
-                                    {{ $meal }}
-                                </h6>
-                                @foreach(['1', '1/2', '1/3', '1/4'] as $value)
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="makan_{{ strtolower($meal) }}" 
-                                               id="makan_{{ strtolower($meal) }}_{{ str_replace('/', '_', $value) }}" 
-                                               value="{{ $value }}" 
-                                               {{ $child->{"makan_" . strtolower($meal)} == $value ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="makan_{{ strtolower($meal) }}_{{ str_replace('/', '_', $value) }}">{{ $value }}</label>
-                                    </div>
-                                @endforeach
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input lainnya-checkbox" type="radio" 
-                                           name="makan_{{ strtolower($meal) }}" 
-                                           id="makan_{{ strtolower($meal) }}_lainnya" 
-                                           value="custom" 
-                                           {{ $child->{"makan_" . strtolower($meal)} && !in_array($child->{"makan_" . strtolower($meal)}, ['1', '1/2', '1/3', '1/4']) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="makan_{{ strtolower($meal) }}_lainnya">Lainnya</label>
-                                    <input type="text" class="form-control form-control-sm custom-input" 
-                                           id="makan_{{ strtolower($meal) }}_custom" 
-                                           name="makan_{{ strtolower($meal) }}_custom" 
-                                           value="{{ $child->{"makan_" . strtolower($meal)} && !in_array($child->{"makan_" . strtolower($meal)}, ['1', '1/2', '1/3', '1/4']) ? $child->{"makan_" . strtolower($meal)} : '' }}" 
-                                           style="{{ $child->{"makan_" . strtolower($meal)} && !in_array($child->{"makan_" . strtolower($meal)}, ['1', '1/2', '1/3', '1/4']) ? 'display: inline-block;' : 'display: none;' }}">
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label"><i class="fas fa-bottle-water me-2"></i>Susu</label>
-                        <div class="milk-container">
-                            <div class="milk-item">
-                                <div class="milk-icon"><i class="fas fa-sun text-warning"></i></div>
-                                <div class="milk-label">Pagi</div>
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control" id="susu_pagi" name="susu_pagi" min="0" value="{{ $child->susu_pagi }}">
-                                    <span class="input-group-text">ml</span>
-                                </div>
-                            </div>
-                            <div class="milk-item">
-                                <div class="milk-icon"><i class="fas fa-cloud-sun text-primary"></i></div>
-                                <div class="milk-label">Siang</div>
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control" id="susu_siang" name="susu_siang" min="0" value="{{ $child->susu_siang }}">
-                                    <span class="input-group-text">ml</span>
-                                </div>
-                            </div>
-                            <div class="milk-item">
-                                <div class="milk-icon"><i class="fas fa-moon text-info"></i></div>
-                                <div class="milk-label">Sore</div>
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control" id="susu_sore" name="susu_sore" min="0" value="{{ $child->susu_sore }}">
-                                    <span class="input-group-text">ml</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label"><i class="fas fa-tint me-2"></i>Air Putih</label>
-                        <div class="milk-container">
-                            <div class="milk-item">
-                                <div class="milk-icon"><i class="fas fa-sun text-warning"></i></div>
-                                <div class="milk-label">Pagi</div>
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control" id="air_putih_pagi" name="air_putih_pagi" min="0" value="{{ $child->air_putih_pagi }}">
-                                    <span class="input-group-text">ml</span>
-                                </div>
-                            </div>
-                            <div class="milk-item">
-                                <div class="milk-icon"><i class="fas fa-cloud-sun text-primary"></i></div>
-                                <div class="milk-label">Siang</div>
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control" id="air_putih_siang" name="air_putih_siang" min="0" value="{{ $child->air_putih_siang }}">
-                                    <span class="input-group-text">ml</span>
-                                </div>
-                            </div>
-                            <div class="milk-item">
-                                <div class="milk-icon"><i class="fas fa-moon text-info"></i></div>
-                                <div class="milk-label">Sore</div>
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control" id="air_putih_sore" name="air_putih_sore" min="0" value="{{ $child->air_putih_sore }}">
-                                    <span class="input-group-text">ml</span>
-                                </div>
+                            <div>
+                                <div class="text-xs text-gray-500">Tanggal</div>
+                                <div class="bg-purple-50 text-purple-800 px-3 py-1.5 rounded-lg font-semibold">{{ $child->tanggal ? (\Carbon\Carbon::parse($child->tanggal)->format('d-m-Y')) : '' }}</div>
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label"><i class="fas fa-toilet me-2"></i>BAK (Buang Air Kecil)</label>
-                        <div class="milk-container">
-                            <div class="milk-item">
-                                <div class="milk-icon"><i class="fas fa-sun text-warning"></i></div>
-                                <div class="milk-label">Pagi</div>
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control" id="bak_pagi" name="bak_pagi" min="0" value="{{ $child->bak_pagi }}">
-                                    <span class="input-group-text">X</span>
+                </div>
+
+                <!-- Menu Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+                    <a href="update_makan_cmlan.html" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl 
+                    shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out 
+                    hover:bg-gradient-to-r hover:from-purple-600 hover:to-purple-800 hover:-translate-y-2 hover:scale-105 hover:shadow-xl">
+                        <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-utensils text-lg"></i>
+                        </div>
+                        <div class="font-medium text-sm group-hover:animate-pulse">Menu Makan & Camilan</div>
+                    </a>
+
+                    <a href="update_anak_buangair.html" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                        <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-toilet text-lg"></i>
+                        </div>
+                        <div class="font-medium text-sm group-hover:animate-pulse">Buang Air Kecil & Besar</div>
+                    </a>
+
+                    <a href="update_anak_airputih_susu.html" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-purple-600 hover:to-purple-800 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                        <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-glass-water"></i>
+                        </div>
+                        <div class="font-medium text-sm group-hover:animate-pulse">Air Putih & Susu</div>
+                    </a>
+
+                    <a href="update_anak_indooroutdoor.html" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-purple-600 hover:to-purple-800 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                        <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-home text-lg"></i>
+                        </div>
+                        <div class="font-medium text-sm group-hover:animate-pulse">Kegiatan Indoor & Outdoor</div>
+                    </a>
+
+                    <a href="update_anak_obat.html" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-purple-600 hover:to-purple-800 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                        <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-pills text-lg"></i>
+                        </div>
+                        <div class="font-medium text-sm group-hover:animate-pulse">Obat</div>
+                    </a>
+
+                    <a href="update_anak_tidur.html" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                        <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-bed text-lg"></i>
+                        </div>
+                        <div class="font-medium text-sm group-hover:animate-pulse">Tidur</div>
+                    </a>
+
+                    <a href="update_anak_kondisikesehatan.html" class="group menu-item block bg-gradient-to-br from-indigo-500 to-indigo-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-indigo-600 hover:to-indigo-800 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                        <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-heartbeat text-lg"></i>
+                        </div>
+                        <div class="font-medium text-sm group-hover:animate-pulse">Kondisi Kesehatan</div>
+                    </a>
+
+                    <a href="update_anak_keterangan.html" class="group menu-item block bg-gradient-to-br from-indigo-400 to-indigo-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-indigo-500 hover:to-indigo-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                        <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-clipboard-list text-lg"></i>
+                        </div>
+                        <div class="font-medium text-sm group-hover:animate-pulse">Keterangan</div>
+                    </a>
+                </div>
+
+
+
+                <!-- Recent Activity Section - Added to fill the gap -->
+                <div class="mt-4">
+                    <h3 class="font-semibold text-gray-700 mb-2">Aktivitas Terbaru</h3>
+                    <div class="bg-white rounded-xl shadow-sm p-4">
+                        <div class="space-y-3">
+                            <div class="flex items-start border-b border-gray-100 pb-3">
+                                <div class="h-8 w-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3">
+                                    <i class="fas fa-check text-sm"></i>
                                 </div>
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium">Makan Pagi</div>
+                                    <div class="text-xs text-gray-500">Hari ini, 08:30</div>
+                                </div>
+                                <div class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">Selesai</div>
                             </div>
-                            <div class="milk-item">
-                                <div class="milk-icon"><i class="fas fa-cloud-sun text-primary"></i></div>
-                                <div class="milk-label">Siang</div>
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control" id="bak_siang" name="bak_siang" min="0" value="{{ $child->bak_siang }}">
-                                    <span class="input-group-text">X</span>
+                            
+                            <div class="flex items-start border-b border-gray-100 pb-3">
+                                <div class="h-8 w-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
+                                    <i class="fas fa-bed text-sm"></i>
                                 </div>
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium">Tidur Siang</div>
+                                    <div class="text-xs text-gray-500">Hari ini, 13:00 - 14:15</div>
+                                </div>
+                                <div class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">75 menit</div>
                             </div>
-                            <div class="milk-item">
-                                <div class="milk-icon"><i class="fas fa-moon text-info"></i></div>
-                                <div class="milk-label">Sore</div>
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control" id="bak_sore" name="bak_sore" min="0" value="{{ $child->bak_sore }}">
-                                    <span class="input-group-text">X</span>
+                            
+                            <div class="flex items-start">
+                                <div class="h-8 w-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mr-3">
+                                    <i class="fas fa-baby-bottle text-sm"></i>
                                 </div>
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium">Minum Susu</div>
+                                    <div class="text-xs text-gray-500">Hari ini, 14:30</div>
+                                </div>
+                                <div class="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">120ml</div>
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label"><i class="fas fa-poop me-2"></i>BAB (Buang Air Besar)</label>
-                        <div class="milk-container">
-                            <div class="milk-item">
-                                <div class="milk-icon"><i class="fas fa-sun text-warning"></i></div>
-                                <div class="milk-label">Pagi</div>
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control" id="bab_pagi" name="bab_pagi" min="0" value="{{ $child->bab_pagi }}">
-                                    <span class="input-group-text">X</span>
-                                </div>
-                            </div>
-                            <div class="milk-item">
-                                <div class="milk-icon"><i class="fas fa-cloud-sun text-primary"></i></div>
-                                <div class="milk-label">Siang</div>
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control" id="bab_siang" name="bab_siang" min="0" value="{{ $child->bab_siang }}">
-                                    <span class="input-group-text">X</span>
-                                </div>
-                            </div>
-                            <div class="milk-item">
-                                <div class="milk-icon"><i class="fas fa-moon text-info"></i></div>
-                                <div class="milk-label">Sore</div>
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control" id="bab_sore" name="bab_sore" min="0" value="{{ $child->bab_sore }}">
-                                    <span class="input-group-text">X</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label"><i class="fas fa-bed me-2"></i>Tidur</label>
-                        <div class="milk-container">
-                            <div class="milk-item">
-                                <div class="milk-icon"><i class="fas fa-sun text-warning"></i></div>
-                                <div class="milk-label">Pagi</div>
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control" id="tidur_pagi" name="tidur_pagi" min="0" value="{{ $child->tidur_pagi }}">
-                                    <span class="input-group-text">X</span>
-                                </div>
-                            </div>
-                            <div class="milk-item">
-                                <div class="milk-icon"><i class="fas fa-cloud-sun"></i></div>
-                                <div class="milk-label">Siang</div>
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control" id="tidur_siang" name="tidur_siang" min="0" value="{{ $child->tidur_siang }}">
-                                    <span class="input-group-text">X</span>
-                                </div>
-                            </div>
-                            <div class="milk-item">
-                                <div class="milk-icon"><i class="fas fa-moon text-info"></i></div>
-                                <div class="milk-label">Sore</div>
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control" id="tidur_sore" name="tidur_sore" min="0" value="{{ $child->tidur_sore }}">
-                                    <span class="input-group-text">X</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label"><i class="fas fa-home me-2"></i>Kegiatan Indoor</label>
-                        <div>
-                            @php
-                                $kegiatanIndoorOptions = ['mengaji', 'senam', 'main bebas', 'bahasa inggris', 'belajar sensorik', 'belajar motorik', 'fun looking', 'toilet training', 'ke paud', 'lainnya'];
-                                $selectedKegiatanIndoor = is_array($child->kegiatan_indoor) ? $child->kegiatan_indoor : json_decode($child->kegiatan_indoor ?? '[]', true);
-                            @endphp
-                            @foreach($kegiatanIndoorOptions as $kegiatan)
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input kegiatan-indoor-checkbox" type="checkbox" name="kegiatan_indoor[]" value="{{ $kegiatan }}" id="kegiatan_indoor_{{ $kegiatan }}" {{ in_array($kegiatan, $selectedKegiatanIndoor) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="kegiatan_indoor_{{ $kegiatan }}">{{ ucfirst($kegiatan) }}</label>
-                                    @if($kegiatan == 'lainnya')
-                                        <input type="text" class="form-control form-control-sm d-none ms-2" id="kegiatan_indoor_lainnya" name="kegiatan_indoor_lainnya" style="width: 150px;" value="{{ $child->kegiatan_indoor_lainnya ?? '' }}">
-                                    @endif
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label"><i class="fas fa-running me-2"></i>Kegiatan Outdoor</label>
-                        <div>
-                            @php
-                                $kegiatanOptions = ['berjemur', 'jalan jalan', 'olahraga', 'grounding', 'mandi bola', 'main pasir', 'main air/busa', 'lainnya'];
-                                $selectedKegiatan = is_array($child->kegiatan_outdoor) ? $child->kegiatan_outdoor : json_decode($child->kegiatan_outdoor ?? '[]', true);
-                            @endphp
-                            @foreach($kegiatanOptions as $kegiatan)
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input kegiatan-checkbox" type="checkbox" name="kegiatan_outdoor[]" value="{{ $kegiatan }}" id="kegiatan_{{ $kegiatan }}" {{ in_array($kegiatan, $selectedKegiatan) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="kegiatan_{{ $kegiatan }}">{{ ucfirst($kegiatan) }}</label>
-                                    @if($kegiatan == 'lainnya')
-                                        <input type="text" class="form-control form-control-sm d-none ms-2" id="kegiatan_outdoor_lainnya" name="kegiatan_outdoor_lainnya" style="width: 150px;" value="{{ $child->kegiatan_outdoor_lainnya ?? '' }}">
-                                    @endif
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label"><i class="fas fa-utensils me-2"></i>Menu Makanan & Camilan</label>
-                        <div class="row">
-                            @foreach(['pagi' => 'sun text-warning', 'siang' => 'cloud-sun text-primary', 'sore' => 'moon text-info'] as $waktu => $icon)
-                                <div class="col-12 col-md-4 mb-3">
-                                    <label class="form-label">
-                                        <i class="fas fa-{{ $icon }} me-2"></i>{{ ucfirst($waktu) }}
-                                    </label>
-                                    <div class="menu-container">
-                                        @for($i = 1; $i <= 4; $i++)
-                                            <div class="menu-item mb-2">
-                                                <input type="text" class="form-control" 
-                                                       id="makanan_camilan_{{ $waktu }}_{{ $i }}" 
-                                                       name="makanan_camilan_{{ $waktu }}[]" 
-                                                       placeholder="Menu {{ $i }}"
-                                                       value="{{ isset($child->{"makanan_camilan_$waktu"}) ? (json_decode($child->{"makanan_camilan_$waktu"}, true)[$i-1] ?? '') : '' }}">
-                                            </div>
-                                        @endfor
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label"><i class="fas fa-heartbeat me-2"></i>Kondisi Kesehatan</label>
-                        <div class="d-flex">
-                            <div class="form-check me-4">
-                                <input class="form-check-input" type="radio" name="kondisi" id="kondisi_sehat" value="sehat" {{ $child->kondisi === 'sehat' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="kondisi_sehat">
-                                    Sehat
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="kondisi" id="kondisi_sakit" value="sakit" {{ $child->kondisi === 'sakit' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="kondisi_sakit">
-                                    Sakit
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label"><i class="fas fa-pills me-2"></i>Obat</label>
-                        <div class="row obat-container">
-                            @foreach(['pagi' => 'sun text-warning', 'siang' => 'cloud-sun text-primary', 'sore' => 'moon text-info'] as $waktu => $icon)
-                                <div class="col-4 mb-2 obat-item">
-                                    <label><i class="fas fa-{{ $icon }} me-2"></i>{{ ucfirst($waktu) }}</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control time-input" id="obat_{{ $waktu }}" name="obat_{{ $waktu }}" 
-                                               value="{{ $child->{"obat_$waktu"} ?? '' }}" 
-                                               placeholder="HH:MM" maxlength="5"
-                                               pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
-                                               oninvalid="this.setCustomValidity('Masukkan waktu dalam format HH:MM')"
-                                               oninput="this.setCustomValidity('')">
-                                        <span class="input-group-text">JAM</span>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="keterangan" class="form-label">Keterangan</label>
-                        <textarea class="form-control" id="keterangan" name="keterangan" rows="3">{{ $child->keterangan }}</textarea>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save me-2"></i>Update</button>
-                        <a href="{{ route('dashboardanak') }}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left me-2"></i>Kembali</a>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    
+    
+      
+    </body>
+    </html>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        flatpickr("#tanggal", {
-            dateFormat: "d-m-Y",
-            defaultDate: "today",
-            allowInput: true,
-            clickOpens: true,
-            onOpen: function(selectedDates, dateStr, instance) {
-                instance.setDate(instance.input.value, false);
-            },
-            disableMobile: "true",
-            monthSelectorType: "static",
-            animate: true
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
         });
 
-        document.querySelectorAll('.meal-group').forEach(group => {
-            const radios = group.querySelectorAll('input[type="radio"]');
-            const customInput = group.querySelector('.custom-input');
-            const lainnyaRadio = group.querySelector('input[value="custom"]');
-            const lainnyaLabel = lainnyaRadio.nextElementSibling;
-            
-            radios.forEach(radio => {
-                radio.addEventListener('click', function(event) {
-                    if (this.checked) {
-                        if (this.dataset.wasChecked === 'true') {
-                            this.checked = false;
-                            this.dataset.wasChecked = 'false';
-                            customInput.style.display = 'none';
-                            if (this.value === 'custom') {
-                                lainnyaLabel.style.display = 'inline';
-                            }
-                        } else {
-                            radios.forEach(r => r.dataset.wasChecked = 'false');
-                            this.dataset.wasChecked = 'true';
-                            customInput.style.display = this.value === 'custom' ? 'inline-block' : 'none';
-                            if (this.value === 'custom') {
-                                lainnyaLabel.style.display = 'none';
-                                customInput.focus();
-                            }
-                        }
-                    }
-                    
-                    radios.forEach(r => {
-                        if (r.value === 'custom') {
-                            r.nextElementSibling.style.display = r.checked ? 'none' : 'inline';
-                        }
-                    });
-                });
-            });
-        });
-        const lainnyaCheckbox = document.querySelector('#kegiatan_lainnya');
-        const lainnyaText = document.querySelector('#kegiatan_outdoor_lainnya');
-        const lainnyaLabel = lainnyaCheckbox.nextElementSibling;
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.getElementById('menuToggle');
 
-        lainnyaCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                lainnyaText.classList.remove('d-none');
-                lainnyaLabel.classList.add('d-none');
-                lainnyaText.focus();
-            } else {
-                lainnyaText.classList.add('d-none');
-                lainnyaLabel.classList.remove('d-none');
-                lainnyaText.value = '';
-            }
-        });
-        if (lainnyaCheckbox.checked) {
-            lainnyaText.classList.remove('d-none');
-            lainnyaLabel.classList.add('d-none');
-        }
-
-        const lainnyaIndoorCheckbox = document.querySelector('#kegiatan_indoor_lainnya');
-        const lainnyaIndoorText = document.querySelector('input[name="kegiatan_indoor_lainnya"]');
-        const lainnyaIndoorLabel = lainnyaIndoorCheckbox.nextElementSibling;
-
-        lainnyaIndoorCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                lainnyaIndoorText.classList.remove('d-none');
-                lainnyaIndoorLabel.classList.add('d-none');
-                lainnyaIndoorText.focus();
-            } else {
-                lainnyaIndoorText.classList.add('d-none');
-                lainnyaIndoorLabel.classList.remove('d-none');
-                lainnyaIndoorText.value = '';
+            if (window.innerWidth < 768 && 
+                !sidebar.contains(event.target) && 
+                !menuToggle.contains(event.target) && 
+                !sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.add('-translate-x-full');
             }
         });
 
-        if (lainnyaIndoorCheckbox.checked) {
-            lainnyaIndoorText.classList.remove('d-none');
-            lainnyaIndoorLabel.classList.add('d-none');
-        }
-
-        document.querySelectorAll('.time-input').forEach(input => {
-            input.addEventListener('invalid', function(e) {
-                if (e.target.value !== '') {
-                    e.target.setCustomValidity('Masukkan waktu dalam format HH:MM');
-                } else {
-                    e.target.setCustomValidity('');
-                }
-            });
-
-            input.addEventListener('input', function(e) {
-                e.target.setCustomValidity('');
-            });
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            if (window.innerWidth >= 768) {
+                sidebar.classList.remove('-translate-x-full');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+            }
         });
-    });
     </script>
 </body>
 </html>
