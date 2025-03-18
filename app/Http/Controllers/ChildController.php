@@ -148,12 +148,12 @@ class ChildController extends Controller
         return redirect()->route('dashboardanak')->with('success', 'Status anak berhasil diperbarui dan riwayat terbaru disimpan.');
     }
     
-
     public function editStatus($id, $type = null)
     {
+    
         $child = Child::findOrFail($id);
         $today = Carbon::now()->format('Y-m-d');
-        
+    
         $todayHistory = $child->histories()
             ->whereDate('tanggal', $today)
             ->latest()
@@ -163,13 +163,6 @@ class ChildController extends Controller
             $child->fill($todayHistory->toArray());
             $child->kegiatan_outdoor = json_decode($todayHistory->kegiatan_outdoor, true) ?? [];
             $child->kegiatan_indoor = json_decode($todayHistory->kegiatan_indoor, true) ?? [];
-            $child->makanan_camilan_pagi = $todayHistory->makanan_camilan_pagi;
-            $child->makanan_camilan_siang = $todayHistory->makanan_camilan_siang;
-            $child->makanan_camilan_sore = $todayHistory->makanan_camilan_sore;
-            $child->kondisi = $todayHistory->kondisi;
-            $child->obat_pagi = $todayHistory->obat_pagi;
-            $child->obat_siang = $todayHistory->obat_siang;
-            $child->obat_sore = $todayHistory->obat_sore;
         } else {
             $fieldsToReset = [
                 'makan_pagi', 'makan_siang', 'makan_sore', 'nama_pendamping',
@@ -202,12 +195,13 @@ class ChildController extends Controller
         $child->tanggal = $today;
     
         // **Determine which view to load based on the route type**
-        if ($type === 'makan-cemilan') {
-            return view('updatestatus.updatemakan', compact('child'));
+        if (trim($type) === 'makan-cemilan') { 
+            return view('updatestatus.updatestatusmakan', compact('child'));
         } else {
             return view('editstatus', compact('child'));
         }
     }
+    
     
     public function search(Request $request)
     {

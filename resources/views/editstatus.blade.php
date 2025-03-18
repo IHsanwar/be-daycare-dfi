@@ -333,43 +333,42 @@
     </html>
     <script>
         // JavaScript function to open iframe modal
-function openIframeModal(id, nama) {
-    // Make sure the modal element exists
+        function openIframeModal(id, nama) {
     const modal = document.getElementById("infoIframeModal");
     if (!modal) {
-        console.error("Modal element not found. Make sure to add the modal HTML to your page.");
+        console.error("Modal element not found.");
         return;
     }
-    
-    // Set the child name in the modal title if the element exists
+
     const childNameElement = document.getElementById("childNameIframe");
     if (childNameElement) {
         childNameElement.textContent = nama;
     }
-    
-    // Show the loading indicator if it exists
+
     const loaderElement = document.getElementById("iframeLoader");
     if (loaderElement) {
         loaderElement.style.display = "flex";
     }
-    
-    // Set the iframe source if it exists
+
     const iframe = document.getElementById("childInfoIframe");
     if (iframe) {
-        iframe.src = `/children/{id}/edit-status/makan-cemilan`;
-        
-        // Hide the loading indicator when the iframe is loaded
-        iframe.onload = function() {
+        const url = `/children/${id}/edit-status/makan-cemilan?cache=${new Date().getTime()}`;
+        console.log("Iframe URL:", url); // Debugging
+
+        iframe.src = url;
+
+        iframe.onload = function () {
             if (loaderElement) {
                 loaderElement.style.display = "none";
             }
         };
     }
-    
-    // Show the modal
+
     modal.classList.remove("hidden");
     modal.classList.add("flex");
 }
+
+     
     </script>
 </body>
 </html>
