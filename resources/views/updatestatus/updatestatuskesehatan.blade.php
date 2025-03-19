@@ -12,7 +12,7 @@
         <div class="bg-white rounded-xl shadow-lg p-6">
             <!-- Header -->
             <div class="flex items-center justify-between mb-6">
-                <h1 class="text-2xl font-bold text-purple-700">Update Menu Makan & Camilan</h1>
+                <h1 class="text-2xl font-bold text-purple-700">Update Informasi Kesehatan</h1>
                 
             </div>
 

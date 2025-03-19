@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::get('children/{id}/edit-status/{type?}', [ChildController::class, 'editStatus'])
     ->name('children.editStatus');
 
-
+    
 
     Route::put('children/{id}/update-makan', [ChildController::class, 'updateMakan'])->name('children.updateMakan');
 
