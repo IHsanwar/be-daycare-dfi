@@ -13,9 +13,7 @@
             <!-- Header -->
             <div class="flex items-center justify-between mb-6">
                 <h1 class="text-2xl font-bold text-purple-700">Update Menu Makan & Camilan</h1>
-                <a href="{{ route('dashboardanak') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg px-4 py-2 transition duration-300">
-                    <i class="fas fa-arrow-left mr-2"></i> Kembali
-                </a>
+                
             </div>
 
             <!-- Form -->

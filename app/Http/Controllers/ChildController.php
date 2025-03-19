@@ -145,7 +145,7 @@ class ChildController extends Controller
         $childHistory->child_id = $child->id;
         $childHistory->save();
 
-        return redirect()->route('dashboardanak')->with('success', 'Status anak berhasil diperbarui dan riwayat terbaru disimpan.');
+        return redirect()->to('/success')->with('success', 'Status anak berhasil diperbarui dan riwayat terbaru disimpan.');
     }
     
     public function editStatus($id, $type = null)
@@ -214,7 +214,7 @@ class ChildController extends Controller
             })
             ->get();
 
-        return view('dashboardanak', [
+        return view('dashboardanak.dashboardanak', [
             'children' => $children,
             'users' => \App\Models\User::where('role', 'user')->get()
         ]);

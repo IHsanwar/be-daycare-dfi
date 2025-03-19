@@ -62,6 +62,12 @@ Route::middleware('auth')->group(function () {
 
 });
 
+
+
+Route::get('/success', function () {
+    return view('success.success');
+});
+
 Route::fallback(function () {
-    return redirect()->route('login');
+    return response()->view('errors.404', [], 404);
 });
