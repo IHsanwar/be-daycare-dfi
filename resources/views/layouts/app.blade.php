@@ -98,7 +98,7 @@
         <div class="flex-1 p-4 md:p-5 pt-16 md:pt-5">
             @yield('content')
         </div>
+        
     </div>
-
 </body>
 </html>

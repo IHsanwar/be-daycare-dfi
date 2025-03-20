@@ -186,15 +186,12 @@
 
         
                         <!-- Modal for displaying dashboardanak/info/{id} -->
-<!-- Modal -->
-<div id="infoIframeModal" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+<div id="infoIframeModal" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 items-center justify-center p-4">
     <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-4xl h-5/6 flex flex-col relative">
         <!-- Modal Header -->
         <div class="flex justify-between items-center p-4 border-b">
             <h3 class="text-lg font-semibold">Informasi Anak: <span id="childNameIframe"></span></h3>
-            <button onclick="closeIframeModal()" class="text-gray-600 hover:text-gray-900">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                 </svg>
             </button>
         </div>
@@ -210,7 +207,7 @@
                     </div>
                 </div>
                 
-                <!-- Iframe untuk memuat informasi anak -->
+                <!-- iframe to load the external page -->
                 <iframe id="childInfoIframe" class="w-full h-full" frameborder="0"></iframe>
             </div>
         </div>
@@ -223,6 +220,7 @@
         </div>
     </div>
 </div>
+
 
 
         <!-- Modal Edit -->
@@ -258,42 +256,22 @@
         </div>
 
         <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const buttons = document.querySelectorAll('.info-btn');
-    
-    buttons.forEach(button => {
-        button.addEventListener('click', function () {
-            const childId = this.getAttribute('data-id');
-            const childName = this.getAttribute('data-nama');
+            
+document.addEventListener("DOMContentLoaded", function () {
+    // First, make these functions globally available
+    window.openModal = function(id, nama) {
+        document.getElementById("infoModal").classList.remove("hidden");
+        document.getElementById("infoModal").classList.add("flex");
+        document.getElementById("childNameInfo").textContent = nama;
+        
+        // Get child info via AJAX
+        fetchChildInfo(id);
+    };
 
-            // Set nama anak di modal
-            document.getElementById('childNameIframe').innerText = childName;
-
-            // Tampilkan loading indicator
-            document.getElementById('iframeLoader').classList.remove('hidden');
-
-            // Set iframe URL dengan ID anak
-            const iframe = document.getElementById('childInfoIframe');
-            iframe.src = `/dashboardanak/info/${childId}`;
-
-            // Ketika iframe selesai dimuat, sembunyikan loading indicator
-            iframe.onload = function () {
-                document.getElementById('iframeLoader').classList.add('hidden');
-            };
-
-            // Tampilkan modal
-            document.getElementById('infoIframeModal').classList.remove('hidden');
-        });
-    });
-});
-
-// Fungsi untuk menutup modal
-function closeIframeModal() {
-    document.getElementById('infoIframeModal').classList.add('hidden');
-
-    // Reset iframe agar tidak ada data lama yang tersisa
-    document.getElementById('childInfoIframe').src = '';
-}
+    window.closeModal = function() {
+        document.getElementById("infoModal").classList.add("hidden");
+        document.getElementById("infoModal").classList.remove("flex");
+    };
 
     window.openEditModal = function(id, nama, user_id) {
         document.getElementById("editModal").classList.remove("hidden");
@@ -613,4 +591,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
-</script
+// <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.6/dist/notiflix-aio-3.2.6.min.js"></script>
+        </script>
+        @endsection
