@@ -244,8 +244,8 @@
         url = `/children/${id}/edit-status/kesehatan`;
     } else if (page === "kegiatan") {
         url = `/children/${id}/edit-status/kegiatan`;
-    } else if (page === "catatan") {
-        url = `/children/${id}/edit-status/catatan`;
+    } else if (page === "keterangan") {
+        url = `/children/${id}/edit-status/keterangan`;
     } else if (page === "tidur") {
         url = `/children/${id}/edit-status/tidur`;
     } else {
