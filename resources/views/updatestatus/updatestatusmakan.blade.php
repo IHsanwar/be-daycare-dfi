@@ -37,6 +37,7 @@
                 <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
                     <h2 class="text-lg font-semibold text-purple-700 mb-4">Makanan Utama</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        
                         <!-- Makan Pagi -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Makan Pagi</label>
