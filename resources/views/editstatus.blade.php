@@ -70,14 +70,14 @@
                 <!-- Menu Grid -->
                  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
                 <!-- Dashboard link that opens the meal update modal -->
-                <a onclick="openIframeModal('{{ $child->id }}', 'Menu Makan & Camilan - {{ $child->nama }}')" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-purple-600 hover:to-purple-800 hover:-translate-y-2 hover:scale-105 hover:shadow-xl">
+                <a onclick="openIframeModal('{{ $child->id }}', 'Menu Makan & Camilan - {{ $child->nama }}','makan')" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-purple-600 hover:to-purple-800 hover:-translate-y-2 hover:scale-105 hover:shadow-xl">
                     <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
                         <i class="fas fa-utensils text-lg"></i>
                     </div>
                     <div class="font-medium text-sm group-hover:animate-pulse">Menu Makan, Minum & Camilan</div>
                 </a>
 
-                    <a href="update_anak_buangair.html" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                    <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Buang air dan kesehatan - {{ $child->nama }}','kesehatan')" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
                         <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
                             <i class="fas fa-toilet text-lg"></i>
                         </div>
@@ -91,7 +91,7 @@
                         <div class="font-medium text-sm group-hover:animate-pulse">Air Putih & Susu</div>
                     </a>
 
-                    <a href="update_anak_indooroutdoor.html" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-purple-600 hover:to-purple-800 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                    <a <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Buang air dan kesehatan - {{ $child->nama }}','kegiatan')" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-purple-600 hover:to-purple-800 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
                         <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
                             <i class="fas fa-home text-lg"></i>
                         </div>
@@ -105,7 +105,7 @@
                         <div class="font-medium text-sm group-hover:animate-pulse">Obat</div>
                     </a>
 
-                    <a href="update_anak_tidur.html" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                    <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Buang air dan kesehatan - {{ $child->nama }}','tidur')" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
                         <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
                             <i class="fas fa-bed text-lg"></i>
                         </div>
@@ -216,38 +216,57 @@
     </body>
     </html>
     <script>
-        // JavaScript function to open iframe modal
-        function openIframeModal(id, nama) {
+        function openIframeModal(id, nama, page) {
+    // Pastikan elemen modal ada
     const modal = document.getElementById("infoIframeModal");
     if (!modal) {
-        console.error("Modal element not found.");
+        console.error("Modal element not found. Make sure to add the modal HTML to your page.");
         return;
     }
 
+    // Setel nama anak di judul modal jika elemen ada
     const childNameElement = document.getElementById("childNameIframe");
     if (childNameElement) {
         childNameElement.textContent = nama;
     }
 
+    // Tampilkan indikator loading jika ada
     const loaderElement = document.getElementById("iframeLoader");
     if (loaderElement) {
         loaderElement.style.display = "flex";
     }
 
+    // Tentukan URL berdasarkan `page`
+    let url = "";
+    if (page === "makan") {
+        url = `/children/${id}/edit-status/makan-cemilan`;
+    } else if (page === "kesehatan") {
+        url = `/children/${id}/edit-status/kesehatan`;
+    } else if (page === "kegiatan") {
+        url = `/children/${id}/edit-status/kegiatan`;
+    } else if (page === "catatan") {
+        url = `/children/${id}/edit-status/catatan`;
+    } else if (page === "tidur") {
+        url = `/children/${id}/edit-status/tidur`;
+    } else {
+        console.error("Invalid page type.");
+        return;
+    }
+
+    // Setel sumber iframe jika ada   
     const iframe = document.getElementById("childInfoIframe");
     if (iframe) {
-        const url = `/children/${id}/edit-status/makan-cemilan?cache=${new Date().getTime()}`;
-        console.log("Iframe URL:", url); // Debugging
-
         iframe.src = url;
-
-        iframe.onload = function () {
+        
+        // Sembunyikan loading indicator ketika iframe selesai dimuat
+        iframe.onload = function() {
             if (loaderElement) {
                 loaderElement.style.display = "none";
             }
         };
     }
 
+    // Tampilkan modal
     modal.classList.remove("hidden");
     modal.classList.add("flex");
 }

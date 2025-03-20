@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 
-                <button type="submit" class="w-full px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition">Login</button>
+                <button type="submit" class="w-full px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-700 text-white rounded-lg hover:from-purple-600 hover:to-purple-800 transition duration-300">Login</button>
                 
                 <p class="text-center text-sm text-gray-500">Belum punya akun? <a href="register.html" class="text-indigo-600 hover:underline">Register</a></p>
             </form>
