@@ -77,49 +77,28 @@
                     <div class="font-medium text-sm group-hover:animate-pulse">Menu Makan, Minum & Camilan</div>
                 </a>
 
-                    <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Buang air dan kesehatan - {{ $child->nama }}','kesehatan')" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                    <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Kesehatan & Buang Air - {{ $child->nama }}','kesehatan')" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
                         <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
                             <i class="fas fa-toilet text-lg"></i>
                         </div>
                         <div class="font-medium text-sm group-hover:animate-pulse">Buang Air Kecil & Besar</div>
                     </a>
 
-                    <a href="update_anak_airputih_susu.html" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-purple-600 hover:to-purple-800 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
-                        <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                            <i class="fa-solid fa-glass-water"></i>
-                        </div>
-                        <div class="font-medium text-sm group-hover:animate-pulse">Air Putih & Susu</div>
-                    </a>
-
-                    <a <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Buang air dan kesehatan - {{ $child->nama }}','kegiatan')" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-purple-600 hover:to-purple-800 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                    <a <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Kegiatan Indoor & Outdoor - {{ $child->nama }}','kegiatan')" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-purple-600 hover:to-purple-800 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
                         <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
                             <i class="fas fa-home text-lg"></i>
                         </div>
                         <div class="font-medium text-sm group-hover:animate-pulse">Kegiatan Indoor & Outdoor</div>
                     </a>
 
-                    <a href="update_anak_obat.html" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-purple-600 hover:to-purple-800 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
-                        <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-pills text-lg"></i>
-                        </div>
-                        <div class="font-medium text-sm group-hover:animate-pulse">Obat</div>
-                    </a>
-
-                    <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Buang air dan kesehatan - {{ $child->nama }}','tidur')" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                    <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Tidur - {{ $child->nama }}','tidur')" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
                         <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
                             <i class="fas fa-bed text-lg"></i>
                         </div>
                         <div class="font-medium text-sm group-hover:animate-pulse">Tidur</div>
                     </a>
 
-                    <a href="update_anak_kondisikesehatan.html" class="group menu-item block bg-gradient-to-br from-indigo-500 to-indigo-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-indigo-600 hover:to-indigo-800 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
-                        <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-heartbeat text-lg"></i>
-                        </div>
-                        <div class="font-medium text-sm group-hover:animate-pulse">Kondisi Kesehatan</div>
-                    </a>
-
-                    <a href="update_anak_keterangan.html" class="group menu-item block bg-gradient-to-br from-indigo-400 to-indigo-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-indigo-500 hover:to-indigo-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                    <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Buang air dan kesehatan - {{ $child->nama }}','catatan')" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
                         <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
                             <i class="fas fa-clipboard-list text-lg"></i>
                         </div>
@@ -244,8 +223,8 @@
         url = `/children/${id}/edit-status/kesehatan`;
     } else if (page === "kegiatan") {
         url = `/children/${id}/edit-status/kegiatan`;
-    } else if (page === "catatan") {
-        url = `/children/${id}/edit-status/catatan`;
+    } else if (page === "keterangan") {
+        url = `/children/${id}/edit-status/keterangan`;
     } else if (page === "tidur") {
         url = `/children/${id}/edit-status/tidur`;
     } else {
