@@ -84,8 +84,8 @@
 
                 <!---section keterangan-->
                 <div class="mt-4">
-                        <label class="block text-purple-700 font-medium mb-2">Keterangan</label>
-                        <textarea class="w-full p-2 border rounded-md h-24 resize-none" placeholder="Tulis keterangan di sini..."></textarea>
+                        <label for="keterangan" class="block text-purple-700 font-medium mb-2">Keterangan</label>
+                        <input type="textarea" id="keterangan" name="keterangan" class="w-full p-2 border rounded-md h-24 resize-none" placeholder="Tulis keterangan di sini..."></textarea>
                     </div>
 
                 <!-- Tombol Submit -->

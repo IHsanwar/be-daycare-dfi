@@ -77,6 +77,7 @@
         <div class="bg-white p-4 mb-4 rounded">
             <div class="grid grid-cols-3 gap-2">
                 <div class="flex items-center">
+                    
                     <input type="checkbox" id="berjemur" name="kegiatan_outdoor[]" value="Berjemur" class="mr-2 h-4 w-4">
                     <label for="berjemur">Berjemur</label>
                 </div>

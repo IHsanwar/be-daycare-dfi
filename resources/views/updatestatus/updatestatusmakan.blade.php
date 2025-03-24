@@ -101,20 +101,20 @@
                                     <label for="camilan_pagi_1" class="ml-2 block text-sm text-gray-700">Buah</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input type="checkbox" name="makanan_camilan_pagi[]" id="camilan_pagi_2" value="biskuit" class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                    <input type="checkbox" name="makanan_camilan_pagi[]" id="biskuit" value="biskuit" class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
                                     <label for="camilan_pagi_2" class="ml-2 block text-sm text-gray-700">Biskuit</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input type="checkbox" name="makanan_camilan_pagi[]" id="camilan_pagi_3" value="puding" class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-                                    <label for="camilan_pagi_3" class="ml-2 block text-sm text-gray-700">Puding</label>
+                                    <input type="checkbox" name="makanan_camilan_pagi[]" id="puding" value="puding" class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                    <label for="puding" class="ml-2 block text-sm text-gray-700">Puding</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input type="checkbox" name="makanan_camilan_pagi[]" id="camilan_pagi_4" value="yogurt" class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-                                    <label for="camilan_pagi_4" class="ml-2 block text-sm text-gray-700">Yogurt</label>
+                                    <input type="checkbox" name="makanan_camilan_pagi[]" id="yogurt" value="yogurt" class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                    <label for="yogurt" class="ml-2 block text-sm text-gray-700">Yogurt</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input type="checkbox" name="makanan_camilan_pagi[]" id="camilan_pagi_5" value="keju" class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-                                    <label for="camilan_pagi_5" class="ml-2 block text-sm text-gray-700">Keju</label>
+                                    <input type="checkbox" name="makanan_camilan_pagi[]" id="keju" value="keju" class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                    <label for="keju" class="ml-2 block text-sm text-gray-700">Keju</label>
                                 </div>
                                 <div class="mt-2">
                                     <input type="text" name="makanan_camilan_pagi[]" placeholder="Camilan lainnya" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
