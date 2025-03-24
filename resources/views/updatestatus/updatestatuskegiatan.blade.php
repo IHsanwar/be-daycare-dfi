@@ -20,7 +20,6 @@
             <form action="{{ route('children.updateStatus', $child->id) }}" method="POST" class="space-y-6">
                 @csrf
                 @method('PUT')
-                
                 <!-- Basic Info -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -32,100 +31,73 @@
                         <input type="text" name="tanggal" id="tanggal" value="{{ \Carbon\Carbon::now()->format('d-m-Y') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" required>
                     </div>
                 </div>
-
-                 <!-- Kegiatan Indoor Section -->
-<div class="bg-purple-100 p-3 mb-2 rounded">
-    <div class="font-bold text-purple-500">Kegiatan Indoor</div>
-</div>
-
-<div class="bg-white p-4 mb-4 rounded">
-    <div class="grid grid-cols-3 gap-2">
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Mengaji</label>
-        </div>
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Senam</label>
-        </div>
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Main bebas</label>
-        </div>
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Bahasa inggris</label>
-        </div>
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Belajar sensorik</label>
-        </div>
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Belajar motorik</label>
-        </div>
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Fun looking</label>
-        </div>
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Toilet training</label>
-        </div>
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Ke paud</label>
-        </div>
-        <div class="flex items-center lainnya-container">
-            <input type="checkbox" class="lainnyaCheckbox mr-2 h-4 w-4">
-            <label class="lainnyaLabel cursor-text">Lainnya</label>
-            <input type="text" class="lainnyaInput hidden border rounded p-1 w-24" placeholder="Isi lainnya...">
+                
+    <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
+        <h2 class="text-lg font-semibold text-purple-700 mb-4">Kegiatan Indoor</h2>
+        <!-- Kegiatan Indoor -->
+        <div class="bg-white p-4 mb-4 rounded">
+            <div class="grid grid-cols-3 gap-2">
+                <div class="flex items-center">
+                    <input type="checkbox" id="mengaji" name="kegiatan_indoor[]" value="Mengaji" class="mr-2 h-4 w-4">
+                    <label for="mengaji">Mengaji</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="senam" name="kegiatan_indoor[]" value="Senam" class="mr-2 h-4 w-4">
+                    <label for="senam">Senam</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="main_bebas" name="kegiatan_indoor[]" value="Main bebas" class="mr-2 h-4 w-4">
+                    <label for="main_bebas">Main Bebas</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="bahasa_inggris" name="kegiatan_indoor[]" value="Bahasa inggris" class="mr-2 h-4 w-4">
+                    <label for="bahasa_inggris">Bahasa Inggris</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="belajar_sensorik" name="kegiatan_indoor[]" value="Belajar sensorik" class="mr-2 h-4 w-4">
+                    <label for="belajar_sensorik">Belajar Sensorik</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="belajar_motorik" name="kegiatan_indoor[]" value="Belajar motorik" class="mr-2 h-4 w-4">
+                    <label for="belajar_motorik">Belajar Motorik</label>
+                </div>
+                <div class="flex items-center lainnya-container">
+                    <input type="checkbox" id="lainnya_indoor" class="lainnyaCheckbox mr-2 h-4 w-4">
+                    <label for="lainnya_indoor" class="lainnyaLabel cursor-text">Lainnya</label>
+                    <input type="text" id="kegiatan_indoor" name="kegiatan_indoor[]" class="lainnyaInput border rounded p-1 w-24" placeholder="Isi lainnya...">
+                </div>
+            </div>
         </div>
     </div>
-</div>
+    
+    <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
+        <h2 class="text-lg font-semibold text-purple-700 mb-4">Kegiatan Outdoor</h2>
+    <!-- Kegiatan Outdoor -->
 
-<!-- Kegiatan Outdoor -->
-<div class="bg-purple-100 p-3 mb-2 rounded">
-    <div class="font-bold text-purple-500">Kegiatan Outdoor</div>
-</div>
-
-<div class="bg-white p-4 mb-4 rounded">
-    <div class="grid grid-cols-3 gap-2">
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Berjemur</label>
-        </div>
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Jalan jalan</label>
-        </div>
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Olahraga</label>
-        </div>
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Grounding</label>
-        </div>
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Mandi bola</label>
-        </div>
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Main pasir</label>
-        </div>
-        <div class="flex items-center">
-            <input type="checkbox" class="mr-2 h-4 w-4">
-            <label>Main air/busa</label>
-        </div>
-        <div class="flex items-center lainnya-container">
-            <input type="checkbox" class="lainnyaCheckbox mr-2 h-4 w-4">
-            <label class="lainnyaLabel cursor-text">Lainnya</label>
-            <input type="text" class="lainnyaInput hidden border rounded p-1 w-24" placeholder="Isi lainnya...">
+        <div class="bg-white p-4 mb-4 rounded">
+            <div class="grid grid-cols-3 gap-2">
+                <div class="flex items-center">
+                    <input type="checkbox" id="berjemur" name="kegiatan_outdoor[]" value="Berjemur" class="mr-2 h-4 w-4">
+                    <label for="berjemur">Berjemur</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="jalan_jalan" name="kegiatan_outdoor[]" value="Jalan jalan" class="mr-2 h-4 w-4">
+                    <label for="jalan_jalan">Jalan Jalan</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="olahraga" name="kegiatan_outdoor[]" value="Olahraga" class="mr-2 h-4 w-4">
+                    <label for="olahraga">Olahraga</label>
+                </div>
+                <div class="flex items-center lainnya-container">
+                    <input type="checkbox" id="lainnya_outdoor" class="lainnyaCheckbox mr-2 h-4 w-4">
+                    <label for="lainnya_outdoor" class="lainnyaLabel cursor-text">Lainnya</label>
+                    <input type="text" id="kegiatan_outdoor" name="kegiatan_outdoor[]" class="lainnyaInput border rounded p-1 w-24"
+                    placeholder="Isi lainnya...">
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
 
 <!-- Tombol Submit -->
 <div class="flex justify-end space-x-4 mt-4">
@@ -136,30 +108,81 @@
         <i class="fas fa-save mr-2"></i>Simpan
     </button>
 </div>
+
+</form>
 <script>
     document.querySelector("form").addEventListener("submit", function(e) {
     console.log("Form dikirim!"); // Debugging
 });
 
-document.querySelectorAll(".lainnya-container").forEach(container => {
-    const checkbox = container.querySelector(".lainnyaCheckbox");
-    const label = container.querySelector(".lainnyaLabel");
-    const input = container.querySelector(".lainnyaInput");
 
-    checkbox.addEventListener("change", function() {
+document.addEventListener('DOMContentLoaded', function() {
+  // Function to handle all "lainnya" checkboxes
+  function setupLainnyaCheckboxes() {
+    document.querySelectorAll(".lainnya-container").forEach(container => {
+      const checkbox = container.querySelector(".lainnyaCheckbox");
+      const label = container.querySelector(".lainnyaLabel");
+      const input = container.querySelector(".lainnyaInput");
+      
+      // Initially hide the input
+      if (!checkbox.checked) {
+        input.classList.add("hidden");
+      } else {
+        label.classList.add("hidden");
+      }
+
+      // Add event listener for the checkbox
+      checkbox.addEventListener("change", function() {
         if (this.checked) {
-            label.classList.add("hidden");
-            input.classList.remove("hidden");
-            input.focus();
+          label.classList.add("hidden");
+          input.classList.remove("hidden");
+          input.focus();
         } else {
-            input.classList.add("hidden");
-            label.classList.remove("hidden");
-            input.value = ""; // Clear input
+          input.classList.add("hidden");
+          label.classList.remove("hidden");
+          input.value = ""; // Clear input
         }
+      });
+
+      // Add event for input value change to update name attribute
+      input.addEventListener("input", function() {
+        if (this.value) {
+          // Set the value for the checkbox to the input text
+          checkbox.value = this.value;
+        }
+      });
     });
+  }
 
+  // Initial setup
+  setupLainnyaCheckboxes();
+
+  // Function to add a new "lainnya" option dynamically
+  window.addNewLainnyaOption = function(containerId, checkboxName) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    // Create a new lainnya container
+    const newLainnyaContainer = document.createElement('div');
+    newLainnyaContainer.className = 'flex items-center lainnya-container';
+    
+    // Generate unique IDs based on timestamp
+    const uniqueId = 'lainnya_' + Date.now();
+    
+    // Create HTML structure
+    newLainnyaContainer.innerHTML = `
+      <input type="checkbox" id="${uniqueId}" name="${checkboxName}" class="lainnyaCheckbox mr-2 h-4 w-4">
+      <label for="${uniqueId}" class="lainnyaLabel cursor-text">Lainnya</label>
+      <input type="text" name="${checkboxName}" class="lainnyaInput border rounded p-1 w-24" placeholder="Isi lainnya...">
+    `;
+    
+    // Append to the container
+    container.appendChild(newLainnyaContainer);
+    
+    // Re-run setup to configure the new element
+    setupLainnyaCheckboxes();
+  }
 });
-
 </script>
 </body>
 </html>

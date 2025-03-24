@@ -98,7 +98,7 @@
                         <div class="font-medium text-sm group-hover:animate-pulse">Tidur</div>
                     </a>
 
-                    <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Buang air dan kesehatan - {{ $child->nama }}','catatan')" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                    <a onclick="openIframeModal('{{ $child->id }}', 'Keterangan- {{ $child->nama }}','keterangan')" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
                         <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
                             <i class="fas fa-clipboard-list text-lg"></i>
                         </div>
