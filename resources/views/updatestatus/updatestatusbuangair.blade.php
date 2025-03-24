@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Menu Informasi Kesehatan</title>
+    <title>Update Menu Informasi Buang Air</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -12,7 +12,7 @@
         <div class="bg-white rounded-xl shadow-lg p-6">
             <!-- Header -->
             <div class="flex items-center justify-between mb-6">
-                <h1 class="text-2xl font-bold text-purple-700">Update Informasi Kesehatan</h1>
+                <h1 class="text-2xl font-bold text-purple-700">Update Informasi Buang Air</h1>
                 
             </div>
 
@@ -33,60 +33,43 @@
                     </div>
                 </div>
 
-                <!-- Tidur Section -->
-             <h3 class="text-lg font-semibold text-purple-700 mt-4">Tidur</h3>
+                <!-- Buang Air -->
+                <h3 class="text-lg font-semibold text-purple-700 mt-4">Buang Air</h3>
                 <div class="grid grid-cols-3 gap-2">
                     <div>
-                        <label class="block font-medium text-purple-900">Pagi:</label>
-                        <input type="number" name="pagi" min="0" placeholder="Jumlah"
+                        <label class="block font-medium text-purple-900">BAK Pagi:</label>
+                        <input type="number" name="bak_pagi" min="0" placeholder="Jumlah"
                             class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
                     </div>
                     <div>
-                        <label class="block font-medium text-purple-900">Siang:</label>
-                        <input type="number" name="siang" min="0" placeholder="Jumlah"
+                        <label class="block font-medium text-purple-900">BAK Siang:</label>
+                        <input type="number" name="bak_siang" min="0" placeholder="Jumlah"
                             class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
                     </div>
                     <div>
-                        <label class="block font-medium text-purple-900">Malam:</label>
-                        <input type="number" name="malam" min="0" placeholder="Jumlah"
-                            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
-                    </div>
-                </div>
-         
-                <!-- Obat -->
-                <div class="grid grid-cols-3 gap-2">
-                    <div>
-                        <label for="obat_pagi" class="block font-medium text-purple-900">Obat Pagi:</label>
-                        <input type="time" id="obat_pagi" name="obat_pagi"
-                            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
-                    </div>
-                    <div>
-                        <label for="obat_siang" class="block font-medium text-purple-900">Obat Siang:</label>
-                        <input type="time" id="obat_siang" name="obat_siang"
-                            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
-                    </div>
-                    <div>
-                        <label for="obat_sore" class="block font-medium text-purple-900">Obat Sore:</label>
-                        <input type="time" id="obat_sore" name="obat_sore"
+                        <label class="block font-medium text-purple-900">BAK Sore:</label>
+                        <input type="number" name="bak_sore" min="0" placeholder="Jumlah"
                             class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
                     </div>
                 </div>
 
-                <!-- Kondisi Anak -->
-                <div>
-                    <label for="kondisi" class="block font-medium text-purple-900">Kondisi Anak:</label>
-                    <select id="kondisi" name="kondisi" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
-                        <option value="">-- Pilih Kondisi --</option>
-                        <option value="sehat">Sehat</option>
-                        <option value="sakit">Sakit</option>
-                    </select>           
+                <div class="grid grid-cols-3 gap-2">
+                    <div>
+                        <label class="block font-medium text-purple-900">BAB Pagi:</label>
+                        <input type="number" name="bab_pagi" min="0" placeholder="Jumlah"
+                            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
+                    </div>
+                    <div>
+                        <label class="block font-medium text-purple-900">BAB Siang:</label>
+                        <input type="number" name="bab_siang" min="0" placeholder="Jumlah"
+                            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
+                    </div>
+                    <div>
+                        <label class="block font-medium text-purple-900">BAB Sore:</label>
+                        <input type="number" name="bab_sore" min="0" placeholder="Jumlah"
+                            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
+                    </div>
                 </div>
-
-                <!---section keterangan-->
-                <div class="mt-4">
-                        <label class="block text-purple-700 font-medium mb-2">Keterangan</label>
-                        <textarea class="w-full p-2 border rounded-md h-24 resize-none" placeholder="Tulis keterangan di sini..."></textarea>
-                    </div>
 
                 <!-- Tombol Submit -->
                 <div class="flex justify-end space-x-4">
@@ -99,5 +82,10 @@
                 </div>
             </form>
     </div>
+<script>
+    document.querySelector("form").addEventListener("submit", function(e) {
+    console.log("Form dikirim!"); // Debugging
+});
+</script>
 </body>
 </html>

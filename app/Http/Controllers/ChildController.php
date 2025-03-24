@@ -197,10 +197,9 @@ class ChildController extends Controller
         // **Determine which view to load based on the route type**
         if (trim($type) === 'makan-cemilan') { 
             return view('updatestatus.updatestatusmakan', compact('child'));
-        } 
-        
-        elseif (trim($type) === 'kesehatan') { 
-            return view('updatestatus.updatestatuskesehatan', compact('child'));
+        }       
+        elseif (trim($type) === 'buang-air') { 
+            return view('updatestatus.updatestatusbuangair', compact('child'));
         }
         elseif (trim($type) === 'kegiatan') { 
             return view('updatestatus.updatestatuskegiatan', compact('child'));
@@ -208,8 +207,8 @@ class ChildController extends Controller
         elseif (trim($type) === 'keterangan') { 
             return view('updatestatus.updatestatusketerangan', compact('child'));
         }
-        elseif (trim($type) === 'tidur') { 
-            return view('updatestatus.updatestatustidur', compact('child'));
+        elseif (trim($type) === 'kesehatan') { 
+            return view('updatestatus.updatestatuskesehatan', compact('child'));
         }
         else {
             return view('editstatus', compact('child'));

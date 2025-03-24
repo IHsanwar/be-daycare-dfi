@@ -70,18 +70,18 @@
                 <!-- Menu Grid -->
                  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
                 <!-- Dashboard link that opens the meal update modal -->
-                <a onclick="openIframeModal('{{ $child->id }}', 'Menu Makan & Camilan - {{ $child->nama }}','makan')" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-purple-600 hover:to-purple-800 hover:-translate-y-2 hover:scale-105 hover:shadow-xl">
+                <a onclick="openIframeModal('{{ $child->id }}', 'Makan, Minum & Camilan - {{ $child->nama }}','makan')" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-purple-600 hover:to-purple-800 hover:-translate-y-2 hover:scale-105 hover:shadow-xl">
                     <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
                         <i class="fas fa-utensils text-lg"></i>
                     </div>
-                    <div class="font-medium text-sm group-hover:animate-pulse">Menu Makan, Minum & Camilan</div>
+                    <div class="font-medium text-sm group-hover:animate-pulse">Makan, Minum & Camilan</div>
                 </a>
 
-                    <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Kesehatan & Buang Air - {{ $child->nama }}','kesehatan')" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                    <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Buang Air  - {{ $child->nama }}','buangair')" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
                         <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
                             <i class="fas fa-toilet text-lg"></i>
                         </div>
-                        <div class="font-medium text-sm group-hover:animate-pulse">Buang Air Kecil & Besar</div>
+                        <div class="font-medium text-sm group-hover:animate-pulse">Buang Air Kecil & Buang Air Besar</div>
                     </a>
 
                     <a <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Kegiatan Indoor & Outdoor - {{ $child->nama }}','kegiatan')" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-purple-600 hover:to-purple-800 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
@@ -91,22 +91,12 @@
                         <div class="font-medium text-sm group-hover:animate-pulse">Kegiatan Indoor & Outdoor</div>
                     </a>
 
-                    <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Tidur - {{ $child->nama }}','tidur')" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                    <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Kesehatan  - {{ $child->nama }}','kesehatan')" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
                         <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
                             <i class="fas fa-bed text-lg"></i>
                         </div>
-                        <div class="font-medium text-sm group-hover:animate-pulse">Tidur</div>
+                        <div class="font-medium text-sm group-hover:animate-pulse">Kesehatan</div>
                     </a>
-
-                    <a onclick="openIframeModal('{{ $child->id }}', 'Keterangan- {{ $child->nama }}','keterangan')" class="group menu-item block bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-blue-500 hover:to-blue-700 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
-                        <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-clipboard-list text-lg"></i>
-                        </div>
-                        <div class="font-medium text-sm group-hover:animate-pulse">Keterangan</div>
-                    </a>
-                </div>
-
-
 
                 <!-- Recent Activity Section - Added to fill the gap -->
                 <div class="mt-4">
@@ -219,14 +209,12 @@
     let url = "";
     if (page === "makan") {
         url = `/children/${id}/edit-status/makan-cemilan`;
-    } else if (page === "kesehatan") {
-        url = `/children/${id}/edit-status/kesehatan`;
+    } else if (page === "buangair") {
+        url = `/children/${id}/edit-status/buang-air`;
     } else if (page === "kegiatan") {
         url = `/children/${id}/edit-status/kegiatan`;
-    } else if (page === "keterangan") {
-        url = `/children/${id}/edit-status/keterangan`;
-    } else if (page === "tidur") {
-        url = `/children/${id}/edit-status/tidur`;
+    } else if (page === "kesehatan") {
+        url = `/children/${id}/edit-status/kesehatan`;
     } else {
         console.error("Invalid page type.");
         return;

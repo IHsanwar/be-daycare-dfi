@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 
-    <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
+     <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
         <h2 class="text-lg font-semibold text-purple-700 mb-4">Kegiatan Indoor</h2>
         <!-- Kegiatan Indoor -->
         <div class="bg-white p-4 mb-4 rounded">
