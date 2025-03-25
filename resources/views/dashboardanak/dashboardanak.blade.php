@@ -27,62 +27,50 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($children as $child)
-                <tr class="border-b border-gray-100">
-                    <td class="p-3">{{ $child->nama }}</td>
-                    <td class="p-3">{{ $child->user->name ?? '-' }}</td>
-                    <td class="p-3">{{ \Carbon\Carbon::parse($child->tanggal)->format('d-m-Y') }}</td>
-                    <td class="p-3">
-                        @php
-                            $today = \Carbon\Carbon::now()->format('Y-m-d');
-                            $childHistory = $child->histories()
-                                ->whereDate('tanggal', $today)
-                                ->latest()
-                                ->first();
-
-                            $isComplete = $childHistory && 
-                                !empty($childHistory->makan_pagi) && !empty($childHistory->makan_siang) && !empty($childHistory->makan_sore) &&
-                                !empty($childHistory->susu_pagi) && !empty($childHistory->susu_siang) && !empty($childHistory->susu_sore) &&
-                                !empty($childHistory->air_putih_pagi) && !empty($childHistory->air_putih_siang) && !empty($childHistory->air_putih_sore) &&
-                                !empty($childHistory->bak_pagi) && !empty($childHistory->bak_siang) && !empty($childHistory->bak_sore) &&
-                                !empty($childHistory->bab_pagi) && !empty($childHistory->bab_siang) && !empty($childHistory->bab_sore) &&
-                                !empty($childHistory->tidur_pagi) && !empty($childHistory->tidur_siang) && !empty($childHistory->tidur_sore) &&
-                                !empty($childHistory->kondisi);
-
-                            if ($isComplete) {
-                                $kegiatanOutdoor = json_decode($childHistory->kegiatan_outdoor, true);
-                                $kegiatanIndoor = json_decode($childHistory->kegiatan_indoor, true);
-                                $makananCamilanPagi = json_decode($childHistory->makanan_camilan_pagi, true);
-                                $makananCamilanSiang = json_decode($childHistory->makanan_camilan_siang, true);
-                                $makananCamilanSore = json_decode($childHistory->makanan_camilan_sore, true);
-                                
-                                $isComplete = $isComplete && 
-                                    is_array($kegiatanOutdoor) && count($kegiatanOutdoor) > 0 &&
-                                    is_array($kegiatanIndoor) && count($kegiatanIndoor) > 0 &&
-                                    is_array($makananCamilanPagi) && count($makananCamilanPagi) > 0 &&
-                                    is_array($makananCamilanSiang) && count($makananCamilanSiang) > 0 &&
-                                    is_array($makananCamilanSore) && count($makananCamilanSore) > 0 &&
-                                    !empty($childHistory->obat_pagi) &&
-                                    !empty($childHistory->obat_siang) &&
-                                    !empty($childHistory->obat_sore);
-                            }
-                        @endphp
+            @foreach ($children as $child)
+            <tr class="border-b border-gray-100">
+                <td class="p-3">{{ $child->nama }}</td>
+                <td class="p-3">{{ $child->user->name ?? '-' }}</td>
+                <td class="p-3">{{ \Carbon\Carbon::parse($child->tanggal)->format('d-m-Y') }}</td>
+                <td class="p-3">
+                    @php
+                        $today = \Carbon\Carbon::now()->format('Y-m-d');
+                        $childHistory = $child->histories()->whereDate('tanggal', $today)->latest()->first();
                         
-                        @if ($isComplete)
-                            <span class="bg-green-500 text-white px-2 py-1 rounded text-xs">Lengkap</span>
-                        @else
-                            <span class="bg-red-500 text-white px-2 py-1 rounded text-xs">Belum Lengkap</span>
-                        @endif
+                        $requiredFields = [
+                            'makan_pagi', 'makan_siang', 'makan_sore',
+                            'susu_pagi', 'susu_siang', 'susu_sore',
+                            'air_putih_pagi', 'air_putih_siang', 'air_putih_sore',
+                            'bak_pagi', 'bak_siang', 'bak_sore',
+                            'bab_pagi', 'bab_siang', 'bab_sore',
+                            'tidur_pagi', 'tidur_siang', 'tidur_sore',
+                            'kondisi', 'obat_pagi', 'obat_siang', 'obat_sore'
+                        ];
+                        
+                        $jsonFields = ['kegiatan_outdoor', 'kegiatan_indoor', 'makanan_camilan_pagi', 'makanan_camilan_siang', 'makanan_camilan_sore'];
+                        
+                        $isComplete = $childHistory && collect($requiredFields)->every(fn($field) => !empty($childHistory->$field))
+                            && collect($jsonFields)->every(fn($field) => !empty(json_decode($childHistory->$field, true)));
+                    @endphp
+
+                    <span class="px-2 py-1 rounded text-xs {{ $isComplete ? 'bg-green-500 text-white' : 'bg-red-500 text-white' }}">
+                        {{ $isComplete ? 'Lengkap' : 'Belum Lengkap' }}
+                        
+                    </span>
+
+                </td>
                     </td>
+
                     <td class="p-3 flex gap-2">
                     <a href="{{ route('children.editStatus', ['id' => $child->id, 'type' => 'null']) }}"  class="px-3 py-1.5 bg-purple-600 text-white text-xs rounded hover:bg-purple-700">
         <i class="fas fa-edit"></i> Update
     </a>
-    <button type="button" class="px-3 py-1.5 bg-purple-500 text-white text-xs rounded hover:bg-purple-600 info-button" 
-        onclick="openIframeModal({{ $child->id }}, '{{ $child->nama }}')" 
-        data-id="{{ $child->id }}" data-nama="{{ $child->nama }}">
-    <i class="fas fa-info-circle"></i> Info
-</button>
+                <button type="button" class="px-3 py-1.5 bg-purple-500 text-white text-xs rounded hover:bg-purple-600 info-button" 
+                onclick="openInfoModal({{ $child->id }})" 
+                data-id="{{ $child->id }}" data-nama="{{ $child->nama }}">
+                <i class="fas fa-info-circle"></i> Info
+            </button>
+
     <button type="button" class="px-3 py-1.5 bg-purple-400 text-white text-xs rounded hover:bg-purple-500" 
             onclick="window.openEditModal({{ $child->id }}, '{{ $child->nama }}', {{ $child->user_id ?? 'null' }})">
         <i class="fas fa-sync"></i> Edit
@@ -142,7 +130,7 @@
                     @if ($isComplete)
                         <span class="bg-green-500 text-white px-2 py-1 rounded text-xs">Lengkap</span>
                     @else
-                        <span class="bg-red-500 text-white px-2 py-1 rounded text-xs">Belum Lengkap</span>
+                        <span class="bg-red-500 text-white px-2 py-1 rounded text-xs">Bengkap</span>
                     @endif
                 </div>
                 
@@ -254,6 +242,21 @@
                 </form>
             </div>
         </div>
+        
+
+        <!--Modal for information-->
+        <div id="infoModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white p-5 rounded-lg shadow-lg w-96 transform transition-transform duration-200 scale-95">
+        <h2 class="text-lg font-bold">Info Anak</h2>
+        <div id="modalContent" class="mt-3">
+            <!-- Modal content will be loaded here -->
+        </div>
+        <button onclick="closeModal()" class="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+            Close
+        </button>
+    </div>
+</div>
+                    
 
         <script>
             
@@ -591,6 +594,32 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+function openInfoModal(childId) {
+    fetch(`/dashboardanak/info/${childId}`)
+        .then(response => response.text())
+        .then(data => {
+            const modal = document.getElementById("infoModal");
+            const modalContent = document.getElementById("modalContent");
+
+            modalContent.innerHTML = data; // Load dynamic content
+            modal.classList.remove("hidden"); // Show modal
+            
+            // Reset modal transform to ensure correct positioning
+            modal.querySelector("div").classList.remove("scale-95");
+            modal.querySelector("div").classList.add("scale-100");
+        })
+        .catch(error => console.error("Error fetching modal content:", error));
+}
+
+function closeModal() {
+    const modal = document.getElementById("infoModal");
+    modal.classList.add("hidden"); // Hide modal
+
+    // Add transition effect
+    modal.querySelector("div").classList.remove("scale-100");
+    modal.querySelector("div").classList.add("scale-95");
+}
+
 // <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.6/dist/notiflix-aio-3.2.6.min.js"></script>
         </script>
         @endsection
