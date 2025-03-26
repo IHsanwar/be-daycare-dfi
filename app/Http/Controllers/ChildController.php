@@ -241,11 +241,34 @@ class ChildController extends Controller
     }
 
     public function showInfo($id)
-    {
-        $child = Child::findOrFail($id);
-        $histories = $child->histories()->orderBy('tanggal', 'desc')->paginate(7);
-        return view('child_info', compact('child', 'histories'));
+{
+    try {
+        // Fetch child details with eager loading to optimize query
+        $child = Child::with([
+            'histories' => function($query) {
+                $query->orderBy('tanggal', 'desc')
+                      ->limit(7); // Limit to last 7 records
+            }
+        ])->findOrFail($id);
+
+        // Additional data gathering if needed
+        $totalHistoryCount = $child->histories()->count();
+        $latestMedicalRecord = $child->histories()->latest('tanggal')->first();
+
+        return view('child_info', [
+            'child' => $child,
+            'histories' => $child->histories,
+            'totalHistoryCount' => $totalHistoryCount,
+            'latestMedicalRecord' => $latestMedicalRecord
+        ]);
+    } catch (\Exception $e) {
+        // Log the error
+        Log::error('Child Info Fetch Error: ' . $e->getMessage());
+
+        // Redirect with error message
+        return redirect()->back()->with('error', 'Unable to fetch child information.');
     }
+}
 
     public function downloadExcel(Request $request, $id)
     {

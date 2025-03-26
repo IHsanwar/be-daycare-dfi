@@ -245,15 +245,27 @@
         
 
         <!--Modal for information-->
-        <div id="infoModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white p-5 rounded-lg shadow-lg w-96 transform transition-transform duration-200 scale-95">
-        <h2 class="text-lg font-bold">Info Anak</h2>
-        <div id="modalContent" class="mt-3">
-            <!-- Modal content will be loaded here -->
+        <div id="infoModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 p-4">
+    <div class="bg-white rounded-lg shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col transform transition-transform duration-200 scale-95">
+        <div class="flex justify-between items-center p-5 border-b border-gray-200">
+            <h2 class="text-lg font-bold text-purple-700">Info Anak</h2>
+            <button onclick="closeModal()" class="text-gray-500 hover:text-red-500 transition-colors">
+                <i class="fas fa-times text-xl"></i>
+            </button>
         </div>
-        <button onclick="closeModal()" class="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
-            Close
-        </button>
+        
+        <div id="modalContent" class="p-5 overflow-y-auto" style="max-height: 70vh;">
+            <!-- Modal content will be loaded here -->
+            <div class="flex items-center justify-center h-full">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-700"></div>
+            </div>
+        </div>
+        
+        <div class="p-5 border-t border-gray-200 flex justify-end">
+            <button onclick="closeModal()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors">
+                Tutup
+            </button>
+        </div>
     </div>
 </div>
                     
@@ -593,33 +605,41 @@ document.addEventListener("DOMContentLoaded", function() {
             openIframeModal(id, nama);
         });
     });
-});
-function openInfoModal(childId) {
+});function openInfoModal(childId) {
     fetch(`/dashboardanak/info/${childId}`)
         .then(response => response.text())
         .then(data => {
             const modal = document.getElementById("infoModal");
             const modalContent = document.getElementById("modalContent");
 
-            modalContent.innerHTML = data; // Load dynamic content
-            modal.classList.remove("hidden"); // Show modal
+            // Ensure modal is centered and visible
+            modal.classList.remove("hidden");
+            modal.classList.add("fixed", "inset-0", "z-50", "flex", "items-center", "justify-center", "bg-black", "bg-opacity-50");
             
-            // Reset modal transform to ensure correct positioning
-            modal.querySelector("div").classList.remove("scale-95");
-            modal.querySelector("div").classList.add("scale-100");
+            modalContent.innerHTML = data; // Load dynamic content
+            
+            // Add scale and opacity transition
+            const modalWrapper = modal.querySelector("div");
+            modalWrapper.classList.remove("scale-95", "opacity-0");
+            modalWrapper.classList.add("scale-100", "opacity-100");
         })
         .catch(error => console.error("Error fetching modal content:", error));
 }
 
 function closeModal() {
     const modal = document.getElementById("infoModal");
-    modal.classList.add("hidden"); // Hide modal
+    const modalWrapper = modal.querySelector("div");
 
-    // Add transition effect
-    modal.querySelector("div").classList.remove("scale-100");
-    modal.querySelector("div").classList.add("scale-95");
+    // Add fade-out effect
+    modalWrapper.classList.remove("scale-100", "opacity-100");
+    modalWrapper.classList.add("scale-95", "opacity-0");
+
+    // Hide modal after transition
+    setTimeout(() => {
+        modal.classList.add("hidden");
+        modal.classList.remove("fixed", "inset-0", "z-50", "flex", "items-center", "justify-center", "bg-black", "bg-opacity-50");
+    }, 300); // Match this to your CSS transition duration
 }
-
 // <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.6/dist/notiflix-aio-3.2.6.min.js"></script>
         </script>
         @endsection
