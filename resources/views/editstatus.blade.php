@@ -11,9 +11,7 @@
                 <i class="fas fa-bars"></i>
             </button>
         </div>
-
-        
-        
+               
         <!-- Main Content -->
         <div class="flex-1 md:ml-2">
             <!-- Header -->

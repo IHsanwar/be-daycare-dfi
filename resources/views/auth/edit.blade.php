@@ -1,86 +1,62 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Edit User</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-        }
-        .card {
-            border-radius: 1rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-        }
-        .card-header {
-            background-color: #007bff;
-            color: white;
-            border-radius: 1rem 1rem 0 0;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Data Anak</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6">
-                <div class="card">
-                    <div class="card-header text-center py-4">
-                        <h2 class="mb-0">Edit User</h2>
+<body class="bg-white min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-lg">
+        <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+            <div class="bg-blue-500 text-white text-center py-4">
+                <h2 class="text-2xl font-semibold">Edit User</h2>
+            </div>
+            <div class="p-6">
+                <form action="{{ route('users.update', $user->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-4">
+                        <label for="name" class="block text-gray-700 font-medium mb-1">Name</label>
+                        <input type="text" id="name" name="name" value="{{ $user->name }}" required
+                            class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 focus:outline-none">
                     </div>
-                    <div class="card-body p-5">
-                        <form action="{{ route('users.update', $user->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <div class="mb-4">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}" required>
-                            </div>
-                            <div class="mb-4">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}" required>
-                            </div>
-                            <div class="mb-4">
-                                <label for="password" class="form-label">Password</label>
-                                <div class="input-group">
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                        <i class="fas fa-eye" id="toggleIcon"></i>
-                                    </button>
-                                </div>
-                                <small class="text-muted">Biarkan kosong jika Anda tidak ingin mengubah password</small>
-                            </div>
-                            <div class="mb-4">
-                                <label for="role" class="form-label">Role</label>
-                                <select class="form-select" id="role" name="role" required>
-                                    <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
-                                    <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                                </select>
-                            </div>
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary btn-lg">Update</button>
-                                <a href="{{ route('dashboardadmin') }}" class="btn btn-secondary btn-lg">Cancel</a>
-                            </div>
-                        </form>
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-700 font-medium mb-1">Email</label>
+                        <input type="email" id="email" name="email" value="{{ $user->email }}" required
+                            class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 focus:outline-none">
                     </div>
-                </div>
+                    <div class="mb-4">
+                        <label for="password" class="block text-gray-700 font-medium mb-1">Password</label>
+                        <div class="relative">
+                            <input type="password" id="password" name="password" placeholder="Password"
+                                class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 focus:outline-none">
+                            <button type="button" id="togglePassword" class="absolute inset-y-0 right-3 flex items-center text-gray-500">
+                                <i class="fas fa-eye" id="toggleIcon"></i>
+                            </button>
+                        </div>
+                        <small class="text-gray-500">Biarkan kosong jika Anda tidak ingin mengubah password</small>
+                    </div>
+                    <div class="mb-4">
+                        <label for="role" class="block text-gray-700 font-medium mb-1">Role</label>
+                        <select id="role" name="role" required
+                            class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 focus:outline-none">
+                            <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+                            <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                        </select>
+                    </div>
+                    <div class="grid gap-2">
+                        <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Update</button>
+                        <a href="{{ route('dashboardadmin') }}" class="w-full text-center bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600">Cancel</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+   
     <script>
         document.getElementById('togglePassword').addEventListener('click', function () {
             const passwordInput = document.getElementById('password');

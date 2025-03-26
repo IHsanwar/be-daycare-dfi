@@ -212,63 +212,68 @@
 
 
         <!-- Modal Edit -->
-        <div id="editModal" class="fixed inset-0 hidden bg-black bg-opacity-50 items-center justify-center z-50 p-4">
-            <div class="bg-white p-5 w-11/12 max-w-lg shadow-lg rounded-lg text-left relative max-h-90vh overflow-y-auto">
-                <button class="absolute top-2 right-3 text-xl cursor-pointer bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center" onclick="closeEditModal()">×</button>
-                <h2 class="text-lg font-bold mb-3">Edit Data Anak</h2>
-                <form id="editForm" class="relative pb-16" method="POST" action="{{ route('children.update', $child->id) }}">
-                    @csrf
-                    @method('PUT')
-                    <div class="mb-4">
-                        <label class="block mb-2">Nama Anak:</label>
-                        <input type="text" id="edit_nama" name="nama" class="w-full p-2 border rounded mb-3" required>
-                    </div>
-                    <div class="mb-4">
-                    <label class="block mb-2">Nama Orang Tua:</label>
-                    <select id="edit_user_id" name="user_id" class="w-full p-2 border rounded mb-3" required>
-                        <option value="">Pilih orang tua...</option>
-                        @foreach($users as $user)
-                            @if($user->role === 'user')
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-
-
-                    </div>
-                    <div class="flex justify-end">
-                        <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Simpan</button>
-                    </div>
-                </form>
+        <div id="editModal" class="fixed inset-0 hidden bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white p-5 w-11/12 max-w-lg shadow-lg rounded-lg text-left relative max-h-[80vh] overflow-y-auto">
+        <button class="absolute top-2 right-3 text-xl cursor-pointer bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center" onclick="closeEditModal()">×</button>
+        <h2 class="text-lg font-bold mb-3">Edit Data Anak</h2>
+        <form id="editForm" class="flex flex-col gap-4" method="POST" action="{{ route('children.update', $child->id) }}">
+            @csrf
+            @method('PUT')
+            <div>
+                <label class="block mb-2">Nama Anak:</label>
+                <input type="text" id="edit_nama" name="nama" class="w-full p-2 border rounded" required>
             </div>
-        </div>
+            <div>
+                <label class="block mb-2">Nama Orang Tua:</label>
+                <select id="edit_user_id" name="user_id" class="w-full p-2 border rounded" required>
+                    <option value="">Pilih orang tua...</option>
+                    @foreach($users as $user)
+                        @if($user->role === 'user')
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+            <!-- Simpan tombol ke kanan -->
+            <div class="flex justify-end mt-4">
+                <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Simpan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
         
 
-        <!--Modal for information-->
-        <div id="infoModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 p-4">
-    <div class="bg-white rounded-lg shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col transform transition-transform duration-200 scale-95">
+        <!-- Modal for information -->
+<div id="infoModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 p-4">
+    <div class="bg-white rounded-lg shadow-2xl w-auto max-w-3xl max-h-[90vh] flex flex-col transform transition-transform duration-200 scale-95">
+        <!-- Header Modal -->
         <div class="flex justify-between items-center p-5 border-b border-gray-200">
-            <h2 class="text-lg font-bold text-purple-700">Info Anak</h2>
+            <h2 class="text-lg font-bold text-purple-700">Informasi Tentang Anak</h2>
             <button onclick="closeModal()" class="text-gray-500 hover:text-red-500 transition-colors">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
-        
-        <div id="modalContent" class="p-5 overflow-y-auto" style="max-height: 70vh;">
+
+        <!-- Body Modal -->
+        <div id="modalContent" class="p-5 overflow-auto max-h-[65vh]">
             <!-- Modal content will be loaded here -->
-            <div class="flex items-center justify-center h-full">
+            <div class="flex items-center justify-center">
                 <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-700"></div>
             </div>
         </div>
-        
-        <div class="p-5 border-t border-gray-200 flex justify-end">
+
+        <!-- Footer Modal -->
+        <div class="p-5 border-t border-gray-200 flex justify-end gap-3">
+            <button type="button" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition duration-300">
+                Download Data
+            </button>
             <button onclick="closeModal()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors">
                 Tutup
             </button>
         </div>
     </div>
 </div>
-                    
 
         <script>
             
