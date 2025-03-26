@@ -149,16 +149,12 @@ class AuthController extends Controller
      * @param  int  $id
      * @return View|RedirectResponse
      */
-    public function edit($id): View|RedirectResponse
+    public function edit($id)
     {
-        $user = User::find($id);
-
-        if (Auth::check() && Auth::user()->role == 'admin') {
-            return view('auth.edit', compact('user'));
-        }
-
-        return redirect("login")->withErrors('Kamu tidak memiliki akses edit users.');
+        $user = User::findOrFail($id);
+        return view('users.edit', compact('user'));
     }
+    
 
     /**
      * Update the specified user in storage.
@@ -167,34 +163,9 @@ class AuthController extends Controller
      * @param  int  $id
      * @return RedirectResponse
      */
-    public function update(Request $request, $id): RedirectResponse
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'nullable|min:6',
-            'role' => 'required|in:user,admin',
-        ]);
-
-        $user = User::find($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $passwordChanged = false;
-
-        if ($request->password) {
-            $user->password = Hash::make($request->password);
-            $passwordChanged = true;
-        }
-
-        $user->role = $request->role;
-        $user->save();
-
-        if (Auth::user()->id == $id && $passwordChanged) {
-            Auth::logout();
-            return redirect()->route('login')->withErrors('You have changed your password. Please login again.');
-        }
-
-        return redirect()->route('dashboardadmin')->withSuccess('User update berhasil.');
+    public function update(Request $request, $id) {
+        $user = User::findOrFail($id);
+        $user->update($request->all());
     }
 
     /**
@@ -204,15 +175,22 @@ class AuthController extends Controller
      * @return RedirectResponse
      */
     public function destroy($id)
-    {
-        $user = User::findOrFail($id);
-        
-        $user->children()->delete();
+{
+    $user = User::find($id);
 
-        $user->delete();
-
-        return redirect()->route('dashboardadmin')->with('success', 'Berhasil menghapus akun dan anak-anak yang terkait.');
+    if (!$user) {
+        return back()->with('error', 'User tidak ditemukan');
     }
+
+    // Hapus anak-anak yang terkait sebelum menghapus user
+    $user->children()->delete();
+
+    // Hapus user
+    $user->delete();
+
+    return redirect()->route('dashboardadmin')->with('success', 'Berhasil menghapus user.');
+}
+
     
     public function show($id)
     {

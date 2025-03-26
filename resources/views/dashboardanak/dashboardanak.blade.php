@@ -63,7 +63,7 @@
 
                     <td class="p-3 flex gap-2">
                     <a href="{{ route('children.editStatus', ['id' => $child->id, 'type' => 'null']) }}"  class="px-3 py-1.5 bg-purple-600 text-white text-xs rounded hover:bg-purple-700">
-        <i class="fas fa-edit"></i> Update
+                    <i class="fas fa-edit"></i> Update
     </a>
                 <button type="button" class="px-3 py-1.5 bg-purple-500 text-white text-xs rounded hover:bg-purple-600 info-button" 
                 onclick="openInfoModal({{ $child->id }})" 

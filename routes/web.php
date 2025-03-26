@@ -26,8 +26,13 @@ Route::post('post-registration', [AuthController::class, 'postRegistration'])->n
 Route::middleware('auth')->group(function () {
     Route::get('dashboard/{child_id?}', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('dashboardadmin', [DashboardController::class, 'adminIndex'])->name('dashboardadmin');
+    Route::put('users/{id}', [AuthController::class, 'update'])->name('users.update');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
+    // ✅ Tambahkan route users.index
+    Route::get('users', [AuthController::class, 'index'])->name('users.index'); 
+    
+    Route::get('users/{id}', [AuthController::class, 'show'])->name('users.show');
     Route::get('users/{id}/edit', [AuthController::class, 'edit'])->name('users.edit');
     Route::put('users/{id}', [AuthController::class, 'update'])->name('users.update');
     Route::delete('users/{id}', [AuthController::class, 'destroy'])->name('users.destroy');
@@ -35,34 +40,22 @@ Route::middleware('auth')->group(function () {
     Route::post('children', [ChildController::class, 'store'])->name('children.store');
     Route::delete('children/{id}', [ChildController::class, 'destroy'])->name('children.destroy');
     
-    Route::get('users/{id}', [AuthController::class, 'show'])->name('users.show');
-    
     Route::get('dashboardanak', [DashboardController::class, 'childIndex'])->name('dashboardanak');
     
     Route::match(['put', 'post'], 'children/{id}/update-status', [ChildController::class, 'updateStatus'])->name('children.updateStatus');
-    
-    Route::get('children/{id}/edit-status/{type?}', [ChildController::class, 'editStatus'])
-    ->name('children.editStatus');
-
-    
+    Route::get('children/{id}/edit-status/{type?}', [ChildController::class, 'editStatus'])->name('children.editStatus');
 
     Route::put('children/{id}/update-makan', [ChildController::class, 'updateMakan'])->name('children.updateMakan');
 
-    
     Route::get('/searchanak', [ChildController::class, 'search'])->name('children.search');
-    
     Route::get('/searchuser', [AuthController::class, 'search'])->name('users.search');
     
     Route::get('dashboardanak/history/{id}', [ChildController::class, 'showHistory'])->name('children.history');
-    
     Route::get('dashboardanak/info/{id}', [ChildController::class, 'showInfo'])->name('children.info');
     
     Route::post('children/{id}/download-excel', [ChildController::class, 'downloadExcel'])->name('children.downloadExcel');
-    Route::middleware('auth')->put('/children/{id}', [ChildController::class, 'update'])->name('children.update');
-
+    Route::put('/children/{id}', [ChildController::class, 'update'])->name('children.update');
 });
-
-
 
 Route::get('/success', function () {
     return view('success.success');

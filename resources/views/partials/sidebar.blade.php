@@ -1,4 +1,3 @@
-
 <!-- Sidebar -->
 <div id="sidebar" class="w-full md:w-64 bg-white h-screen fixed md:sticky top-0 z-20 -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out shadow-lg no-scrollbar flex flex-col">
     
@@ -8,7 +7,11 @@
             <i class="fas fa-child"></i>
         </div>
         <h2 class="text-xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 text-transparent bg-clip-text">
-            Dashboard Anak
+            @if (Request::route()->getName() == 'dashboardadmin')
+                Dashboard User
+            @else
+                Dashboard Anak
+            @endif
         </h2>
     </div>
 
@@ -16,7 +19,7 @@
     <div class="sidebar-content px-4 py-2 flex-grow overflow-y-auto space-y-1">
         
         <!-- Dashboard Anak -->
-        <a href="/dashboardanak" class="w-full p-2.5 text-left font-medium ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
+        <a href="{{ route('dashboardanak') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'dashboardanak' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
             <i class="fas fa-tachometer-alt mr-3 text-purple-600"></i>
             Dashboard Anak
         </a>
@@ -25,17 +28,10 @@
         <div class="text-gray-400 uppercase text-xs font-bold mt-3 mb-2 px-2">Menu</div>
               
         <!-- Dashboard User -->
-        <a href="/dashboardadmin" class="w-full p-2.5 text-left font-medium ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
+        <a href="{{ route('dashboardadmin') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'dashboardadmin' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
             <i class="fas fa-chart-pie mr-3 text-purple-500"></i>
             Dashboard User
         </a>
-
-        <!-- Dashboard Anak -->
-        <a href="/dashboardanak" class="w-full p-2.5 text-left font-medium ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
-            <i class="fas fa-calendar-alt mr-3 text-purple-500"></i>
-            Dashboard Anak
-        </a>
-
     </div>
 
     <!-- Tombol Logout -->
