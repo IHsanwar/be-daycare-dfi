@@ -116,44 +116,38 @@
     console.log("Form dikirim!"); // Debugging
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    function setupLainnyaCheckboxes() {
+        document.querySelectorAll(".lainnya-container").forEach(container => {
+            const checkbox = container.querySelector(".lainnyaCheckbox");
+            const label = container.querySelector(".lainnyaLabel");
+            const input = container.querySelector(".lainnyaInput");
 
-document.addEventListener('DOMContentLoaded', function() {
-  // Function to handle all "lainnya" checkboxes
-  function setupLainnyaCheckboxes() {
-    document.querySelectorAll(".lainnya-container").forEach(container => {
-      const checkbox = container.querySelector(".lainnyaCheckbox");
-      const label = container.querySelector(".lainnyaLabel");
-      const input = container.querySelector(".lainnyaInput");
-      
-      // Initially hide the input
-      if (!checkbox.checked) {
-        input.classList.add("hidden");
-      } else {
-        label.classList.add("hidden");
-      }
+            // Sembunyikan input jika checkbox tidak dicentang
+            input.classList.toggle("hidden", !checkbox.checked);
+            label.classList.toggle("hidden", checkbox.checked);
 
-      // Add event listener for the checkbox
-      checkbox.addEventListener("change", function() {
-        if (this.checked) {
-          label.classList.add("hidden");
-          input.classList.remove("hidden");
-          input.focus();
-        } else {
-          input.classList.add("hidden");
-          label.classList.remove("hidden");
-          input.value = ""; // Clear input
-        }
-      });
+            checkbox.addEventListener("change", function () {
+                input.classList.toggle("hidden", !this.checked);
+                label.classList.toggle("hidden", this.checked);
+                if (this.checked) {
+                    input.focus();
+                } else {
+                    input.value = ""; // Hanya reset input jika checkbox dinonaktifkan
+                }
+            });
 
-      // Add event for input value change to update name attribute
-      input.addEventListener("input", function() {
-        if (this.value) {
-          // Set the value for the checkbox to the input text
-          checkbox.value = this.value;
-        }
-      });
-    });
-  }
+            input.addEventListener("input", function () {
+                if (this.value.trim()) {
+                    checkbox.value = this.value.trim(); // Pastikan tidak kosong
+                }
+            });
+        });
+    }
+
+    setupLainnyaCheckboxes();
+});
+
 
   // Initial setup
   setupLainnyaCheckboxes();

@@ -147,74 +147,58 @@ class ChildController extends Controller
 
         return redirect()->to('/success')->with('success', 'Status anak berhasil diperbarui dan riwayat terbaru disimpan.');
     }
-    
+
+
     public function editStatus($id, $type = null)
-    {
-    
-        $child = Child::findOrFail($id);
-        $today = Carbon::now()->format('Y-m-d');
-    
-        $todayHistory = $child->histories()
-            ->whereDate('tanggal', $today)
-            ->latest()
-            ->first();
-    
-        if ($todayHistory) {
-            $child->fill($todayHistory->toArray());
-            $child->kegiatan_outdoor = json_decode($todayHistory->kegiatan_outdoor, true) ?? [];
-            $child->kegiatan_indoor = json_decode($todayHistory->kegiatan_indoor, true) ?? [];
-        } else {
-            $fieldsToReset = [
-                'makan_pagi', 'makan_siang', 'makan_sore', 'nama_pendamping',
-                'susu_pagi', 'susu_siang', 'susu_sore',
-                'air_putih_pagi', 'air_putih_siang', 'air_putih_sore',
-                'bak_pagi', 'bak_siang', 'bak_sore',
-                'bab_pagi', 'bab_siang', 'bab_sore',
-                'tidur_pagi', 'tidur_siang', 'tidur_sore',
-                'kegiatan_outdoor', 'kegiatan_indoor', 'keterangan',
-                'obat_pagi', 'obat_siang', 'obat_sore'
-            ];
-    
-            foreach ($fieldsToReset as $field) {
-                $child->$field = null;
-            }
-    
-            $child->makan_pagi_custom = null;
-            $child->makan_siang_custom = null;
-            $child->makan_sore_custom = null;
-    
-            $child->kegiatan_outdoor = [];
-            $child->kegiatan_indoor = [];
-    
-            $child->makanan_camilan_pagi = null;
-            $child->makanan_camilan_siang = null;
-            $child->makanan_camilan_sore = null;
-            $child->kondisi = null;
-        }
-    
-        $child->tanggal = $today;
-    
-        // **Determine which view to load based on the route type**
-        if (trim($type) === 'makan-cemilan') { 
-            return view('updatestatus.updatestatusmakan', compact('child'));
-        }       
-        elseif (trim($type) === 'buang-air') { 
-            return view('updatestatus.updatestatusbuangair', compact('child'));
-        }
-        elseif (trim($type) === 'kegiatan') { 
-            return view('updatestatus.updatestatuskegiatan', compact('child'));
-        }
-        elseif (trim($type) === 'keterangan') { 
-            return view('updatestatus.updatestatusketerangan', compact('child'));
-        }
-        elseif (trim($type) === 'kesehatan') { 
-            return view('updatestatus.updatestatuskesehatan', compact('child'));
-        }
-        else {
-            return view('editstatus', compact('child'));
-        }
+{
+    $child = Child::findOrFail($id);
+    $today = Carbon::now()->format('Y-m-d');
+
+    // Ambil histori terbaru (prioritaskan hari ini, jika tidak ada ambil yang terakhir)
+    $latestHistory = $child->histories()
+        ->whereDate('tanggal', '<=', $today)
+        ->latest()
+        ->first();
+
+    // Jika ada histori terbaru, gunakan datanya
+    if ($latestHistory) {
+        $child->fill($latestHistory->toArray());
+        $child->kegiatan_outdoor = json_decode($latestHistory->kegiatan_outdoor, true) ?? [];
+        $child->kegiatan_indoor = json_decode($latestHistory->kegiatan_indoor, true) ?? [];
     }
-    
+
+    // Hanya update field yang dikirim dalam request
+    $updateFields = request()->only([
+        'makan_pagi', 'makan_siang', 'makan_sore', 'nama_pendamping',
+        'susu_pagi', 'susu_siang', 'susu_sore',
+        'air_putih_pagi', 'air_putih_siang', 'air_putih_sore',
+        'bak_pagi', 'bak_siang', 'bak_sore',
+        'bab_pagi', 'bab_siang', 'bab_sore',
+        'tidur_pagi', 'tidur_siang', 'tidur_sore',
+        'kegiatan_outdoor', 'kegiatan_indoor', 'keterangan',
+        'obat_pagi', 'obat_siang', 'obat_sore',
+        'makan_pagi_custom', 'makan_siang_custom', 'makan_sore_custom',
+        'makanan_camilan_pagi', 'makanan_camilan_siang', 'makanan_camilan_sore',
+        'kondisi'
+    ]);
+
+    // Update hanya field yang dikirim
+    $child->fill($updateFields);
+
+    // Simpan perubahan ke database
+    $child->save();
+
+    // Pilih tampilan berdasarkan tipe
+    return match (trim($type)) {
+        'makan-cemilan' => view('updatestatus.updatestatusmakan', compact('child')),
+        'buang-air' => view('updatestatus.updatestatusbuangair', compact('child')),
+        'kegiatan' => view('updatestatus.updatestatuskegiatan', compact('child')),
+        'keterangan' => view('updatestatus.updatestatusketerangan', compact('child')),
+        'kesehatan' => view('updatestatus.updatestatuskesehatan', compact('child')),
+        default => view('editstatus', compact('child')),
+    };
+}
+
     
     public function search(Request $request)
     {
@@ -243,32 +227,22 @@ class ChildController extends Controller
     public function showInfo($id)
 {
     try {
-        // Fetch child details with eager loading to optimize query
-        $child = Child::with([
-            'histories' => function($query) {
-                $query->orderBy('tanggal', 'desc')
-                      ->limit(7); // Limit to last 7 records
-            }
-        ])->findOrFail($id);
+        $child = Child::findOrFail($id);
 
-        // Additional data gathering if needed
-        $totalHistoryCount = $child->histories()->count();
         $latestMedicalRecord = $child->histories()->latest('tanggal')->first();
 
-        return view('child_info', [
-            'child' => $child,
-            'histories' => $child->histories,
-            'totalHistoryCount' => $totalHistoryCount,
-            'latestMedicalRecord' => $latestMedicalRecord
-        ]);
-    } catch (\Exception $e) {
-        // Log the error
-        Log::error('Child Info Fetch Error: ' . $e->getMessage());
+        // Debugging output to log file
+        Log::info('Child Info:', ['child' => $child]);
+        Log::info('Latest Medical Record:', ['record' => $latestMedicalRecord]);
 
-        // Redirect with error message
+        return view('child_info', compact('child', 'latestMedicalRecord'));
+    } catch (\Exception $e) {
+        Log::error('Child Info Fetch Error: ' . $e->getMessage());
         return redirect()->back()->with('error', 'Unable to fetch child information.');
     }
 }
+
+    
 
     public function downloadExcel(Request $request, $id)
     {
