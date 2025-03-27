@@ -3,35 +3,56 @@
 @section('title', 'Dashboard Anak')
 
 @section('content')
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-5 gap-3">
-        <div>
-            <h2 class="text-xl font-semibold">Selamat Datang, {{ Auth::user()->name }}</h2>
-            <p class="text-gray-600">Kelola data anak-anak di daycare Anda di sini.</p>
+<div class="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto space-y-6">
+       <div class="bg-white rounded-xl shadow-soft p-6">
+        <div class="flex items-center justify-between">
+            <div>
+             <h2 class="text-2xl font-semibold text-gray-800 mb-2">Selamat Datang, {{ Auth::user()->name }}</h2>
+             <p class="text-gray-500 text-sm">Kelola data anak-anak di daycare Anda di sini.</p>
+             </div>
+             <div class="hidden sm:block">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-purple-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                    </svg>
+                </div>            
+            </div>
         </div>
-        <input type="text" 
-               placeholder="Cari nama anak..." 
-               class="p-2 border border-gray-300 rounded w-full md:w-64 border-purple-300 text-purple-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-               value="{{ request('search') }}">
-    </div>
-    
-    <!-- Table view (hidden on mobile, visible on md screens and up) -->
-    <div class="hidden md:block overflow-x-auto bg-white rounded-lg shadow">
-        <table class="w-full border-collapse">
+       {{-- Search and Add User Section --}}
+       <div class="flex flex-col sm:flex-row gap-4 justify-between">
+         <div class="relative">
+                <input 
+                    type="text" 
+                    name="search" 
+                    placeholder="Cari nama anak..." 
+                    class="w-full pl-10 pr-4 py-3 rounded-xl border-none bg-white shadow-soft focus:ring-2 focus:ring-purple-300 text-gray-700"
+                    value="{{ request('search') }}"
+                >
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+            </div>
+       </div>
+     <!-- Table view (hidden on mobile, visible on md screens and up) -->
+     <div class="bg-white rounded-xl shadow-soft overflow-hidden">
+        <table class="w-full">
             <thead>
-                <tr class="bg-gray-100">
-                    <th class="p-3 text-left">Nama Anak</th>
-                    <th class="p-3 text-left">Nama Orang tua</th>
-                    <th class="p-3 text-left">Tanggal</th>
-                    <th class="p-3 text-left">Status</th>
-                    <th class="p-3 text-left">Actions</th>
+                <tr class="bg-gray-50">
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Anak</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Orang tua</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th class=" px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="divide-y divide-gray-100">
             @foreach ($children as $child)
-            <tr class="border-b border-gray-100">
-                <td class="p-3">{{ $child->nama }}</td>
-                <td class="p-3">{{ $child->user->name ?? '-' }}</td>
-                <td class="p-3">{{ \Carbon\Carbon::parse($child->tanggal)->format('d-m-Y') }}</td>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $child->nama }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $child->user->name ?? '-' }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ \Carbon\Carbon::parse($child->tanggal)->format('d-m-Y') }}</td>
                 <td class="p-3">
                     @php
                         $today = \Carbon\Carbon::now()->format('Y-m-d');
@@ -53,29 +74,28 @@
                             && collect($jsonFields)->every(fn($field) => !empty(json_decode($childHistory->$field, true)));
                     @endphp
 
-                    <span class="px-2 py-1 rounded text-xs {{ $isComplete ? 'bg-green-500 text-white' : 'bg-red-500 text-white' }}">
-                        {{ $isComplete ? 'Lengkap' : 'Belum Lengkap' }}
-                        
+                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $isComplete ? 'bg-red-300 text-red-600' : 'bg-red-300 text-red-600' }}">
+                        {{ $isComplete ? 'Lengkap' : 'Belum Lengkap' }}                       
                     </span>
 
                 </td>
                     </td>
 
                     <td class="p-3 flex gap-2">
-                    <a href="{{ route('children.editStatus', ['id' => $child->id, 'type' => 'null']) }}"  class="px-3 py-1.5 bg-purple-600 text-white text-xs rounded hover:bg-purple-700">
+                    <a href="{{ route('children.editStatus', ['id' => $child->id, 'type' => 'null']) }}"  class="text-sm px-4 py-2 bg-purple-50 text-purple-600 rounded-lg hover:bg-purple-100 transition-colors">
                     <i class="fas fa-edit"></i> Update
     </a>
-                <button type="button" class="px-3 py-1.5 bg-purple-500 text-white text-xs rounded hover:bg-purple-600 info-button" 
+                <button type="button" class="text-sm px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors" 
                 onclick="openInfoModal({{ $child->id }})" 
                 data-id="{{ $child->id }}" data-nama="{{ $child->nama }}">
                 <i class="fas fa-info-circle"></i> Info
             </button>
 
-    <button type="button" class="px-3 py-1.5 bg-purple-400 text-white text-xs rounded hover:bg-purple-500" 
+    <button type="button" class="text-sm px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors" 
             onclick="window.openEditModal({{ $child->id }}, '{{ $child->nama }}', {{ $child->user_id ?? 'null' }})">
         <i class="fas fa-sync"></i> Edit
     </button>
-    <button type="button" class="px-3 py-1.5 bg-red-500 text-white text-xs rounded hover:bg-red-600" 
+    <button type="button" class="text-sm px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors" 
             onclick="window.openDeleteModal({{ $child->id }}, '{{ $child->nama }}')">
         <i class="fas fa-trash"></i> Hapus
     </button>

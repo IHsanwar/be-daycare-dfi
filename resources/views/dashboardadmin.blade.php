@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-Copy    {{-- Search and Add User Section --}}
+    {{-- Search and Add User Section --}}
     <div class="flex flex-col sm:flex-row gap-4 justify-between">
             <div class="relative">
                 <input 

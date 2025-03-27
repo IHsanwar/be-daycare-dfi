@@ -3,140 +3,110 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Registration</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        html, body {
-            height: 100%;
-            overflow: hidden;
-        }
-        body {
-            background-color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .container {
-            max-height: 100%;
-            overflow-y: auto;
-        }
-        .card {
-            border-radius: 1rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-        }
-        .card-header {
-            background-color: #007bff;
-            color: white;
-            border-radius: 1rem 1rem 0 0;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-        @media (max-height: 600px) {
-            .card-body {
-                padding: 1rem !important;
-            }
-            .mb-4 {
-                margin-bottom: 0.5rem !important;
-            }
-        }
-    </style>
+    <title>Register Daycare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6">
-                <div class="card">
-                    <div class="card-header text-center py-4">
-                        <h2 class="mb-0">Register</h2>
+<body class="h-screen flex items-center justify-center bg-gray-100">
+    <div class="flex w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Brand Side -->
+        <div class="hidden lg:flex w-1/2 bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/3661351/pexels-photo-3661351.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');">
+            <div class="flex items-center justify-center h-full bg-black bg-opacity-50">
+                <h1 class="text-white text-3xl font-bold text-center p-6 rounded-lg bg-white bg-opacity-20 backdrop-blur-lg">Selamat Datang di Website Daycare!</h1>
+            </div>
+        </div>
+        
+        <!-- Register Side -->
+        <div class="w-full lg:w-1/2 flex flex-col p-8">
+            <div class="flex flex-col items-center mb-6">
+                <img src="{{ asset('images/daycare.png') }}" alt="" class="h-24 w-24 mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">Buat Akun Baru</h2>
+                <p class="text-gray-500">Isi form di bawah untuk mendaftar</p>
+            </div>
+            
+            <!-- Error Message -->
+            @if ($errors->any())
+                <div class="mb-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-lg">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            
+            <form method="POST" action="{{ route('register.post') }}" class="space-y-3">
+                @csrf
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                    <input type="text" id="name" name="name" value="{{ old('name') }}" required
+                           class="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm @error('name') border-red-500 @enderror">
+                    @error('name')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="email" name="email" value="{{ old('email') }}" required
+                           class="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm @error('email') border-red-500 @enderror">
+                    @error('email')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                
+                <div>
+                    <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
+                    <select id="role" name="role" required
+                            class="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm @error('role') border-red-500 @enderror">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    @error('role')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <div class="relative">
+                        <input type="password" id="password" name="password" required
+                               class="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm @error('password') border-red-500 @enderror">
+                        <button type="button" id="togglePassword" class="absolute inset-y-0 right-4 flex items-center text-gray-600">
+                            <i class="fas fa-eye" id="toggleIcon"></i>
+                        </button>
                     </div>
-                    <div class="card-body p-4">
-                        @if(session('error'))
-                            <div class="alert alert-danger" role="alert">
-                                {{ session('error') }}
-                            </div>
-                        @endif
-
-                        <form method="POST" action="{{ route('register.post') }}" id="registrationForm">
-                            @csrf
-                            <div class="mb-4">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
-                                @error('name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-4">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required>
-                                @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-4">
-                                <label for="role" class="form-label">Role</label>
-                                <select class="form-select @error('role') is-invalid @enderror" id="role" name="role" required>
-                                    <option value="user">User</option>
-                                    <option value="admin">Admin</option>
-                                </select>
-                                @error('role')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-4">
-                                <label for="password" class="form-label">Password</label>
-                                <div class="input-group">
-                                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
-                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                        <i class="fas fa-eye" id="toggleIcon"></i>
-                                    </button>
-                                </div>
-                                @error('password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-4">
-                                <label for="password_confirmation" class="form-label">Confirm Password</label>
-                                <div class="input-group">
-                                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
-                                    <button class="btn btn-outline-secondary" type="button" id="togglePasswordConfirmation">
-                                        <i class="fas fa-eye" id="toggleIconConfirmation"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary btn-lg">Register</button>
-                                <a href="{{ route('dashboardadmin') }}" class="btn btn-secondary btn-lg">Cancel</a>
-                            </div>
-                        </form>
+                    @error('password')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                
+                <div>
+                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                    <div class="relative">
+                        <input type="password" id="password_confirmation" name="password_confirmation" required
+                               class="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                        <button type="button" id="togglePasswordConfirmation" class="absolute inset-y-0 right-4 flex items-center text-gray-600">
+                            <i class="fas fa-eye" id="toggleIconConfirmation"></i>
+                        </button>
                     </div>
                 </div>
-            </div>
+                
+                <button type="submit" class="w-full px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-700 text-white rounded-lg hover:from-purple-600 hover:to-purple-800 transition duration-300">Register</button>
+                
+                <p class="text-center text-sm text-gray-500">Sudah punya akun? <a href="{{ route('login') }}" class="text-indigo-600 hover:underline">Login</a></p>
+            </form>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function togglePasswordVisibility(inputId, iconId) {
-            const input = document.getElementById(inputId);
-            const icon = document.getElementById(iconId);
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
-            }
-        }
-
-        document.getElementById('togglePassword').addEventListener('click', () => togglePasswordVisibility('password', 'toggleIcon'));
-        document.getElementById('togglePasswordConfirmation').addEventListener('click', () => togglePasswordVisibility('password_confirmation', 'toggleIconConfirmation'));
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            toggleIcon.classList.toggle('fa-eye');
+            toggleIcon.classList.toggle('fa-eye-slash');
+        });
     </script>
 </body>
 </html>
