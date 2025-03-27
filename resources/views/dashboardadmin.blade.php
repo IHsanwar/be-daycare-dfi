@@ -1,65 +1,84 @@
-@extends('layouts.app') {{-- Sesuaikan dengan layout utama jika ada --}}
-
-@section('title', 'Dashboard Admin') {{-- ✅ Tambahin Judul Halaman --}}
-
+@extends('layouts.app')
+@section('title', 'Dashboard Admin')
 @section('content')
-<div class="flex">
-
-    <div class="flex-1 container mx-auto p-6">
-        {{-- Header Selamat Datang --}}
-        <div class="mb-5">
-            <h2 class="text-2xl font-semibold text-gray-800">Selamat Datang, {{ Auth::user()->name }}</h2>
-            <p class="text-gray-600 mb-4">Kelola pengguna dan anak-anak di daycare Anda di sini.</p>
+<div class="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto space-y-6">
+        {{-- Welcome Header --}}
+        <div class="bg-white rounded-xl shadow-soft p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-2">
+                        Selamat Datang, {{ Auth::user()->name }}
+                    </h2>
+                    <p class="text-gray-500 text-sm">
+                        Kelola pengguna dan anak-anak di daycare Anda dengan mudah.
+                    </p>
+                </div>
+                <div class="hidden sm:block">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-purple-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                    </svg>
+                </div>
+            </div>
         </div>
-
-        {{-- Input Pencarian dan Tombol Tambah User --}}
-        <div class="flex justify-between items-center mb-4">
-            <form method="GET" action="{{ route('users.index') }}" class="flex">
-                <input type="text" name="search" 
+Copy    {{-- Search and Add User Section --}}
+    <div class="flex flex-col sm:flex-row gap-4 justify-between">
+            <div class="relative">
+                <input 
+                    type="text" 
+                    name="search" 
                     placeholder="Cari nama anak..." 
-                    class="p-2 border border-gray-300 rounded w-full md:w-64 text-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                    value="{{ request('search') }}">
-                <button type="submit" class="ml-2 bg-purple-500 text-white px-4 py-2 rounded-lg">Cari</button>
-            </form>
+                    class="w-full pl-10 pr-4 py-3 rounded-xl border-none bg-white shadow-soft focus:ring-2 focus:ring-purple-300 text-gray-700"
+                    value="{{ request('search') }}"
+                >
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+            </div>
 
-            <a href="{{ route('register') }}" 
-                class="bg-purple-500 text-white px-4 py-2 rounded-lg flex items-center transition-all hover:bg-purple-600 shadow-md">
-                <i class="fas fa-user-plus mr-2"></i> Tambah User
-            </a>
-        </div>
+        <a href="{{ route('register') }}" 
+           class="inline-flex items-center justify-center px-6 py-3 bg-purple-500 text-white rounded-xl shadow-soft hover:bg-purple-600 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Tambah User
+        </a>
+    </div>
 
-        {{-- Tabel Data Pengguna --}}
-        <div class="bg-white shadow-md rounded-lg overflow-hidden">
-            <table class="w-full border-collapse">
-                <thead class="bg-gray-200 text-gray-700">
+    {{-- User List --}}
+    <div class="bg-white rounded-xl shadow-soft overflow-hidden">
+        <div class="hidden md:block">
+            <table class="w-full">
+                <thead class="bg-gray-50">
                     <tr>
-                        <th class="p-3 text-left">Username</th>
-                        <th class="p-3 text-left">Email</th>
-                        <th class="p-3 text-left">Role</th>
-                        <th class="p-3 text-left">Actions</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach($users as $user) {{-- Looping data dari controller --}}
-                    <tr class="border-t">
-                        <td class="p-3">{{ $user->name }}</td>
-                        <td class="p-3">{{ $user->email }}</td>
-                        <td class="p-3">
-                            <span class="px-2 py-1 text-white text-sm rounded-lg 
-                                        {{ $user->role == 'admin' ? 'bg-pink-500' : 'bg-blue-500' }}">
+                <tbody class="divide-y divide-gray-100">
+                    @foreach($users as $user)
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $user->name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->email }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                {{ $user->role == 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' }}">
                                 {{ ucfirst($user->role) }}
                             </span>
                         </td>
-                        <td class="p-3 flex gap-2">
-                            {{-- Tombol Edit (Pakai modal) --}}
-                            <button onclick="openEditModal({{ $user->id }}, '{{ $user->name }}', '{{ $user->email }}', '{{ $user->role }}')" 
-                            class="px-3 py-1 bg-blue-500 text-white rounded">
-                              Edit
+                        <td class="px-6 py-4 whitespace-nowrap flex space-x-2">
+                            <button 
+                                onclick="openEditModal({{ $user->id }}, '{{ $user->name }}', '{{ $user->role }}')"
+                                class="text-sm px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors">
+                                Edit
                             </button>
-
-                            {{-- Tombol Hapus (Pakai modal) --}}
-                            <button onclick="openDeleteModal({{ $user->id }})" 
-                                    class="px-3 py-1 bg-red-500 text-white rounded">
+                            <button 
+                                onclick="openDeleteModal({{ $user->id }})"
+                                class="text-sm px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors">
                                 Hapus
                             </button>
                         </td>
@@ -68,82 +87,105 @@
                 </tbody>
             </table>
         </div>
+
+        {{-- Mobile Card View --}}
+        <div class="md:hidden space-y-4 p-4">
+            @foreach($users as $user)
+            <div class="bg-white border border-gray-100 rounded-xl p-4 shadow-soft">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-lg font-semibold text-gray-800">{{ $user->name }}</h3>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full 
+                        {{ $user->role == 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' }}">
+                        {{ ucfirst($user->role) }}
+                    </span>
+                </div>
+                <p class="text-gray-500 mb-4">{{ $user->email }}</p>
+                <div class="flex space-x-3">
+                    <button 
+                        onclick="openEditModal({{ $user->id }}, '{{ $user->name }}', '{{ $user->role }}')"
+                        class="flex-1 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors">
+                        Edit
+                    </button>
+                    <button 
+                        onclick="openDeleteModal({{ $user->id }})"
+                        class="flex-1 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors">
+                        Hapus
+                    </button>
+                </div>
+            </div>
+            @endforeach
+        </div>
     </div>
 </div>
 
-{{-- Modal Edit --}}
-<div id="editModal" class="fixed inset-0 hidden bg-black bg-opacity-50 items-center justify-center z-50 p-4">
-    <div class="bg-white p-5 w-11/12 max-w-lg shadow-lg rounded-lg text-left relative">
-        <button class="absolute top-2 right-3 text-xl cursor-pointer bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center" 
-                onclick="closeEditModal()">×</button>
-        <h2 class="text-lg font-bold mb-3">Edit Data Pengguna</h2>
-        <form id="editForm" method="POST">
+{{-- Edit Modal --}}
+<div id="editModal" class="fixed inset-0 bg-black bg-opacity-25 hidden items-center justify-center z-50 p-4">
+    <div class="bg-white w-full max-w-md mx-auto rounded-2xl shadow-2xl p-6 relative">
+        <button 
+            onclick="closeEditModal()" 
+            class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <h2 class="text-xl font-semibold text-gray-800 mb-6">Edit Pengguna</h2>
+
+        <form id="editForm" method="POST" action="">
             @csrf
             @method('PUT')
 
-            <input type="hidden" id="editUserId">
+            <input type="hidden" id="editUserId" name="id">
             
-            <label for="username" class="block mb-2">Username:</label>
-            <input type="text" id="editUsername" name="username" class="w-full p-2 border rounded mb-3">
-        
-            <label for="email" class="block mb-2">Email:</label>
-            <input type="email" id="editEmail" name="email" class="w-full p-2 border rounded mb-3">
-        
-            <label for="role" class="block mb-2">Role:</label>
-            <select id="editRole" name="role" class="w-full p-2 border rounded mb-3">
-                <option value="admin">Admin</option>
-                <option value="user">User</option>
-            </select>
-        
-            <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded">
-                Simpan
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nama</label>
+                <input 
+                    type="text" 
+                    id="editUsername" 
+                    name="name" 
+                    class="w-full px-4 py-3 border-none bg-gray-100 rounded-xl focus:ring-2 focus:ring-purple-300"
+                >
+            </div>
+
+            <div class="mb-6">
+                <label for="role" class="block text-sm font-medium text-gray-700 mb-2">Role</label>
+                <select 
+                    id="editRole" 
+                    name="role" 
+                    class="w-full px-4 py-3 border-none bg-gray-100 rounded-xl focus:ring-2 focus:ring-purple-300"
+                >
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                </select>
+            </div>
+
+            <button 
+                type="submit" 
+                class="w-full py-3 bg-purple-500 text-white rounded-xl hover:bg-purple-600 transition-colors"
+            >
+                Simpan Perubahan
             </button>
         </form>
     </div>
 </div>
-
-{{-- Modal Konfirmasi Hapus --}}
-<div id="deleteModal" class="fixed inset-0 hidden bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-    <div class="bg-white p-5 w-11/12 max-w-lg shadow-lg rounded-lg text-left relative">
-        <button class="absolute top-2 right-3 text-xl cursor-pointer bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center" 
-                onclick="closeDeleteModal()">×</button>
-        <h2 class="text-lg font-bold mb-3">Konfirmasi Penghapusan</h2>
-        <p class="text-gray-800 mb-4">Apakah Anda yakin ingin menghapus data ini?</p>
-        <form id="deleteForm" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Hapus</button>
-        </form>
-    </div>
 </div>
-
 <script>
-    function openEditModal(id, username, email, role) {
-        document.getElementById('editUserId').value = id;
-        document.getElementById('editUsername').value = username;
-        document.getElementById('editEmail').value = email;
-        document.getElementById('editRole').value = role;
-        
-        // Tampilkan modal
-        document.getElementById('editModal').classList.remove('hidden');
-        document.getElementById('editModal').classList.add('flex');
-    }
+// Same JavaScript logic as before, with slight UI improvements
+function openEditModal(id, name, role) {
+    document.getElementById('editForm').action = `/users/${id}`;
+    document.getElementById('editUserId').value = id;
+    document.getElementById('editUsername').value = name;
+    document.getElementById('editRole').value = role;
+    
+    const modal = document.getElementById('editModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
 
-    function closeEditModal() {
-        // Sembunyikan modal
-        document.getElementById('editModal').classList.add('hidden');
-        document.getElementById('editModal').classList.remove('flex');
-    }
-
-    function openDeleteModal(id) {
-        document.getElementById("deleteModal").classList.remove("hidden");
-        document.getElementById("deleteModal").classList.add("flex");
-
-        document.getElementById("deleteForm").action = "/users/" + id;
-    }
-
-    function closeDeleteModal() {
-        document.getElementById("deleteModal").classList.add("hidden");
-    }
+function closeEditModal() {
+    const modal = document.getElementById('editModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
 </script>
 @endsection

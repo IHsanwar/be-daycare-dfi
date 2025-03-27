@@ -10,7 +10,7 @@ use App\Models\User;
 use Hash;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-  
+use Illuminate\Validation\Rule;
 class AuthController extends Controller
 {
     /**
@@ -163,10 +163,35 @@ class AuthController extends Controller
      * @param  int  $id
      * @return RedirectResponse
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+{
+    // Validate the incoming request
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'role' => 'required|in:admin,user'
+    ]);
+
+    try {
+        // Find the user by ID
         $user = User::findOrFail($id);
-        $user->update($request->all());
+
+        // Update the user
+        $user->update([
+            'name' => $validatedData['name'],
+            'role' => $validatedData['role']
+        ]);
+
+        // Redirect back with success message
+        return redirect()->view('success.success')->with('success', 'User updated successfully');
+    } catch (\Exception $e) {
+        // Log the error
+        \Log::error('User update error: ' . $e->getMessage());
+
+        // Redirect back with error message
+        return redirect()->back()->with('error', 'Failed to update user');
     }
+}
+
 
     /**
      * Remove the specified user from storage.

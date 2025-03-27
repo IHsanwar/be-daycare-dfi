@@ -21,6 +21,7 @@ Route::get('/', function () {
 Route::get('login', [AuthController::class, 'index'])->name('login');
 Route::post('post-login', [AuthController::class, 'postLogin'])->name('login.post'); 
 Route::get('registration', [AuthController::class, 'registration'])->name('register');
+
 Route::post('post-registration', [AuthController::class, 'postRegistration'])->name('register.post'); 
 
 Route::middleware('auth')->group(function () {
@@ -34,9 +35,9 @@ Route::middleware('auth')->group(function () {
     
     Route::get('users/{id}', [AuthController::class, 'show'])->name('users.show');
     Route::get('users/{id}/edit', [AuthController::class, 'edit'])->name('users.edit');
-    Route::put('users/{id}', [AuthController::class, 'update'])->name('users.update');
     Route::delete('users/{id}', [AuthController::class, 'destroy'])->name('users.destroy');
-    
+        
+    Route::put('users/{id}', [AuthController::class, 'update'])->name('users.update');
     Route::post('children', [ChildController::class, 'store'])->name('children.store');
     Route::delete('children/{id}', [ChildController::class, 'destroy'])->name('children.destroy');
     

@@ -277,42 +277,29 @@
 
         <script>
             
-document.addEventListener("DOMContentLoaded", function () {
-    // First, make these functions globally available
-    window.openModal = function(id, nama) {
-        document.getElementById("infoModal").classList.remove("hidden");
-        document.getElementById("infoModal").classList.add("flex");
-        document.getElementById("childNameInfo").textContent = nama;
-        
-        // Get child info via AJAX
-        fetchChildInfo(id);
-    };
+            function openEditModal(userId, username, role) {
+    // Get modal and form elements
+    const modal = document.getElementById('editModal');
+    const editForm = document.getElementById('editForm');
+    const editUserId = document.getElementById('editUserId');
+    const editUsername = document.getElementById('editUsername');
+    const editRole = document.getElementById('editRole');
 
-    window.closeModal = function() {
-        document.getElementById("infoModal").classList.add("hidden");
-        document.getElementById("infoModal").classList.remove("flex");
-    };
+    // Populate form fields
+    editUserId.value = userId;
+    editUsername.value = username;
+    editRole.value = role;
 
-    window.openEditModal = function(id, nama, user_id) {
-        document.getElementById("editModal").classList.remove("hidden");
-        document.getElementById("editModal").classList.add("flex");
-        
-        document.getElementById("edit_nama").value = nama;
-        
-        // Handle null user_id
-        if (user_id !== null && user_id !== 'null') {
-            document.getElementById("edit_user_id").value = user_id;
-        } else {
-            document.getElementById("edit_user_id").value = "";
-        }
-        
-        document.getElementById("editForm").action = `/children/${id}`;
-    };
+    // Show the modal
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
 
-    window.closeEditModal = function() {
-        document.getElementById("editModal").classList.add("hidden");
-        document.getElementById("editModal").classList.remove("flex");
-    };
+function closeEditModal() {
+    const modal = document.getElementById('editModal');
+    modal.classList.remove('flex');
+    modal.classList.add('hidden');
+}
 
     window.openDeleteModal = function(id, name) {
         // Use standard confirm dialog if Notiflix is not loaded
