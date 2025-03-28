@@ -18,19 +18,23 @@
     <!-- Konten Menu Sidebar -->
     <div class="sidebar-content px-4 py-2 flex-grow overflow-y-auto space-y-1">
         
-        <!-- Dashboard Anak -->
-        <a href="{{ route('dashboardanak') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'dashboardanak' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
-            <i class="fas fa-tachometer-alt mr-3 text-purple-600"></i>
-            Dashboard Anak
+    <a href="{{ route('dashboard') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'dashboard' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
+            <i class="fas fa-house mr-3 text-purple-600"></i>
+            Dashboard Utama
         </a>
 
         <!-- Judul Menu -->
         <div class="text-gray-400 uppercase text-xs font-bold mt-3 mb-2 px-2">Menu</div>
-              
+        
         <!-- Dashboard User -->
+         <!-- Dashboard Anak -->
+        <a href="{{ route('dashboardanak') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'dashboardanak' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
+            <i class="fas fa-child mr-3 text-purple-600"></i>
+            Dashboard Anak
+        </a>
         <a href="{{ route('dashboardadmin') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'dashboardadmin' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
             <i class="fas fa-chart-pie mr-3 text-purple-500"></i>
-            Dashboard User
+            Dashboard User (Khusus Admin)
         </a>
     </div>
 

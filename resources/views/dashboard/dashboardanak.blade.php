@@ -37,7 +37,7 @@
        </div>
      <!-- Table view (hidden on mobile, visible on md screens and up) -->
      <div class="bg-white rounded-xl shadow-soft overflow-hidden">
-        <table class="w-full">
+        <table class="w-full hidden md:table">
             <thead>
                 <tr class="bg-gray-50">
                     <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Anak</th>
@@ -236,6 +236,7 @@
     <div class="bg-white p-5 w-11/12 max-w-lg shadow-lg rounded-lg text-left relative max-h-[80vh] overflow-y-auto">
         <button class="absolute top-2 right-3 text-xl cursor-pointer bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center" onclick="closeEditModal()">×</button>
         <h2 class="text-lg font-bold mb-3">Edit Data Anak</h2>
+        @if($children->count() > 0)
         <form id="editForm" class="flex flex-col gap-4" method="POST" action="{{ route('children.update', $child->id) }}">
             @csrf
             @method('PUT')
@@ -259,6 +260,9 @@
                 <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Simpan</button>
             </div>
         </form>
+        @else
+    <div class="text-gray-500">No children found weodjajw</div>
+    @endif
     </div>
 </div>
 
@@ -372,40 +376,28 @@ function performDelete(id, token) {
     formData.append('_token', token);
     
     // Make fetch request
-    fetch(`/children/${id}`, {
-        method: 'POST',
-        body: formData,
+    fetch(`/users/${childId}`, {
+        method: "DELETE",
         headers: {
-            'X-CSRF-TOKEN': token
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+            "Accept": "application/json",
+            "Content-Type": "application/json"
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            if (typeof Notiflix !== 'undefined') {
-                Notiflix.Notify.success('Data berhasil dihapus!');
-                setTimeout(() => {
-                    location.reload();
-                }, 1000);
-            } else {
-                alert('Data berhasil dihapus!');
-                location.reload();
-            }
-        } else {
-            if (typeof Notiflix !== 'undefined') {
-                Notiflix.Notify.failure(data.message || 'Gagal menghapus data.');
-            } else {
-                alert(data.message || 'Gagal menghapus data.');
-            }
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Gagal menghapus pengguna.");
         }
+        return response.json();
+    })
+    .then(data => {
+        Notiflix.Notify.success("User berhasil dihapus!");
+        setTimeout(() => {
+            location.reload();
+        }, 1000);
     })
     .catch(error => {
-        if (typeof Notiflix !== 'undefined') {
-            Notiflix.Notify.failure('Terjadi kesalahan!');
-        } else {
-            alert('Terjadi kesalahan!');
-        }
-        console.error('Error:', error);
+        Notiflix.Notify.failure(error.message);
     });
 }
     
@@ -543,8 +535,7 @@ function performDelete(id, token) {
             overlay.classList.toggle("hidden");
         });
     }
-});
-function openIframeModal(id, nama) {
+function openIframeModal(id) {
     // Make sure the modal element exists
     const modal = document.getElementById("infoIframeModal");
     if (!modal) {
@@ -567,7 +558,7 @@ function openIframeModal(id, nama) {
     // Set the iframe source if it exists   
     const iframe = document.getElementById("childInfoIframe");
     if (iframe) {
-        iframe.src = `/children/{id}/edit-status/makan-cemilan`;
+        iframe.src = `/children/{id}/`;
         
         // Hide the loading indicator when the iframe is loaded
         iframe.onload = function() {
@@ -617,41 +608,101 @@ document.addEventListener("DOMContentLoaded", function() {
             openIframeModal(id, nama);
         });
     });
-});function openInfoModal(childId) {
-    fetch(`/dashboardanak/info/${childId}`)
+});
+
+function openInfoModal(childId) {
+    fetch(`dashboardanak/history/${childId}`)
         .then(response => response.text())
         .then(data => {
-            const modal = document.getElementById("infoModal");
-            const modalContent = document.getElementById("modalContent");
+            // Create modal container if it doesn't exist
+            let modalContainer = document.getElementById('modalContainer');
+            if (!modalContainer) {
+                modalContainer = document.createElement('div');
+                modalContainer.id = 'modalContainer';
+                modalContainer.classList.add(
+                    'fixed', 'inset-0', 'z-50', 'overflow-y-auto',
+                    'bg-black', 'bg-opacity-50', 
+                    'flex', 'items-center', 'justify-center',
+                    'w-full', 'h-full', 'min-h-screen', 
+                    'p-4', 'sm:p-0'
+                );
+                document.body.appendChild(modalContainer);
+            }
 
-            // Ensure modal is centered and visible
-            modal.classList.remove("hidden");
-            modal.classList.add("fixed", "inset-0", "z-50", "flex", "items-center", "justify-center", "bg-black", "bg-opacity-50");
-            
-            modalContent.innerHTML = data; // Load dynamic content
-            
-            // Add scale and opacity transition
-            const modalWrapper = modal.querySelector("div");
-            modalWrapper.classList.remove("scale-95", "opacity-0");
-            modalWrapper.classList.add("scale-100", "opacity-100");
+            // Create modal content wrapper
+            const modalWrapper = document.createElement('div');
+            modalWrapper.id = 'modalContent';
+            modalWrapper.classList.add(
+                'relative', 'bg-white', 'rounded-lg', 'shadow-xl',
+                'max-w-4xl', 'w-full', 'max-h-[90vh]', 
+                'overflow-y-auto', 'transform', 'transition-all',
+                'duration-300', 'ease-in-out',
+                'scale-95', 'opacity-0'
+            );
+
+            // Create close button
+            const closeButton = document.createElement('button');
+            closeButton.innerHTML = '&times;';
+            closeButton.classList.add(
+                'absolute', 'top-3', 'right-3', 'z-60',
+                'text-gray-500', 'hover:text-gray-700',
+                'text-3xl', 'font-bold', 'bg-transparent',
+                'border-none', 'cursor-pointer'
+            );
+            closeButton.addEventListener('click', closeInfoModal);
+
+            // Populate modal content
+            modalWrapper.innerHTML = `
+                <div class="p-6 md:p-8">
+                    ${data}
+                </div>
+            `;
+            modalWrapper.insertBefore(closeButton, modalWrapper.firstChild);
+
+            // Clear previous content and add new modal
+            modalContainer.innerHTML = '';
+            modalContainer.appendChild(modalWrapper);
+
+            // Trigger reflow to enable transition
+            modalWrapper.offsetWidth;
+
+            // Show modal with animation
+            modalWrapper.classList.remove('scale-95', 'opacity-0');
+            modalWrapper.classList.add('scale-100', 'opacity-100');
+
+            // Add event listener to close modal when clicking outside
+            modalContainer.addEventListener('click', (e) => {
+                if (e.target === modalContainer) {
+                    closeInfoModal();
+                }
+            });
         })
         .catch(error => console.error("Error fetching modal content:", error));
 }
 
-function closeModal() {
-    const modal = document.getElementById("infoModal");
-    const modalWrapper = modal.querySelector("div");
+function closeInfoModal() {
+    const modalContainer = document.getElementById('modalContainer');
+    const modalContent = document.getElementById('modalContent');
 
-    // Add fade-out effect
-    modalWrapper.classList.remove("scale-100", "opacity-100");
-    modalWrapper.classList.add("scale-95", "opacity-0");
+    if (modalContent) {
+        modalContent.classList.remove('scale-100', 'opacity-100');
+        modalContent.classList.add('scale-95', 'opacity-0');
 
-    // Hide modal after transition
-    setTimeout(() => {
-        modal.classList.add("hidden");
-        modal.classList.remove("fixed", "inset-0", "z-50", "flex", "items-center", "justify-center", "bg-black", "bg-opacity-50");
-    }, 300); // Match this to your CSS transition duration
+        // Remove modal after transition
+        setTimeout(() => {
+            if (modalContainer) {
+                modalContainer.remove();
+            }
+        }, 300);
+    }
 }
+
+// Optional: Add keyboard escape key support
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeInfoModal();
+    }
+});
 // <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.6/dist/notiflix-aio-3.2.6.min.js"></script>
         </script>
         @endsection

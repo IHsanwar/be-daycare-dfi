@@ -2,6 +2,7 @@
 @section('title', 'Dashboard Admin')
 @section('content')
 <div class="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+
     <div class="max-w-7xl mx-auto space-y-6">
         {{-- Welcome Header --}}
         <div class="bg-white rounded-xl shadow-soft p-6">
@@ -73,11 +74,11 @@
                         <td class="px-6 py-4 whitespace-nowrap flex space-x-2">
                             <button 
                                 onclick="openEditModal({{ $user->id }}, '{{ $user->name }}', '{{ $user->role }}')"
-                                class="text-sm px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors">
-                                Edit
+                                class="text-sm px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors">
+                                <i class="fas fa-pen"></i> Edit
                             </button>
                             <button 
-                                onclick="openDeleteModal({{ $user->id }})"
+                                onclick="alertDelete({{ $user->id }})"
                                 class="text-sm px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors">
                                 Hapus
                             </button>
@@ -169,6 +170,95 @@
     </div>
 </div>
 </div>
+
+<!-- Include Notiflx -->
+<script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.6/dist/notiflix-aio-3.2.6.min.js"></script>
+
+<script>
+    function alertDelete(userId) {
+    // Validate user ID
+    if (!userId) {
+        Notiflix.Notify.failure('ID pengguna tidak valid');
+        return;
+    }
+
+    Notiflix.Confirm.show(
+        'Konfirmasi Hapus',
+        'Apakah Anda yakin ingin menghapus user ini?',
+        'Ya, Hapus',
+        'Batal',
+        function okCb() {
+            // Get CSRF token
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            
+            // Disable interaction during delete process
+            Notiflix.Loading.standard('Memproses...');
+
+            fetch(`/users/${userId}/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                // Stop loading
+                Notiflix.Loading.remove();
+
+                // Check for error responses
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw new Error(
+                            errorData.message || 
+                            `Gagal menghapus user. Status: ${response.status}`
+                        );
+                    }).catch(() => {
+                        throw new Error(`Gagal menghapus user. Status: ${response.status}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Success notification
+                Notiflix.Notify.success('User berhasil dihapus', {
+                    position: 'right-bottom',
+                    width: '280px',
+                    fontSize: '16px'
+                });
+
+                // Reload after a short delay
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            })
+            .catch(error => {
+                // Error notification
+                Notiflix.Notify.failure(error.message || 'Terjadi kesalahan saat menghapus user', {
+                    position: 'right-bottom',
+                    width: '280px',
+                    fontSize: '16px'
+                });
+
+                // Log error for debugging
+                console.error('Delete Error:', error);
+            });
+        },
+        function cancelCb() {
+            // Cancel notification
+            Notiflix.Notify.info('Aksi dibatalkan', {
+                position: 'right-bottom',
+                width: '280px',
+                fontSize: '16px'
+            });
+        }
+    );
+}
+
+
+</script>
 <script>
 // Same JavaScript logic as before, with slight UI improvements
 function openEditModal(id, name, role) {
@@ -187,5 +277,6 @@ function closeEditModal() {
     modal.classList.add('hidden');
     modal.classList.remove('flex');
 }
+
 </script>
 @endsection

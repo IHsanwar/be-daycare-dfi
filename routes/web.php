@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ChildController;
+use App\Http\Controllers\ActivityController;
+
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -35,7 +37,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('users/{id}', [AuthController::class, 'show'])->name('users.show');
     Route::get('users/{id}/edit', [AuthController::class, 'edit'])->name('users.edit');
-    Route::delete('users/{id}', [AuthController::class, 'destroy'])->name('users.destroy');
+    Route::delete('users/{id}/delete', [AuthController::class, 'destroy'])->name('users.destroy');
         
     Route::put('users/{id}', [AuthController::class, 'update'])->name('users.update');
     Route::post('children', [ChildController::class, 'store'])->name('children.store');
@@ -43,10 +45,16 @@ Route::middleware('auth')->group(function () {
     
     Route::get('dashboardanak', [DashboardController::class, 'childIndex'])->name('dashboardanak');
     
+    
     Route::match(['put', 'post'], 'children/{id}/update-status', [ChildController::class, 'updateStatus'])->name('children.updateStatus');
-    Route::get('children/{id}/edit-status/{type?}', [ChildController::class, 'editStatus'])->name('children.editStatus');
+    
+    Route::get('/children/{id}/edit-status/{type?}', [ChildController::class, 'editStatus'])
+    ->name('children.editStatus');
 
-    Route::put('children/{id}/update-makan', [ChildController::class, 'updateMakan'])->name('children.updateMakan');
+    Route::put('/children/{id}/update-status/{type}', [ChildController::class, 'updateStatus']);
+
+    Route::post('/save-step/{id}/{step}', 'ChildController@saveStep')->name('saveStep');
+    Route::post('/update-status-final/{id}', 'ChildController@updateStatusFinal')->name('updateStatusFinal');
 
     Route::get('/searchanak', [ChildController::class, 'search'])->name('children.search');
     Route::get('/searchuser', [AuthController::class, 'search'])->name('users.search');
@@ -56,6 +64,8 @@ Route::middleware('auth')->group(function () {
     
     Route::post('children/{id}/download-excel', [ChildController::class, 'downloadExcel'])->name('children.downloadExcel');
     Route::put('/children/{id}', [ChildController::class, 'update'])->name('children.update');
+
+        
 });
 
 Route::get('/success', function () {

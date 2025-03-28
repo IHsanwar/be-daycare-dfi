@@ -73,198 +73,198 @@
 </head>
 <body>
     <div class="container mt-4">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <div>
-                <a href="{{ route('dashboard') }}" class="btn btn-primary me-3">
-                    <i class="fas fa-arrow-left"></i> Kembali
-                </a>
-                <h1 class="mb-0">Riwayat {{ $child->nama }}</h1>
-            </div>
-            <button id="download-btn" class="btn btn-success">
-                <i class="fas fa-download"></i> Download
-            </button>
+    <div class="container-fluid">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary me-3">
+                <i class="fas fa-arrow-left me-2"></i>Kembali
+            </a>
+            <h1 class="d-inline-block mb-0">Riwayat {{ $child->nama }}</h1>
         </div>
-        @foreach($histories as $history)
-            <div class="card mb-3">
-                <div class="card-header" role="button" onclick="toggleHistory({{ $history->id }})">
-                    <h5 class="mb-0 d-flex justify-content-between align-items-center">
-                        <span>
-                            <i class="fas fa-calendar me-2"></i>
-                            {{ \Carbon\Carbon::parse($history->tanggal)->format('d/m/Y') }}
-                        </span>
-                        <i class="fas fa-chevron-down toggle-icon" id="toggle-icon-{{ $history->id }}"></i>
+        <button id="download-btn" class="btn btn-primary">
+            <i class="fas fa-download me-2"></i>Download
+        </button>
+    </div>
+
+    @foreach($histories as $history)
+        <div class="card mb-3 shadow-sm">
+            <div class="card-header bg-light" role="button" onclick="toggleHistory({{ $history->id }})">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-calendar me-2 text-muted"></i>
+                        {{ \Carbon\Carbon::parse($history->tanggal)->format('d/m/Y') }}
                     </h5>
+                    <i class="fas fa-chevron-down text-muted" id="toggle-icon-{{ $history->id }}"></i>
                 </div>
-                <div class="card-body collapse" id="history-{{ $history->id }}">
-                    <div class="row info-row">
-                        <!-- Makan -->
-                        <div class="col-md-4 info-col">
-                            <div class="info-card">
-                                <h5><i class="fas fa-utensils me-2"></i>Makan</h5>
-                                <p class="mb-1"><small><i class="fas fa-sun text-warning me-2"></i>Pagi: {{ $history->makan_pagi ?? 'Belum' }}</small></p>
-                                <p class="mb-1"><small><i class="fas fa-cloud-sun text-primary me-2"></i>Siang: {{ $history->makan_siang ?? 'Belum' }}</small></p>
-                                <p class="mb-1"><small><i class="fas fa-moon text-info me-2"></i>Sore: {{ $history->makan_sore ?? 'Belum' }}</small></p>
+            </div>
+            <div class="card-body collapse" id="history-{{ $history->id }}">
+                <div class="row g-3">
+                    @php
+                        $infoSections = [
+                            ['icon' => 'utensils', 'title' => 'Makan', 'times' => ['Pagi', 'Siang', 'Sore'], 'field' => 'makan'],
+                            ['icon' => 'bottle-water', 'title' => 'Susu', 'times' => ['Pagi', 'Siang', 'Sore'], 'field' => 'susu', 'unit' => 'ml'],
+                            ['icon' => 'tint', 'title' => 'Air Putih', 'times' => ['Pagi', 'Siang', 'Sore'], 'field' => 'air_putih', 'unit' => 'ml'],
+                            ['icon' => 'toilet', 'title' => 'BAK', 'times' => ['Pagi', 'Siang', 'Sore'], 'field' => 'bak', 'unit' => 'X'],
+                            ['icon' => 'poop', 'title' => 'BAB', 'times' => ['Pagi', 'Siang', 'Sore'], 'field' => 'bab', 'unit' => 'X'],
+                            ['icon' => 'bed', 'title' => 'Tidur', 'times' => ['Pagi', 'Siang', 'Sore'], 'field' => 'tidur', 'unit' => 'X']
+                        ];
+                    @endphp
+
+                    @foreach($infoSections as $section)
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <i class="fas fa-{{ $section['icon'] }} me-2 text-primary"></i>{{ $section['title'] }}
+                                    </h5>
+                                    @foreach($section['times'] as $time)
+                                        <p class="mb-1">
+                                            <small>
+                                                @php
+                                                    $fieldName = strtolower($section['field'] . '_' . strtolower($time));
+                                                    $value = $history->$fieldName ?? '-';
+                                                    $value .= isset($section['unit']) ? ' ' . $section['unit'] : '';
+                                                @endphp
+                                                <i class="fas fa-{{ $time == 'Pagi' ? 'sun text-warning' : ($time == 'Siang' ? 'cloud-sun text-primary' : 'moon text-info') }} me-2"></i>
+                                                {{ $time }}: {{ $value }}
+                                            </small>
+                                        </p>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-4 info-col">
-                            <div class="info-card">
-                                <h5><i class="fas fa-bottle-water me-2"></i>Susu</h5>
-                                <p class="mb-1"><small><i class="fas fa-sun text-warning me-2"></i>Pagi: {{ $history->susu_pagi ?? "-" }} ml</small></p>
-                                <p class="mb-1"><small><i class="fas fa-cloud-sun text-primary me-2"></i>Siang: {{ $history->susu_siang ?? "-" }} ml</small></p>
-                                <p class="mb-1"><small><i class="fas fa-moon text-info me-2"></i>Sore: {{ $history->susu_sore ?? "-" }} ml</small></p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 info-col">
-                            <div class="info-card">
-                                <h5><i class="fas fa-tint me-2"></i>Air Putih</h5>
-                                <p class="mb-1"><small><i class="fas fa-sun text-warning me-2"></i>Pagi: {{ $history->air_putih_pagi ?? "-" }} ml</small></p>
-                                <p class="mb-1"><small><i class="fas fa-cloud-sun text-primary me-2"></i>Siang: {{ $history->air_putih_siang ?? "-" }} ml</small></p>
-                                <p class="mb-1"><small><i class="fas fa-moon text-info me-2"></i>Sore: {{ $history->air_putih_sore ?? "-" }} ml</small></p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 info-col">
-                            <div class="info-card">
-                                <h5><i class="fas fa-toilet me-2"></i>BAK</h5>
-                                <p class="mb-1"><small><i class="fas fa-sun text-warning me-2"></i>Pagi: {{ $history->bak_pagi ?? "-" }} X</small></p>
-                                <p class="mb-1"><small><i class="fas fa-cloud-sun text-primary me-2"></i>Siang: {{ $history->bak_siang ?? "-" }} X</small></p>
-                                <p class="mb-1"><small><i class="fas fa-moon text-info me-2"></i>Sore: {{ $history->bak_sore ?? "-" }} X</small></p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 info-col">
-                            <div class="info-card">
-                                <h5><i class="fas fa-poop me-2"></i>BAB</h5>
-                                <p class="mb-1"><small><i class="fas fa-sun text-warning me-2"></i>Pagi: {{ $history->bab_pagi ?? "-" }} X</small></p>
-                                <p class="mb-1"><small><i class="fas fa-cloud-sun text-primary me-2"></i>Siang: {{ $history->bab_siang ?? "-" }} X</small></p>
-                                <p class="mb-1"><small><i class="fas fa-moon text-info me-2"></i>Sore: {{ $history->bab_sore ?? "-" }} X</small></p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 info-col">
-                            <div class="info-card">
-                                <h5><i class="fas fa-bed me-2"></i>Tidur</h5>
-                                <p class="mb-1"><small><i class="fas fa-sun text-warning me-2"></i>Pagi: {{ $history->tidur_pagi ?? "-" }} X</small></p>
-                                <p class="mb-1"><small><i class="fas fa-cloud-sun text-primary me-2"></i>Siang: {{ $history->tidur_siang ?? "-" }} X</small></p>
-                                <p class="mb-1"><small><i class="fas fa-moon text-info me-2"></i>Sore: {{ $history->tidur_sore ?? "-" }} X</small></p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 info-col">
-                            <div class="info-card">
-                                <h5><i class="fas fa-home me-2"></i>Kegiatan Indoor</h5>
-                                <small>
-                                    @php
-                                        $kegiatanIndoor = json_decode($history->kegiatan_indoor, true) ?? [];
-                                    @endphp
-                                    @if(count($kegiatanIndoor) > 0)
-                                        <ul class="list-unstyled mb-0">
-                                            @foreach($kegiatanIndoor as $item)
-                                                <li>- {{ $item }}</li>
-                                            @endforeach
-                                        </ul>
-                                    @else
-                                        <p>Tidak ada kegiatan indoor</p>
-                                    @endif
-                                </small>
-                            </div>
-                        </div>
-                        <div class="col-md-6 info-col">
-                            <div class="info-card">
-                                <h5><i class="fas fa-running me-2"></i>Kegiatan Outdoor</h5>
-                                <small>
-                                    @php
-                                        $kegiatan = json_decode($history->kegiatan_outdoor, true) ?? [];
-                                    @endphp
-                                    @if(count($kegiatan) > 0)
-                                        <ul class="list-unstyled mb-0">
-                                            @foreach($kegiatan as $item)
-                                                <li>- {{ $item }}</li>
-                                            @endforeach
-                                        </ul>
-                                    @else
-                                        <p>Tidak ada kegiatan outdoor</p>
-                                    @endif
-                                </small>
-                            </div>
-                        </div>
-                        <div class="col-md-4 info-col">
-                            <div class="info-card">
-                                <h5><i class="fas fa-heartbeat me-2"></i>Kondisi</h5>
-                                <p class="mb-0">
-                                    @if($history->kondisi)
-                                        <span class="badge {{ $history->kondisi === 'sehat' ? 'bg-success' : 'bg-danger' }}">
-                                            {{ ucfirst($history->kondisi) }}
-                                        </span>
-                                    @else
-                                        <span class="text-muted">Belum diisi</span>
-                                    @endif
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 info-col">
-                            <div class="info-card">
-                                <h5><i class="fas fa-pills me-2"></i>Obat</h5>
-                                <p class="mb-1"><small><i class="fas fa-sun text-warning me-2"></i>Pagi: {{ $history->obat_pagi ?? 'Tidak ada' }}</small></p>
-                                <p class="mb-1"><small><i class="fas fa-cloud-sun text-primary me-2"></i>Siang: {{ $history->obat_siang ?? 'Tidak ada' }}</small></p>
-                                <p class="mb-1"><small><i class="fas fa-moon text-info me-2"></i>Sore: {{ $history->obat_sore ?? 'Tidak ada' }}</small></p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 info-col">
-                            <div class="info-card">
-                                <h5><i class="fas fa-cookie-bite me-2"></i>Makanan & Camilan</h5>
-                                <p class="mb-1"><small><i class="fas fa-sun text-warning me-2"></i>Pagi:</small></p>
-                                <small>
-                                    @php
-                                        $makananCamilanPagi = json_decode($history->makanan_camilan_pagi, true) ?? [];
-                                    @endphp
-                                    @if(count($makananCamilanPagi) > 0)
-                                        <ul class="list-unstyled mb-0">
-                                            @foreach($makananCamilanPagi as $item)
-                                                <li>- {{ $item }}</li>
-                                            @endforeach
-                                        </ul>
-                                    @else
-                                        <p>Tidak ada</p>
-                                    @endif
-                                </small>
-                                <p class="mb-1"><small><i class="fas fa-cloud-sun text-primary me-2"></i>Siang:</small></p>
-                                <small>
-                                    @php
-                                        $makananCamilanSiang = json_decode($history->makanan_camilan_siang, true) ?? [];
-                                    @endphp
-                                    @if(count($makananCamilanSiang) > 0)
-                                        <ul class="list-unstyled mb-0">
-                                            @foreach($makananCamilanSiang as $item)
-                                                <li>- {{ $item }}</li>
-                                            @endforeach
-                                        </ul>
-                                    @else
-                                        <p>Tidak ada</p>
-                                    @endif
-                                </small>
-                                <p class="mb-1"><small><i class="fas fa-moon text-info me-2"></i>Sore:</small></p>
-                                <small>
-                                    @php
-                                        $makananCamilanSore = json_decode($history->makanan_camilan_sore, true) ?? [];
-                                    @endphp
-                                    @if(count($makananCamilanSore) > 0)
-                                        <ul class="list-unstyled mb-0">
-                                            @foreach($makananCamilanSore as $item)
-                                                <li>- {{ $item }}</li>
-                                            @endforeach
-                                        </ul>
-                                    @else
-                                        <p>Tidak ada</p>
-                                    @endif
-                                </small>
+                    @endforeach
+
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-home me-2 text-primary"></i>Kegiatan Indoor
+                                </h5>
+                                @php
+                                    $kegiatanIndoor = json_decode($history->kegiatan_indoor, true) ?? [];
+                                @endphp
+                                @if(count($kegiatanIndoor) > 0)
+                                    <ul class="list-unstyled mb-0">
+                                        @foreach($kegiatanIndoor as $item)
+                                            <li><i class="fas fa-circle me-2 text-muted" style="font-size: 0.5rem;"></i>{{ $item }}</li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p class="text-muted">Tidak ada kegiatan indoor</p>
+                                @endif
                             </div>
                         </div>
                     </div>
-                    <p class="mb-0 mt-3">
-                        <i class="fas fa-comment me-2"></i>
-                        Keterangan: {{ $history->keterangan ?? 'Tidak ada' }}
-                    </p>
+
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-running me-2 text-primary"></i>Kegiatan Outdoor
+                                </h5>
+                                @php
+                                    $kegiatanOutdoor = json_decode($history->kegiatan_outdoor, true) ?? [];
+                                @endphp
+                                @if(count($kegiatanOutdoor) > 0)
+                                    <ul class="list-unstyled mb-0">
+                                        @foreach($kegiatanOutdoor as $item)
+                                            <li><i class="fas fa-circle me-2 text-muted" style="font-size: 0.5rem;"></i>{{ $item }}</li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p class="text-muted">Tidak ada kegiatan outdoor</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-heartbeat me-2 text-primary"></i>Kondisi
+                                </h5>
+                                @if($history->kondisi)
+                                    <span class="badge {{ $history->kondisi === 'sehat' ? 'bg-success' : 'bg-danger' }}">
+                                        {{ ucfirst($history->kondisi) }}
+                                    </span>
+                                @else
+                                    <span class="text-muted">Belum diisi</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-pills me-2 text-primary"></i>Obat
+                                </h5>
+                                @foreach(['Pagi', 'Siang', 'Sore'] as $time)
+                                    <p class="mb-1">
+                                        <small>
+                                            <i class="fas fa-{{ $time == 'Pagi' ? 'sun text-warning' : ($time == 'Siang' ? 'cloud-sun text-primary' : 'moon text-info') }} me-2"></i>
+                                            {{ $time }}: {{ $history->{'obat_' . strtolower($time)} ?? 'Tidak ada' }}
+                                        </small>
+                                    </p>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-cookie-bite me-2 text-primary"></i>Makanan & Camilan
+                                </h5>
+                                @foreach(['Pagi', 'Siang', 'Sore'] as $time)
+                                    <p class="mb-1">
+                                        <small>
+                                            <i class="fas fa-{{ $time == 'Pagi' ? 'sun text-warning' : ($time == 'Siang' ? 'cloud-sun text-primary' : 'moon text-info') }} me-2"></i>
+                                            {{ $time }}:
+                                        </small>
+                                    </p>
+                                    @php
+                                        $makananCamilan = json_decode($history->{'makanan_camilan_' . strtolower($time)}, true) ?? [];
+                                    @endphp
+                                    @if(count($makananCamilan) > 0)
+                                        <ul class="list-unstyled mb-0">
+                                            @foreach($makananCamilan as $item)
+                                                <li><i class="fas fa-circle me-2 text-muted" style="font-size: 0.5rem;"></i>{{ $item }}</li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p class="text-muted mb-0">Tidak ada</p>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card border-0 bg-light">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-comment me-2 text-primary"></i>Keterangan
+                                </h5>
+                                <p class="text-muted">{{ $history->keterangan ?? 'Tidak ada' }}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        @endforeach
-        
+        </div>
+    @endforeach
+    
+    <div class="d-flex justify-content-center mt-4">
+        {{ $histories->links('pagination::bootstrap-4') }}
+    </div>
+</div>
+
+
         <div class="d-flex justify-content-center mt-4">
             {{ $histories->links('pagination::bootstrap-4') }}
         </div>

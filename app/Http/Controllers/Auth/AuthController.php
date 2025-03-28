@@ -84,7 +84,7 @@ class AuthController extends Controller
         
         Auth::login($currentUser);
 
-        return redirect("dashboardadmin")->withSuccess('Berhasil membuat akun baru');
+        return redirect("dashboard.dashboardadmin")->withSuccess('Berhasil membuat akun baru');
     }
     
     /**
@@ -95,7 +95,7 @@ class AuthController extends Controller
     public function dashboard(): View|RedirectResponse
     {
         if(Auth::check()){
-            return view('dashboard');
+            return view('dashboard.dashboard');
         }
   
         return redirect("login")->withErrors('Oops! You do not have access to the dashboard');
@@ -137,7 +137,7 @@ class AuthController extends Controller
     public function dashboardAdmin(): View|RedirectResponse
     {
         if(Auth::check() && Auth::user()->role == 'admin'){
-            return view('dashboardadmin');
+            return view('dashboard.dashboardadmin');
         }
 
         return redirect("login")->withErrors('Kamu tidak memiliki akses dashboard admin.');
@@ -199,21 +199,22 @@ class AuthController extends Controller
      * @param  int  $id
      * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy($userId)
 {
-    $user = User::find($id);
-
-    if (!$user) {
-        return back()->with('error', 'User tidak ditemukan');
+    try {
+        $user = User::findOrFail($userId);
+        $user->delete();
+        
+        return response()->json([
+            'message' => 'User successfully deleted',
+            'status' => 'success'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Failed to delete user',
+            'status' => 'error'
+        ], 500);
     }
-
-    // Hapus anak-anak yang terkait sebelum menghapus user
-    $user->children()->delete();
-
-    // Hapus user
-    $user->delete();
-
-    return redirect()->route('dashboardadmin')->with('success', 'Berhasil menghapus user.');
 }
 
     
@@ -227,6 +228,6 @@ class AuthController extends Controller
     {
         $search = $request->input('search');
         $users = User::where('name', 'LIKE', "%{$search}%")->get();
-        return view('dashboardadmin', compact('users'));
+        return view('dashboard.dashboardadmin', compact('users'));
     }
 }

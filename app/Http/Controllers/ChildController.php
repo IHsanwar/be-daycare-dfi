@@ -43,21 +43,134 @@ class ChildController extends Controller
         return response()->json(['success' => true, 'message' => 'Data berhasil dihapus.']);
     }
     
+    public function updateStatusFinal($id)
+    {
+        $child = Child::findOrFail($id);
+        $sessionKey = 'form_data_' . $id;
+        $validatedData = session($sessionKey, []);
+    
+        if (empty($validatedData)) {
+            return redirect()->route('editStatus', ['id' => $id])->with('error', 'Data belum lengkap.');
+        }
+    
+        $validatedData['tanggal'] = Carbon::now()->format('Y-m-d');
+        $validatedData['kegiatan_outdoor'] = json_encode($validatedData['kegiatan_outdoor'] ?? []);
+        $validatedData['kegiatan_indoor'] = json_encode($validatedData['kegiatan_indoor'] ?? []);
+    
+        $child->update($validatedData);
+    
+        ChildHistory::where('child_id', $child->id)
+            ->whereDate('tanggal', $validatedData['tanggal'])
+            ->delete();
+    
+        $childHistory = new ChildHistory($validatedData);
+        $childHistory->child_id = $child->id;
+        $childHistory->save();
+    
+        session()->forget($sessionKey);
+    
+        return redirect()->to('/success')->with('success', 'Status anak berhasil diperbarui.');
+    }
+    
 
-    public function updateStatus(Request $request, $id)
+
+    public function editStatus($id, $type = null)
     {
         $child = Child::findOrFail($id);
         $today = Carbon::now()->format('Y-m-d');
+    
+        $latestHistory = $child->histories()
+            ->whereDate('tanggal', '<=', $today)
+            ->latest()
+            ->first();
+    
+        if ($latestHistory) {
+            $child->fill($latestHistory->toArray());
+            $child->kegiatan_outdoor = json_decode($latestHistory->kegiatan_outdoor, true) ?? [];
+            $child->kegiatan_indoor = json_decode($latestHistory->kegiatan_indoor, true) ?? [];
+        }
+    
+        $view = match (trim($type)) {
+            'makan-cemilan' => 'updatestatus.updatestatusmakan',
+            'buang-air' => 'updatestatus.updatestatusbuangair',
+            'kegiatan' => 'updatestatus.updatestatuskegiatan',
+            'kesehatan' => 'updatestatus.updatestatuskesehatan',
+            default => null,
+        };
+        
+        if ($view) {
+            return view($view, compact('child'));
+        } else {
+            return view('editstatus', compact('child'));
+        }
+    }
+    public function updateStatus(Request $request, $id, $type)
+{
+    $child = Child::findOrFail($id);
+    $validatedData = [];
 
+    if ($type === 'makan-cemilan') {
         $validatedData = $request->validate([
-            'nama_pendamping' => 'required|string',
-            'tanggal' => 'required|date_format:d-m-Y',
             'makan_pagi' => 'nullable|string',
             'makan_siang' => 'nullable|string',
             'makan_sore' => 'nullable|string',
-            'makan_pagi_custom' => 'nullable|string',
-            'makan_siang_custom' => 'nullable|string',
-            'makan_sore_custom' => 'nullable|string',
+            'makanan_camilan_pagi' => 'nullable|array',
+            'makanan_camilan_siang' => 'nullable|array',
+            'makanan_camilan_sore' => 'nullable|array',
+            'susu_pagi' => 'nullable|integer',
+            'air_putih_pagi' => 'nullable|integer',
+            'susu_siang' => 'nullable|integer',
+            'air_putih_siang' => 'nullable|integer',
+            'susu_sore' => 'nullable|integer',
+            'air_putih_sore' => 'nullable|integer',
+        ]);
+    } elseif ($type === 'buang-air') {
+        $validatedData = $request->validate([
+            'bak_pagi' => 'nullable|integer',
+            'bab_pagi' => 'nullable|integer',
+            'bak_siang' => 'nullable|integer',
+            'bab_siang' => 'nullable|integer',
+            'bak_sore' => 'nullable|integer',
+            'bab_sore' => 'nullable|integer',
+
+        ]);
+    } elseif ($type === 'kegiatan') {
+        $validatedData = $request->validate([
+            'kegiatan_outdoor' => 'nullable|string',
+            'kegiatan_indoor' => 'nullable|string',
+        ]);
+    } elseif ($type === 'kesehatan') {
+        $validatedData = $request->validate([
+            'kondisi' => 'nullable|in:sehat,sakit',
+            'obat_pagi' => 'nullable|date_format:H:i',
+            'obat_siang' => 'nullable|date_format:H:i',
+            'obat_sore' => 'nullable|date_format:H:i',
+            'tidur_pagi' => 'nullable|string',
+            'tidur_siang' => 'nullable|string',
+            'tidur_sore' => 'nullable|string',
+            'keterangan' => 'nullable|string',
+        ]);
+    }
+    
+    
+     else {
+        return redirect()->back()->withErrors(['error' => 'Tipe update tidak valid.']);
+    }
+    
+    $child->update($validatedData);
+
+    return redirect()->to('/success')->with('success', 'Data berhasil diperbarui.');
+}
+
+    
+    
+    public function saveStep(Request $request, $id, $step)
+    {
+        $validatedData = $request->validate([
+            'nama_pendamping' => 'nullable|string',
+            'makan_pagi' => 'nullable|string',
+            'makan_siang' => 'nullable|string',
+            'makan_sore' => 'nullable|string',
             'susu_pagi' => 'nullable|integer',
             'susu_siang' => 'nullable|integer',
             'susu_sore' => 'nullable|integer',
@@ -76,128 +189,27 @@ class ChildController extends Controller
             'kegiatan_outdoor' => 'nullable|array',
             'kegiatan_outdoor_lainnya' => 'nullable|string|max:255',
             'keterangan' => 'nullable|string',
-            'kegiatan_indoor' => 'nullable|array',
-            'kegiatan_indoor_lainnya' => 'nullable|string|max:255',
-            'makanan_camilan_pagi' => 'nullable|array',
-            'makanan_camilan_siang' => 'nullable|array',
-            'makanan_camilan_sore' => 'nullable|array',
-            'makanan_camilan_pagi.*' => 'nullable|string',
-            'makanan_camilan_siang.*' => 'nullable|string',
-            'makanan_camilan_sore.*' => 'nullable|string',
             'kondisi' => 'nullable|in:sehat,sakit',
             'obat_pagi' => 'nullable|date_format:H:i',
             'obat_siang' => 'nullable|date_format:H:i',
             'obat_sore' => 'nullable|date_format:H:i',
         ]);
 
-        $tanggal = Carbon::createFromFormat('d-m-Y', $validatedData['tanggal'])->format('Y-m-d');
-
-        foreach (['pagi', 'siang', 'sore'] as $waktu) {
-            if (isset($validatedData["makan_$waktu"]) && $validatedData["makan_$waktu"] === 'custom') {
-                $validatedData["makan_$waktu"] = $validatedData["makan_{$waktu}_custom"] ?? 'custom';
-            }
-            unset($validatedData["makan_{$waktu}_custom"]);
-        }
-
-        $kegiatanOutdoor = $request->kegiatan_outdoor ?? [];
-        $kegiatanOutdoorLainnya = $request->kegiatan_outdoor_lainnya;
-
-        if (in_array('lainnya', $kegiatanOutdoor) && $kegiatanOutdoorLainnya) {
-            $key = array_search('lainnya', $kegiatanOutdoor);
-            if ($key !== false) {
-                unset($kegiatanOutdoor[$key]);
-                $kegiatanOutdoor[] = $kegiatanOutdoorLainnya;
-            }
-        }
-
-        $validatedData['kegiatan_outdoor'] = json_encode($kegiatanOutdoor);
-
-        unset($validatedData['kegiatan_outdoor_lainnya']);
-
-        $kegiatanIndoor = $request->kegiatan_indoor ?? [];
-        $kegiatanIndoorLainnya = $request->kegiatan_indoor_lainnya;
-
-        if (in_array('lainnya', $kegiatanIndoor) && $kegiatanIndoorLainnya) {
-            $key = array_search('lainnya', $kegiatanIndoor);
-            if ($key !== false) {
-                unset($kegiatanIndoor[$key]);
-                $kegiatanIndoor[] = $kegiatanIndoorLainnya;
-            }
-        }
-
-        $validatedData['kegiatan_indoor'] = json_encode($kegiatanIndoor);
-
-        unset($validatedData['kegiatan_indoor_lainnya']);
-
-        $validatedData['tanggal'] = $tanggal;
-
-        $validatedData['makanan_camilan_pagi'] = json_encode(array_filter($validatedData['makanan_camilan_pagi'] ?? []));
-        $validatedData['makanan_camilan_siang'] = json_encode(array_filter($validatedData['makanan_camilan_siang'] ?? []));
-        $validatedData['makanan_camilan_sore'] = json_encode(array_filter($validatedData['makanan_camilan_sore'] ?? []));
-
-        $child->update($validatedData);
-
-        ChildHistory::where('child_id', $child->id)
-            ->whereDate('tanggal', $tanggal)
-            ->delete();
-
-        $childHistory = new ChildHistory($validatedData);
-        $childHistory->child_id = $child->id;
-        $childHistory->save();
-
-        return redirect()->to('/success')->with('success', 'Status anak berhasil diperbarui dan riwayat terbaru disimpan.');
+        // Simpan ke session
+        $sessionKey = 'form_data_' . $id;
+        $existingData = session($sessionKey, []);
+        session([$sessionKey => array_merge($existingData, $validatedData)]);
+        // Redirect ke halaman selanjutnya
+        return redirect()->route('editStatus', ['id' => $id, 'step' => $this->nextStep($step)]);
     }
 
-
-    public function editStatus($id, $type = null)
-{
-    $child = Child::findOrFail($id);
-    $today = Carbon::now()->format('Y-m-d');
-
-    // Ambil histori terbaru (prioritaskan hari ini, jika tidak ada ambil yang terakhir)
-    $latestHistory = $child->histories()
-        ->whereDate('tanggal', '<=', $today)
-        ->latest()
-        ->first();
-
-    // Jika ada histori terbaru, gunakan datanya
-    if ($latestHistory) {
-        $child->fill($latestHistory->toArray());
-        $child->kegiatan_outdoor = json_decode($latestHistory->kegiatan_outdoor, true) ?? [];
-        $child->kegiatan_indoor = json_decode($latestHistory->kegiatan_indoor, true) ?? [];
+    // Fungsi menentukan langkah berikutnya
+    private function nextStep($currentStep)
+    {
+        $steps = ['makan-cemilan', 'buang-air', 'kegiatan', 'keterangan', 'kesehatan'];
+        $index = array_search($currentStep, $steps);
+        return $index !== false && isset($steps[$index + 1]) ? $steps[$index + 1] : 'review';
     }
-
-    // Hanya update field yang dikirim dalam request
-    $updateFields = request()->only([
-        'makan_pagi', 'makan_siang', 'makan_sore', 'nama_pendamping',
-        'susu_pagi', 'susu_siang', 'susu_sore',
-        'air_putih_pagi', 'air_putih_siang', 'air_putih_sore',
-        'bak_pagi', 'bak_siang', 'bak_sore',
-        'bab_pagi', 'bab_siang', 'bab_sore',
-        'tidur_pagi', 'tidur_siang', 'tidur_sore',
-        'kegiatan_outdoor', 'kegiatan_indoor', 'keterangan',
-        'obat_pagi', 'obat_siang', 'obat_sore',
-        'makan_pagi_custom', 'makan_siang_custom', 'makan_sore_custom',
-        'makanan_camilan_pagi', 'makanan_camilan_siang', 'makanan_camilan_sore',
-        'kondisi'
-    ]);
-
-    // Update hanya field yang dikirim
-    $child->fill($updateFields);
-
-    // Simpan perubahan ke database
-    $child->save();
-
-    // Pilih tampilan berdasarkan tipe
-    return match (trim($type)) {
-        'makan-cemilan' => view('updatestatus.updatestatusmakan', compact('child')),
-        'buang-air' => view('updatestatus.updatestatusbuangair', compact('child')),
-        'kegiatan' => view('updatestatus.updatestatuskegiatan', compact('child')),
-        'keterangan' => view('updatestatus.updatestatusketerangan', compact('child')),
-        'kesehatan' => view('updatestatus.updatestatuskesehatan', compact('child')),
-        default => view('editstatus', compact('child')),
-    };
-}
 
     
     public function search(Request $request)

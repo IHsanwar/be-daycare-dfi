@@ -19,14 +19,14 @@ class DashboardController extends Controller
             $selectedChild = $children->find($request->route('child_id'));
         }
 
-        return view('dashboard', compact('children', 'selectedChild'));
+        return view('dashboard.dashboard', compact('children', 'selectedChild'));
     }
 
     public function adminIndex()
     {
         if (Auth::check() && Auth::user()->role == 'admin') {
             $users = User::all();
-            return view('dashboardadmin', compact('users'));
+            return view('dashboard.dashboardadmin', compact('users'));
         }
 
         return redirect("login")->withErrors('Kamu tidak memiliki akses ke dashboard admin. Silahkan login kembali');
@@ -37,7 +37,7 @@ class DashboardController extends Controller
         if (Auth::check() && Auth::user()->role == 'admin') {
             $children = Child::with('user')->get();
             $users = User::where('role', 'user')->get();
-            return view('dashboardanak.dashboardanak', compact('children', 'users'));
+            return view('dashboard.dashboardanak', compact('children', 'users'));
         }
 
         return redirect("login")->withErrors('Anda tidak memiliki akses ke dashboard anak. Silakan login kembali');

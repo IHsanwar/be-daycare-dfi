@@ -17,7 +17,7 @@
             </div>
 
             <!-- Form -->
-            <form action="{{ route('children.updateStatus', $child->id) }}" method="POST" class="space-y-6">
+            <form action="{{ url('/children/' . $child->id . '/update-status/makan-cemilan') }}" method="POST" class="space-y-6">
                 @csrf
                 @method('PUT')
                 

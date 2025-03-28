@@ -25,7 +25,7 @@
     <img src="{{ asset('images/page404.svg') }}" alt="" style="height: 400px;">
         <p class="text-2xl font-semibold text-purple-600 mt-4">Oops! Page not found.</p>
         <p class="text-gray-500 mt-2 mb-7">The page you are looking for doesn’t exist or has been moved.</p>
-        <a href="{{ route('dashboardanak') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg px-4 py-4 transition duration-300">
+        <a href="{{ route('dashboard') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg px-4 py-4 transition duration-300">
                     <i class="fas fa-arrow-left mr-2"></i> Go back to home
                 </a>
     </div>

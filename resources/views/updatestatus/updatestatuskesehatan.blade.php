@@ -17,7 +17,7 @@
             </div>
 
             <!-- Form -->
-            <form action="{{ route('children.updateStatus', $child->id) }}" method="POST" class="space-y-6">
+            <form action="{{ url('/children/' . $child->id . '/update-status/kesehatan') }}" method="POST" class="space-y-6">
                 @csrf
                 @method('PUT')
                 
@@ -38,17 +38,17 @@
                 <div class="grid grid-cols-3 gap-2">
                     <div>
                         <label class="block font-medium text-purple-900">Pagi:</label>
-                        <input type="number" name="pagi" min="0" placeholder="Jumlah"
+                        <input type="number" name="tidur_pagi" min="0" placeholder="Jumlah"
                             class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
                     </div>
                     <div>
                         <label class="block font-medium text-purple-900">Siang:</label>
-                        <input type="number" name="siang" min="0" placeholder="Jumlah"
+                        <input type="number" name="tidur_siang" min="0" placeholder="Jumlah"
                             class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
                     </div>
                     <div>
                         <label class="block font-medium text-purple-900">Malam:</label>
-                        <input type="number" name="malam" min="0" placeholder="Jumlah"
+                        <input type="number" name="tidur_malam" min="0" placeholder="Jumlah"
                             class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
                     </div>
                 </div>

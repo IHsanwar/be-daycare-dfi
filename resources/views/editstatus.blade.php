@@ -3,7 +3,6 @@
 @section('title', 'Dashboard Anak')
 
 @section('content')
-<body class="font-inter bg-gray-50 text-gray-800 overflow-x-hidden">
     <div class="flex flex-col md:flex-row min-h-screen relative">
         <!-- Mobile Menu Button -->
         <div class="md:hidden fixed top-4 right-4 z-30">
@@ -140,27 +139,28 @@
         </div>
     </div>
     <!-- Modal for iframe content -->
-<div id="infoIframeModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 p-4">
-    <div class="relative w-full max-w-4xl bg-white rounded-xl shadow-2xl">
-        <!-- Modal header -->
-        <div class="flex items-center justify-between p-4 border-b border-gray-200">
-            <h3 id="childNameIframe" class="text-xl font-bold text-purple-700">Menu Makan, Minum & Camilan</h3>
+    <div id="infoIframeModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50 p-4">
+    <div class="relative w-full max-w-4xl bg-white rounded-xl shadow-2xl overflow-hidden">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between p-4 bg-purple-100 border-b border-gray-300">
+            <h3 id="childNameIframe" class="text-xl font-bold text-purple-700">Menu</h3>
             <button onclick="closeIframeModal()" class="text-gray-500 hover:text-gray-700 focus:outline-none">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
         
-        <!-- Modal loading indicator -->
-        <div id="iframeLoader" class="flex items-center justify-center p-12" style="display: none;">
+        <!-- Modal Loading Indicator -->
+        <div id="iframeLoader" class="flex items-center justify-center p-12">
             <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-700"></div>
         </div>
         
-        <!-- Modal iframe content -->
-        <div class="iframe-container" style="height: 80vh;">
+        <!-- Modal Iframe Content -->
+        <div class="h-[80vh]">
             <iframe id="childInfoIframe" class="w-full h-full" frameborder="0"></iframe>
         </div>
     </div>
 </div>
+
 
 <!-- Close modal function -->
 <script>
@@ -179,61 +179,61 @@
     }
 </script>
     
-      
-    </body>
-    </html>
     <script>
-        function openIframeModal(id, nama, page) {
-    // Pastikan elemen modal ada
+    
+function openIframeModal(id, nama, page) {
     const modal = document.getElementById("infoIframeModal");
-    if (!modal) {
-        console.error("Modal element not found. Make sure to add the modal HTML to your page.");
+    const childNameElement = document.getElementById("childNameIframe");
+    const loaderElement = document.getElementById("iframeLoader");
+    const iframeElement = document.getElementById("childInfoIframe");
+
+    if (!modal || !childNameElement || !loaderElement || !iframeElement) {
+        console.error("Missing modal elements.");
         return;
     }
 
-    // Setel nama anak di judul modal jika elemen ada
-    const childNameElement = document.getElementById("childNameIframe");
-    if (childNameElement) {
-        childNameElement.textContent = nama;
-    }
+    // Set modal title
+    childNameElement.textContent = nama;
 
-    // Tampilkan indikator loading jika ada
-    const loaderElement = document.getElementById("iframeLoader");
-    if (loaderElement) {
-        loaderElement.style.display = "flex";
-    }
+    // Show modal and loading animation
+    modal.classList.remove("hidden");
+    loaderElement.classList.remove("hidden");
 
-    // Tentukan URL berdasarkan `page`
-    let url = "";
-    if (page === "makan") {
-        url = `/children/${id}/edit-status/makan-cemilan`;
-    } else if (page === "buangair") {
-        url = `/children/${id}/edit-status/buang-air`;
-    } else if (page === "kegiatan") {
-        url = `/children/${id}/edit-status/kegiatan`;
-    } else if (page === "kesehatan") {
-        url = `/children/${id}/edit-status/kesehatan`;
-    } else {
+    // URL mapping
+    let urlMap = {
+        "makan": `/children/${id}/edit-status/makan-cemilan`,
+        "buangair": `/children/${id}/edit-status/buang-air`,
+        "kegiatan": `/children/${id}/edit-status/kegiatan`,
+        "kesehatan": `/children/${id}/edit-status/kesehatan`,
+    };
+
+    if (!urlMap[page]) {
         console.error("Invalid page type.");
         return;
     }
 
-    // Setel sumber iframe jika ada   
-    const iframe = document.getElementById("childInfoIframe");
-    if (iframe) {
-        iframe.src = url;
-        
-        // Sembunyikan loading indicator ketika iframe selesai dimuat
-        iframe.onload = function() {
-            if (loaderElement) {
-                loaderElement.style.display = "none";
-            }
-        };
+    // Set iframe src and handle load event
+    iframeElement.src = urlMap[page];
+    iframeElement.onload = function() {
+        loaderElement.classList.add("hidden"); // Hide loading indicator after iframe loads
+    };
+}
+
+function closeIframeModal() {
+    const modal = document.getElementById("infoIframeModal");
+    const iframeElement = document.getElementById("childInfoIframe");
+    const loaderElement = document.getElementById("iframeLoader");
+
+    if (!modal || !iframeElement || !loaderElement) {
+        console.error("Missing modal elements.");
+        return;
     }
 
-    // Tampilkan modal
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
+    // Hide modal
+    modal.classList.add("hidden");
+
+    // Clear iframe src to prevent old content flickering
+    iframeElement.src = "";
 }
 
      
