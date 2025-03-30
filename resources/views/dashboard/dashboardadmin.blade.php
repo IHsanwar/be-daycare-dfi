@@ -5,10 +5,10 @@
 
     <div class="max-w-7xl mx-auto space-y-6">
         {{-- Welcome Header --}}
-        <div class="bg-white rounded-xl shadow-soft p-6">
+        <div class="bg-white rounded-xl shadow-soft p-6 dark:bg-gray-900 dark:outline-gray-500 dark:outline">
             <div class="flex items-center justify-between">
                 <div>
-                    <h2 class="text-2xl font-semibold text-gray-800 mb-2">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-2 dark:text-gray-50">
                         Selamat Datang, {{ Auth::user()->name }}
                     </h2>
                     <p class="text-gray-500 text-sm">
@@ -29,7 +29,7 @@
                     type="text" 
                     name="search" 
                     placeholder="Cari nama anak..." 
-                    class="w-full pl-10 pr-4 py-3 rounded-xl border-none bg-white shadow-soft focus:ring-2 focus:ring-purple-300 text-gray-700"
+                    class="w-full pl-10 pr-4 py-3 rounded-xl border-none bg-white shadow-soft focus:ring-2 focus:ring-purple-300 text-gray-700 dark:bg-gray-900 dark:outline-gray-500 dark:outline"
                     value="{{ request('search') }}"
                 >
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -49,29 +49,29 @@
     </div>
 
     {{-- User List --}}
-    <div class="bg-white rounded-xl shadow-soft overflow-hidden">
+    <div class="bg-white rounded-xl shadow-soft overflow-hidden dark:bg-gray-900 dark:outline-gray-500 dark:outline dark:overflow-hidden">
         <div class="hidden md:block">
             <table class="w-full">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-900 dark:outline-gray-500 dark:outline">Username</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-900 dark:outline-gray-500 dark:outline">Email</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-900 dark:outline-gray-500 dark:outline">Role</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-900 dark:outline-gray-500 dark:outline">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100">
+                <tbody class="divide-y divide-transparent">
                     @foreach($users as $user)
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $user->name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->email }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:bg-gray-900 dark:outline-gray-500 dark:outline dark:text-white">{{ $user->name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:bg-gray-900 dark:outline-gray-500 dark:outline dark:text-white">{{ $user->email }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap dark:bg-gray-900 dark:outline-gray-500 dark:outline dark:text-white">
                             <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
                                 {{ $user->role == 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' }}">
                                 {{ ucfirst($user->role) }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap flex space-x-2">
+                        <td class="px-6 py-4 whitespace-nowrap flex space-x-2 dark:bg-gray-900 dark:outline-gray-500 dark:outline dark:text-white">
                         @if($user->role != 'admin')
                             <button type="button" 
                                     class="text-sm px-4 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors add-child-btn"

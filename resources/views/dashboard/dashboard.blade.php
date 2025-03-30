@@ -1,13 +1,12 @@
 @extends('layouts.app')
 @section('title', 'Dashboard Utama')
 @section('content')
-
-<body class="bg-gray-50">
+<div class="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8 dark:bg-gray-900">
     <div class="max-w-7xl mx-auto space-y-6">
-        <div class="bg-white rounded-xl shadow-soft p-6">
+        <div class="bg-white rounded-xl shadow-soft p-6 dark:bg-gray-900 dark:outline-gray-500 dark:outline">
             <div class="flex items-center justify-between">
                 <div>
-                <h2 class="text-2xl font-semibold text-gray-800 mb-2">Selamat Datang,<span class="font-bold"> {{ Auth::user()->name }} </span> anda login sebagai {{ Auth::user()->role }}</h2>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-2 dark:text-gray-50">Selamat Datang,<span class="font-bold"> {{ Auth::user()->name }} </span> anda login sebagai {{ Auth::user()->role }}</h2>
                 <p class="text-gray-500 text-sm">Kelola data anak-anak di daycare Anda di sini.</p>
                 </div>
                 <div class="hidden sm:block">
@@ -27,10 +26,10 @@
 
         <div class="grid md:grid-cols-12 gap-6">
             <div class="md:col-span-8 space-y-6">
-                <div class="bg-white rounded-xl shadow-soft p-6">
+                <div class="bg-white rounded-xl shadow-soft p-6 dark:bg-gray-900 dark:outline-gray-500 dark:outline">
                     <div class="flex items-center space-x-6">
                         <div class="flex-grow">
-                            <h1 class="text-3xl font-bold text-gray-800 mb-2">Hi, {{ auth()->user()->name }} anda login sebagai {{ auth()->user()->role }}</h1>
+                            <h1 class="text-3xl font-bold text-gray-800 mb-2 dark:text-gray-50">Hi, {{ auth()->user()->name }} anda login sebagai {{ auth()->user()->role }}</h1>
                             <p class="text-gray-500">Pantau keseharian anak anda disini.</p>
                         </div>
                         <div>
@@ -39,10 +38,10 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-soft p-6">
+                <div class="bg-white rounded-xl shadow-soft p-6 dark:bg-gray-900 dark:outline-gray-500 dark:outline">
                     <div class="flex items-center mb-4">
                         <i class="fas fa-child text-blue-500 mr-3"></i>
-                        <h2 class="text-xl font-semibold text-gray-800">Children Information</h2>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-50">Children Information</h2>
                     </div>
 
                     @if($selectedChild)
@@ -70,20 +69,20 @@
                 </div>
 
                 <!-- History Section -->
-                <div class="bg-white rounded-xl shadow-soft p-6">
+                <div class="bg-white rounded-xl shadow-soft p-6 dark:bg-gray-900 dark:outline-gray-500 dark:outline">
                     <div class="flex items-center mb-4">
                         <i class="fas fa-history text-blue-500 mr-3"></i>
-                        <h2 class="text-xl font-semibold text-gray-800">Riwayat Anak (5 Terakhir)</h2>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-50">Riwayat Anak (5 Terakhir)</h2>
                     </div>
                     <!-- Similar structure to previous history section, but with Tailwind styling -->
                 </div>
             </div>
 
             <div class="md:col-span-4">
-                <div class="bg-white rounded-xl shadow-soft p-6 sticky top-8">
+                <div class="bg-white rounded-xl shadow-soft p-6 sticky top-8 dark:bg-gray-900 dark:outline-gray-500 dark:outline">
                     <div class="flex items-center mb-4">
                         <i class="fas fa-child text-blue-500 mr-3"></i>
-                        <h2 class="text-xl font-semibold text-gray-800">Anak Anda</h2>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-50">Anak Anda</h2>
                     </div>
                     @if($children->count() > 0)
                         <div class="space-y-2">
@@ -104,9 +103,7 @@
             </div>
         </div>
     </main>
-
-   
-
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 function toggleHistory(id) {
