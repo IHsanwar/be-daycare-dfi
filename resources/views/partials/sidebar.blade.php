@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<div id="sidebar" class="w-full md:w-64 bg-white h-screen fixed md:sticky top-0 z-20 -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out shadow-lg no-scrollbar flex flex-col">
+<div id="sidebar" class="w-full md:w-64 bg-white h-screen fixed md:sticky top-0 z-20 -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out shadow-lg no-scrollbar flex flex-col dark:bg-gray-900">
     
     <!-- Header Sidebar -->
     <div class="p-4 flex items-center">
@@ -16,7 +16,7 @@
     </div>
 
     <!-- Konten Menu Sidebar -->
-    <div class="sidebar-content px-4 py-2 flex-grow overflow-y-auto space-y-1">
+    <div class="sidebar-content px-4 py-2 flex-grow overflow-y-auto space-y-1 dark:bg-gray-900">
         
     <a href="{{ route('dashboard') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'dashboard' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
             <i class="fas fa-house mr-3 text-purple-600"></i>
@@ -24,7 +24,7 @@
         </a>
 
         <!-- Judul Menu -->
-        <div class="text-gray-400 uppercase text-xs font-bold mt-3 mb-2 px-2">Menu</div>
+        <div class="text-gray-400 uppercase text-xs font-bold mt-3 mb-2 px-2 dark:text-white ">Menu</div>
         
         <!-- Dashboard User -->
          <!-- Dashboard Anak -->
@@ -37,7 +37,10 @@
             Dashboard User (Khusus Admin)
         </a>
     </div>
-
+    <button id="dark-toggle" class="mb-6 px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition">
+      Toggle Dark Mode
+    </button>
+    
     <!-- Tombol Logout -->
     <div class="p-4">
         <form action="{{ route('logout') }}" method="POST">
@@ -49,3 +52,24 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.getElementById('dark-toggle').addEventListener('click', function() {
+      document.documentElement.classList.toggle('dark');
+      
+      // Optional: Save preference to localStorage
+      if (document.documentElement.classList.contains('dark')) {
+        localStorage.setItem('darkMode', 'dark');
+      } else {
+        localStorage.setItem('darkMode', 'light');
+      }
+    });
+    
+    // Check for saved preference
+    if (localStorage.getItem('darkMode') === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else if (localStorage.getItem('darkMode') === 'light') {
+      document.documentElement.classList.remove('dark');
+    }
+    
+  </script>

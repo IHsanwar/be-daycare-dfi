@@ -91,10 +91,11 @@
                 <i class="fas fa-info-circle"></i> Info
             </button>
 
-    <button type="button" class="text-sm px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors" 
-            onclick="window.openEditModal({{ $child->id }}, '{{ $child->nama }}', {{ $child->user_id ?? 'null' }})">
-        <i class="fas fa-sync"></i> Edit
-    </button>
+            <a href="{{ route('children.history', ['id' => $child->id, 'type' => 'null']) }}" 
+   class="text-sm px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors">
+    <i class="fas fa-sync"></i> Riwayat
+</a>
+
     <button type="button" class="text-sm px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors" 
             onclick="window.openDeleteModal({{ $child->id }}, '{{ $child->nama }}')">
         <i class="fas fa-trash"></i> Hapus
@@ -109,7 +110,7 @@
         <!-- Card view (visible on mobile, hidden on md screens and up) -->
         <div class="md:hidden space-y-4">
             @foreach ($children as $child)
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="bg-white rounded-lg shadow p-4"> 
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-medium text-lg">{{ $child->nama }}</h3>
                     @php
@@ -150,7 +151,7 @@
                     @if ($isComplete)
                         <span class="bg-green-500 text-white px-2 py-1 rounded text-xs">Lengkap</span>
                     @else
-                        <span class="bg-red-500 text-white px-2 py-1 rounded text-xs">Bengkap</span>
+                        <span class="bg-red-500 text-white px-2 py-1 rounded text-xs">Tidak lengkap</span>
                     @endif
                 </div>
                 
@@ -167,21 +168,21 @@
                 
                 <div class="flex flex-wrap gap-2">
         <a href="{{ route('children.editStatus', $child->id) }}" 
-        class="px-3 py-1.5 bg-purple-600 text-white text-xs rounded hover:bg-purple-700 flex-1">
+        class="text-sm px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors">
             <i class="fas fa-edit"></i> Update
         </a>
 
-        <button class="px-3 py-1.5 bg-purple-500 text-white text-xs rounded hover:bg-purple-600 flex-1 info-btn" 
+        <button class="text-sm px-4 py-2 bg-purple-50 text-purple-600 rounded-lg hover:bg-purple-100 transition-colors info-btn" 
                 data-id="{{ $child->id }}" data-nama="{{ $child->nama }}">
             <i class="fas fa-info-circle"></i> Info
         </button>
 
-        <button class="px-3 py-1.5 bg-purple-400 text-white text-xs rounded hover:bg-purple-500 flex-1 edit-btn" 
+        <button class="text-sm px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors edit-btn" 
                 data-id="{{ $child->id }}" data-nama="{{ $child->nama }}" data-user_id="{{ $child->user_id ?? 'null' }}">
             <i class="fas fa-sync"></i> Edit
         </button>
 
-        <button class="px-3 py-1.5 bg-red-500 text-white text-xs rounded hover:bg-red-600 flex-1 delete-btn" 
+        <button class="text-sm px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors delete-btn" 
                 data-id="{{ $child->id }}" data-name="{{ $child->nama }}" 
                 data-url="{{ route('children.destroy', $child->id) }}">
             <i class="fas fa-trash"></i> Hapus
@@ -298,33 +299,10 @@
         </div>
     </div>
 </div>
+    
 
         <script>
             
-            function openEditModal(userId, username, role) {
-    // Get modal and form elements
-    const modal = document.getElementById('editModal');
-    const editForm = document.getElementById('editForm');
-    const editUserId = document.getElementById('editUserId');
-    const editUsername = document.getElementById('editUsername');
-    const editRole = document.getElementById('editRole');
-
-    // Populate form fields
-    editUserId.value = userId;
-    editUsername.value = username;
-    editRole.value = role;
-
-    // Show the modal
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-}
-
-function closeEditModal() {
-    const modal = document.getElementById('editModal');
-    modal.classList.remove('flex');
-    modal.classList.add('hidden');
-}
-
     window.openDeleteModal = function(id, name) {
         // Use standard confirm dialog if Notiflix is not loaded
         if (typeof Notiflix === 'undefined') {
@@ -611,7 +589,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function openInfoModal(childId) {
-    fetch(`dashboardanak/history/${childId}`)
+    fetch(`dashboardanak/info/${childId}`)
         .then(response => response.text())
         .then(data => {
             // Create modal container if it doesn't exist
@@ -703,6 +681,8 @@ document.addEventListener('keydown', (e) => {
         closeInfoModal();
     }
 });
+
+
 // <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.6/dist/notiflix-aio-3.2.6.min.js"></script>
         </script>
         @endsection

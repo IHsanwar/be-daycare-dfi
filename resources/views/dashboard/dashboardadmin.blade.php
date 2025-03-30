@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Dashboard Admin')
 @section('content')
-<div class="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+<div class="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8 dark:bg-gray-900">
 
     <div class="max-w-7xl mx-auto space-y-6">
         {{-- Welcome Header --}}
@@ -72,6 +72,15 @@
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap flex space-x-2">
+                        @if($user->role != 'admin')
+                            <button type="button" 
+                                    class="text-sm px-4 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors add-child-btn"
+                                    data-userid="{{ $user->id }}" 
+                                    data-username="{{ $user->name }}">
+                                <i class="fas fa-baby"></i> Tambah Anak
+                            </button>
+                        @endif
+
                             <button 
                                 onclick="openEditModal({{ $user->id }}, '{{ $user->name }}', '{{ $user->role }}')"
                                 class="text-sm px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors">
@@ -102,6 +111,12 @@
                 </div>
                 <p class="text-gray-500 mb-4">{{ $user->email }}</p>
                 <div class="flex space-x-3">
+                @if($user->role != 'admin')
+                <button type="button" class="btn btn-primary btn-sm btn-action mb-2 mb-md-0 me-md-2 add-child-btn" data-bs-toggle="modal" data-bs-target="#addChildModal" data-userid="{{ $user->id }}" data-username="{{ $user->name }}">
+                            <i class="fas fa-baby"></i> Tambah Anak
+                </button>
+                                            @endif
+
                     <button 
                         onclick="openEditModal({{ $user->id }}, '{{ $user->name }}', '{{ $user->role }}')"
                         class="flex-1 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors">
@@ -118,6 +133,44 @@
         </div>
     </div>
 </div>
+
+{{-- Tambah anak --}}
+<!-- Button to Open Modal -->
+
+
+        <!-- Modal Background -->
+        <div id="addChildModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white rounded-2xl shadow-lg w-full max-w-md p-6">
+                <div class="flex justify-between items-center border-b pb-3">
+                    <h5 class="text-lg font-semibold">Tambah Anak</h5>
+                    <button id="closeModalButton" class="text-gray-400 hover:text-gray-600">
+                        &times;
+                    </button>
+                </div>
+
+                <form id="addChildForm" action="{{ route('children.store') }}" method="POST" class="mt-4">
+                    @csrf
+                    <input type="hidden" name="user_id" id="childUserId">
+
+                    <div class="mb-4">
+                        <label for="childName" class="block text-sm font-medium text-gray-700">Nama Anak</label>
+                        <input type="text" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+                            id="childName" name="nama" required>
+                    </div>
+
+                    <div class="flex justify-end gap-2 mt-4">
+                        <button type="button" id="closeModalButton2" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+                            Batal
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                            Tambah Anak
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+
 
 {{-- Edit Modal --}}
 <div id="editModal" class="fixed inset-0 bg-black bg-opacity-25 hidden items-center justify-center z-50 p-4">
@@ -277,6 +330,33 @@ function closeEditModal() {
     modal.classList.add('hidden');
     modal.classList.remove('flex');
 }
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("addChildModal");
+    const addChildButtons = document.querySelectorAll(".add-child-btn");
+    const childUserIdInput = document.getElementById("childUserId");
+    const closeModalBtns = document.querySelectorAll("#closeModalButton, #closeModalButton2");
 
+    addChildButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            const userId = this.getAttribute("data-userid");
+            childUserIdInput.value = userId;  // Isi input hidden dengan ID user
+            modal.classList.remove("hidden");
+        });
+    });
+
+    closeModalBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            modal.classList.add("hidden");
+        });
+    });
+
+    // Close Modal when clicking outside
+    modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            modal.classList.add("hidden");
+        }
+    });
+});
 </script>
+
 @endsection

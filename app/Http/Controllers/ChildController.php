@@ -241,7 +241,7 @@ class ChildController extends Controller
     try {
         $child = Child::findOrFail($id);
 
-        $latestMedicalRecord = $child->histories()->latest('tanggal')->first();
+        $latestMedicalRecord = $child->histories()->orderBy('tanggal')->first();
 
         // Debugging output to log file
         Log::info('Child Info:', ['child' => $child]);
@@ -250,6 +250,8 @@ class ChildController extends Controller
         return view('child_info', compact('child', 'latestMedicalRecord'));
     } catch (\Exception $e) {
         Log::error('Child Info Fetch Error: ' . $e->getMessage());
+
+        dd($latestMedicalRecord);
         return redirect()->back()->with('error', 'Unable to fetch child information.');
     }
 }

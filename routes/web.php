@@ -64,8 +64,7 @@ Route::middleware('auth')->group(function () {
     
     Route::post('children/{id}/download-excel', [ChildController::class, 'downloadExcel'])->name('children.downloadExcel');
     Route::put('/children/{id}', [ChildController::class, 'update'])->name('children.update');
-
-        
+   
 });
 
 Route::get('/success', function () {

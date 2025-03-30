@@ -11,29 +11,31 @@
     
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'inter': ['Inter', 'sans-serif']
-                    },
-                    colors: {
-                        'purple': {
-                            50: '#f5f3ff',
-                            100: '#ede9fe',
-                            200: '#ddd6fe',
-                            300: '#c4b5fd',
-                            400: '#a78bfa',
-                            500: '#8b5cf6',
-                            600: '#7c3aed',
-                            700: '#6d28d9',
-                            800: '#5b21b6',
-                            900: '#4c1d95'
-                        }
-                    }
-                }
+      darkMode: 'class', // or 'media' for system preference
+      theme: {
+        extend: {
+          fontFamily: {
+            'inter': ['Inter', 'sans-serif']
+          },
+          colors: {
+            'purple': {
+              50: '#f5f3ff',
+              100: '#ede9fe',
+              200: '#ddd6fe',
+              300: '#c4b5fd',
+              400: '#a78bfa',
+              500: '#8b5cf6',
+              600: '#7c3aed',
+              700: '#6d28d9',
+              800: '#5b21b6',
+              900: '#4c1d95'
             }
+          }
         }
+      }
+    }
     </script>
+
     <style>
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(5px); }
@@ -50,7 +52,16 @@
             animation: fadeIn 0.3s ease-out forwards;
             opacity: 0;
         }
-        
+        * {
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 300ms;
+    }
+    
+    /* Prevent transitions on page load */
+    .no-transition * {
+      transition: none !important;
+    }
         .menu-item:nth-child(1) { animation-delay: 0.05s; }
         .menu-item:nth-child(2) { animation-delay: 0.1s; }
         .menu-item:nth-child(3) { animation-delay: 0.15s; }
@@ -83,7 +94,8 @@
     </style>
     @yield('styles')
 </head>
-<body class="font-inter bg-gray-50 text-gray-800 overflow-x-hidden">
+
+<body class="font-inter bg-gray-50 text-gray-800 overflow-x-hidden dark:text-white transition-colors duration-300 dark:bg-gray-900">
     <div class="flex flex-col md:flex-row min-h-screen relative">
         <!-- Mobile Menu Button -->
         <div class="md:hidden fixed top-4 right-4 z-30">
@@ -91,7 +103,7 @@
                 <i class="fas fa-bars"></i>
             </button>
         </div>
-
+        
         <!-- Sidebar Overlay -->
         <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden" onclick="closeSidebar()"></div>
 
