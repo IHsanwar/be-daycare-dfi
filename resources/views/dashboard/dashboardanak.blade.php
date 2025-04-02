@@ -34,24 +34,24 @@
             </div>
        </div>
      <!-- Table view (hidden on mobile, visible on md screens and up) -->
-     <div class="bg-white rounded-xl shadow-soft overflow-hidden dark:bg-gray-900 dark:outline-gray-500 dark:outline">
+     <div class="bg-white rounded-xl shadow-soft overflow-hidden dark:bg-gray-900 dark:border dark:border-gray-700">
         <table class="w-full hidden md:table">
-            <thead>
-                <tr class="bg-gray-50">
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-900 dark:outline-gray-500 dark:outline">Nama Anak</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-900 dark:outline-gray-500 dark:outline">Nama Orang tua</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-900 dark:outline-gray-500 dark:outline">Tanggal</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-900 dark:outline-gray-500 dark:outline">Status</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-900 dark:outline-gray-500 dark:outline">Actions</th>
+            <thead class="bg-gray-50 dark:bg-gray-100 border-b border-gray-300 dark:border-gray-700">
+                <tr class="bg-gray-50 dark:even:bg-gray-800 dark:odd:bg-gray-900" >
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  dark:outline-gray-500">Nama Anak</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  dark:outline-gray-500 ">Nama Orang tua</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  dark:outline-gray-500 ">Tanggal</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  dark:outline-gray-500 ">Status</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:outline-gray-500 ">Actions</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-transparent">
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-700"">
             @foreach ($children as $child)
-            <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:bg-gray-900 dark:outline-gray-500 dark:outline dark:text-white">{{ $child->nama }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:bg-gray-900 dark:outline-gray-500 dark:outline dark:text-white">{{ $child->user->name ?? '-' }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:bg-gray-900 dark:outline-gray-500 dark:outline dark:text-white">{{ \Carbon\Carbon::parse($child->tanggal)->format('d-m-Y') }}</td>
-                <td class="p-3 dark:bg-gray-900 dark:outline-gray-500 dark:outline dark:text-white">
+            <tr class="dark:odd:bg-gray-800 dark:even:bg-gray-900">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:outline-gray-500 dark:text-white">{{ $child->nama }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:outline-gray-500 dark:text-white">{{ $child->user->name ?? '-' }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700  dark:outline-gray-500  dark:text-white">{{ \Carbon\Carbon::parse($child->tanggal)->format('d-m-Y') }}</td>
+                <td class="p-3 dark:outline-gray-500 dark:text-white">
                     @php
                         $today = \Carbon\Carbon::now()->format('Y-m-d');
                         $childHistory = $child->histories()->whereDate('tanggal', $today)->latest()->first();

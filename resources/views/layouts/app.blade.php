@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="transition-theme duration-300">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,6 +37,8 @@
     </script>
 
     <style>
+      
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
@@ -91,6 +93,44 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        /* Improved text contrast for dark mode */
+.dark .text-primary {
+  color: hsl(265, 80%, 80%); /* Brighter purple */
+}
+
+/* Better hover states for interactive elements */
+.dark .interactive:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Consistent button styling system */
+.dark .btn-primary {
+  background-color: hsl(265, 80%, 60%);
+}
+
+.dark .btn-secondary {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .btn-danger {
+  background-color: hsl(0, 70%, 50%);
+}
+
+/* Improved form elements */
+.dark .input-field {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .input-field:focus {
+  border-color: hsl(265, 80%, 60%);
+  box-shadow: 0 0 0 2px rgba(123, 97, 255, 0.2);
+}
+        html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
     </style>
     @yield('styles')
 </head>
