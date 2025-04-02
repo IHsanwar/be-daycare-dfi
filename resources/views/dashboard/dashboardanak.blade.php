@@ -501,16 +501,7 @@ function performDelete(id, token) {
         });
     });
 
-    // Initialize any toggle functionality
-    const menuToggle = document.getElementById("menuToggle");
-    if (menuToggle) {
-        menuToggle.addEventListener("click", function() {
-            let sidebar = document.getElementById("sidebar");
-            let overlay = document.getElementById("sidebarOverlay");
-            sidebar.classList.toggle("-translate-x-full");
-            overlay.classList.toggle("hidden");
-        });
-    }
+    
 function openIframeModal(id) {
     // Make sure the modal element exists
     const modal = document.getElementById("infoIframeModal");
@@ -536,7 +527,6 @@ function openIframeModal(id) {
     if (iframe) {
         iframe.src = `/children/{id}/`;
         
-        // Hide the loading indicator when the iframe is loaded
         iframe.onload = function() {
             if (loaderElement) {
                 loaderElement.style.display = "none";
@@ -544,18 +534,15 @@ function openIframeModal(id) {
         };
     }
     
-    // Show the modal
     modal.classList.remove("hidden");
     modal.classList.add("flex");
 }
 
 function closeIframeModal() {
-    // Hide the modal
     const modal = document.getElementById("infoIframeModal");
     modal.classList.add("hidden");
     modal.classList.remove("flex");
     
-    // Clear the iframe source to stop any ongoing processes
     document.getElementById("childInfoIframe").src = "";
 }
 

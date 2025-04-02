@@ -130,4 +130,15 @@ toggle.addEventListener('click', () => {
     localStorage.setItem('darkMode', 'light');
   }
 });
+
+// Initialize any toggle functionality
+const menuToggle = document.getElementById("menuToggle");
+    if (menuToggle) {
+        menuToggle.addEventListener("click", function() {
+            let sidebar = document.getElementById("sidebar");
+            let overlay = document.getElementById("sidebarOverlay");
+            sidebar.classList.toggle("-translate-x-full");
+            overlay.classList.toggle("hidden");
+        });
+    }
   </script>
