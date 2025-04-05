@@ -14,18 +14,18 @@
         <!-- Main Content -->
         <div class="flex-1 md:ml-2">
             <!-- Header -->
-            <div class="bg-white p-3 shadow-sm sticky top-0 z-10">
+            <div class="bg-white p-3 shadow-sm sticky top-0 z-10  dark:bg-gray-900 dark:outline-gray-500 dark:outline">
                 <div class="flex items-center">
                     <div class="text-purple-600 mr-3">
                         <i class="fas fa-edit"></i>
                     </div>
-                    <span class="font-bold text-gray-800">Update Status Anak</span>
+                    <span class="font-bold text-gray-800  dark:font-bold dark:text-white">Update Status Anak</span>
                 </div>
             </div>
             
             <!-- Child Info Card -->
             <div class="p-4">
-                <div class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
+                <div class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 dark:bg-gray-900 dark:outline-gray-500 dark:outline">
                     <div class="flex flex-col md:flex-row md:justify-between gap-4">
                         <!-- Child and companion info -->
                         <div class="flex flex-col space-y-4">
@@ -97,8 +97,8 @@
 
                 <!-- Recent Activity Section - Added to fill the gap -->
                 <div class="mt-4">
-                    <h3 class="font-semibold text-gray-700 mb-2">Aktivitas Terbaru</h3>
-                    <div class="bg-white rounded-xl shadow-sm p-4">
+                    <h3 class="font-semibold text-gray-700 mb-2 dark:font-semibold dark:text-white dark:mb-2">Aktivitas Terbaru</h3>
+                    <div class="bg-white rounded-xl shadow-sm p-4  dark:bg-gray-900 dark:outline-gray-500 dark:outline">
                         <div class="space-y-3">
                             <div class="flex items-start border-b border-gray-100 pb-3">
                                 <div class="h-8 w-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3">
@@ -160,7 +160,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- Close modal function -->
 <script>

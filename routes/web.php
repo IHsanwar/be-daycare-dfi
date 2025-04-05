@@ -50,6 +50,9 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/children/{id}/edit-status/{type?}', [ChildController::class, 'editStatus'])
     ->name('children.editStatus');
+    Route::put('/children/{id}/makan-cemilan', [ChildController::class, 'updateMakanCemilan'])
+    ->name('children.update.makan-cemilan');
+
 
     Route::put('/children/{id}/update-status/{type}', [ChildController::class, 'updateStatus']);
 
