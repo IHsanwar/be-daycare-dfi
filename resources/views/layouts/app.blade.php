@@ -8,7 +8,7 @@
     <script src="https://kit.fontawesome.com/e16c014aae.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+    <script src="{{ asset('js/main.js') }}"></script>
     <script>
         tailwind.config = {
       darkMode: 'class', // or 'media' for system preference

@@ -155,7 +155,7 @@
         </div>
         
         <!-- Modal Iframe Content -->
-        <div class="h-[80vh]">
+        <div class="h-[80vh] dark:bg-gray-800">
             <iframe id="childInfoIframe" class="w-full h-full" frameborder="0"></iframe>
         </div>
     </div>

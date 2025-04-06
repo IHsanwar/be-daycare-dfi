@@ -6,6 +6,36 @@
     <title>Update Menu Kegiatan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#111827',
+                        darkCard: '#1F2937',
+                        accentPurple: '#A855F7',
+                        accentHover: '#9333EA',
+                        accentLight: '#C084FC'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-image: linear-gradient(to bottom right, #1E293B, #111827);
+            min-height: 100vh;
+        }
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
