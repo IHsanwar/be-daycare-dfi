@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Menu Informasi Buang Air</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -38,9 +36,9 @@
     </style>
     
 </head>
-<body class="bg-gray-100">
+<body class="bg-white dark:dark-bg">
     <div class="container mx-auto px-4 py-8">
-        <div class="bg-white rounded-xl shadow-lg p-6">
+        <div class="bg-white rounded-xl shadow-lg p-6 dark:bg-black dark:rounded-xl dark:shadow-lg p-6">
             <!-- Header -->
             <div class="flex items-center justify-between mb-6">
                 <h1 class="text-2xl font-bold text-purple-700">Update Informasi Buang Air</h1>
@@ -117,6 +115,34 @@
     document.querySelector("form").addEventListener("submit", function(e) {
     console.log("Form dikirim!"); // Debugging
 });
+// Animation keyframes
+document.styleSheets[0].insertRule(`
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `, 0);
+
+        // Toggle custom food input fields
+        function toggleCustomMakanan(time) {
+            const selectElement = document.getElementById(`makan_${time}`);
+            const customDiv = document.getElementById(`custom_makan_${time}_div`);
+            
+            if (selectElement.value === 'custom') {
+                customDiv.classList.remove('hidden');
+            } else {
+                customDiv.classList.add('hidden');
+            }
+        }
+
+        // Initialize select elements
+        document.addEventListener('DOMContentLoaded', function() {
+            ['pagi', 'siang', 'sore'].forEach(time => {
+                document.getElementById(`makan_${time}`).addEventListener('change', function() {
+                    toggleCustomMakanan(time);
+                });
+            });
+        });
 </script>
 </body>
 </html>
