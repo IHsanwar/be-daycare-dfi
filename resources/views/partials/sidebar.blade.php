@@ -80,12 +80,17 @@
             Dashboard User (Khusus Admin)
         </a>
     </div>
-    <div class="p-4 flex gap-2 items-center">
-        <label class="toggle-container ml-4 justify-center" id="dark-toggle"> 
+
+    
+    <div class="p-4 flex gap-2 items-center hidden">
+        <label class="toggle-container ml-4 justify-center " id="dark-toggle"> 
           <div class="toggle-circle"></div>
         </label>
       Mode Gelap
-      </div> <!-- Tombol Logout -->
+      </div> 
+      
+      
+      <!-- Tombol Logout -->
     <div class="p-4">
         <form action="{{ route('logout') }}" method="POST">
             @csrf

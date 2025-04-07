@@ -104,6 +104,9 @@ class ChildController extends Controller
             return view('editstatus', compact('child'));
         }
     }
+
+
+    
     public function updateStatus(Request $request, $id, $type)
 {
     $child = Child::findOrFail($id);
@@ -111,12 +114,20 @@ class ChildController extends Controller
 
     if ($type === 'makan-cemilan') {
         $validatedData = $request->validate([
+            'nama_pendamping' => 'nullable|string',
+            'tanggal' => 'nullable|date',
             'makan_pagi' => 'nullable|string',
             'makan_siang' => 'nullable|string',
             'makan_sore' => 'nullable|string',
+            'makan_pagi_custom' => 'nullable|string',
+            'makan_siang_custom' => 'nullable|string',
+            'makan_sore_custom' => 'nullable|string',
             'makanan_camilan_pagi' => 'nullable|array',
             'makanan_camilan_siang' => 'nullable|array',
             'makanan_camilan_sore' => 'nullable|array',
+            'makanan_camilan_pagi_custom' => 'nullable|string',
+            'makanan_camilan_siang_custom' => 'nullable|string',
+            'makanan_camilan_sore_custom' => 'nullable|string',
             'susu_pagi' => 'nullable|integer',
             'air_putih_pagi' => 'nullable|integer',
             'susu_siang' => 'nullable|integer',
@@ -124,7 +135,29 @@ class ChildController extends Controller
             'susu_sore' => 'nullable|integer',
             'air_putih_sore' => 'nullable|integer',
         ]);
-    } elseif ($type === 'buang-air') {
+
+        // Gabungkan data custom jika ada
+        if ($validatedData['makan_pagi'] === 'custom' && !empty($validatedData['makan_pagi_custom'])) {
+            $validatedData['makan_pagi'] = $validatedData['makan_pagi_custom'];
+        }
+        if ($validatedData['makan_siang'] === 'custom' && !empty($validatedData['makan_siang_custom'])) {
+            $validatedData['makan_siang'] = $validatedData['makan_siang_custom'];
+        }
+        if ($validatedData['makan_sore'] === 'custom' && !empty($validatedData['makan_sore_custom'])) {
+            $validatedData['makan_sore'] = $validatedData['makan_sore_custom'];
+        }
+
+        // Gabungkan camilan custom jika ada
+        foreach (['pagi', 'siang', 'sore'] as $waktu) {
+            $key = "makanan_camilan_{$waktu}";
+            $customKey = "{$key}_custom";
+            if (!empty($validatedData[$customKey])) {
+                $validatedData[$key][] = $validatedData[$customKey];
+            }
+        }
+    }
+
+    elseif ($type === 'buang-air') {
         $validatedData = $request->validate([
             'bak_pagi' => 'nullable|integer',
             'bab_pagi' => 'nullable|integer',
@@ -132,14 +165,17 @@ class ChildController extends Controller
             'bab_siang' => 'nullable|integer',
             'bak_sore' => 'nullable|integer',
             'bab_sore' => 'nullable|integer',
-
         ]);
-    } elseif ($type === 'kegiatan') {
+    }
+
+    elseif ($type === 'kegiatan') {
         $validatedData = $request->validate([
             'kegiatan_outdoor' => 'nullable|string',
             'kegiatan_indoor' => 'nullable|string',
         ]);
-    } elseif ($type === 'kesehatan') {
+    }
+
+    elseif ($type === 'kesehatan') {
         $validatedData = $request->validate([
             'kondisi' => 'nullable|in:sehat,sakit',
             'obat_pagi' => 'nullable|date_format:H:i',
@@ -151,65 +187,23 @@ class ChildController extends Controller
             'keterangan' => 'nullable|string',
         ]);
     }
-    
-    
-     else {
+
+    else {
         return redirect()->back()->withErrors(['error' => 'Tipe update tidak valid.']);
     }
-    
+
+    // Serialize array fields (e.g., camilan) jika kamu simpan di satu kolom
+    foreach (['makanan_camilan_pagi', 'makanan_camilan_siang', 'makanan_camilan_sore'] as $key) {
+        if (isset($validatedData[$key]) && is_array($validatedData[$key])) {
+            $validatedData[$key] = implode(',', $validatedData[$key]);
+        }
+    }
+
     $child->update($validatedData);
 
     return redirect()->to('/success')->with('success', 'Data berhasil diperbarui.');
 }
 
-    
-    
-    public function saveStep(Request $request, $id, $step)
-    {
-        $validatedData = $request->validate([
-            'nama_pendamping' => 'nullable|string',
-            'makan_pagi' => 'nullable|string',
-            'makan_siang' => 'nullable|string',
-            'makan_sore' => 'nullable|string',
-            'susu_pagi' => 'nullable|integer',
-            'susu_siang' => 'nullable|integer',
-            'susu_sore' => 'nullable|integer',
-            'air_putih_pagi' => 'nullable|integer',
-            'air_putih_siang' => 'nullable|integer',
-            'air_putih_sore' => 'nullable|integer',
-            'bak_pagi' => 'nullable|integer',
-            'bak_siang' => 'nullable|integer',
-            'bak_sore' => 'nullable|integer',
-            'bab_pagi' => 'nullable|integer',
-            'bab_siang' => 'nullable|integer',
-            'bab_sore' => 'nullable|integer',
-            'tidur_pagi' => 'nullable|integer',
-            'tidur_siang' => 'nullable|integer',
-            'tidur_sore' => 'nullable|integer',
-            'kegiatan_outdoor' => 'nullable|array',
-            'kegiatan_outdoor_lainnya' => 'nullable|string|max:255',
-            'keterangan' => 'nullable|string',
-            'kondisi' => 'nullable|in:sehat,sakit',
-            'obat_pagi' => 'nullable|date_format:H:i',
-            'obat_siang' => 'nullable|date_format:H:i',
-            'obat_sore' => 'nullable|date_format:H:i',
-        ]);
-
-        // Simpan ke session
-        $sessionKey = 'form_data_' . $id;
-        $existingData = session($sessionKey, []);
-        session([$sessionKey => array_merge($existingData, $validatedData)]);
-        // Redirect ke halaman selanjutnya
-        return redirect()->route('editStatus', ['id' => $id, 'step' => $this->nextStep($step)]);
-    }
-
-    // Fungsi menentukan langkah berikutnya
-    private function nextStep($currentStep)
-    {
-        $steps = ['makan-cemilan', 'buang-air', 'kegiatan', 'keterangan', 'kesehatan'];
-        $index = array_search($currentStep, $steps);
-        return $index !== false && isset($steps[$index + 1]) ? $steps[$index + 1] : 'review';
-    }
 
     
     public function search(Request $request)

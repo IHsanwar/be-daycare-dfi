@@ -56,6 +56,7 @@
             <table class="w-full">
                 <thead class="bg-gray-50 dark:bg-gray-900 border-b border-gray-300 dark:border-gray-700">
                     <tr>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">No</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">Username</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">Email</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">Role</th>
@@ -65,6 +66,7 @@
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                     @foreach($users as $user)
                     <tr class="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-800 dark:even:bg-gray-900">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $loop->iteration }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ $user->name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $user->email }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -77,7 +79,7 @@
                             @if($user->role != 'admin')
                                 <button type="button" 
                                         class="text-sm px-4 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors 
-                                            dark:bg-green-900 dark:text-green-300 dark:hover:bg-green-700">
+                                            dark:bg-green-900 dark:text-green-300 dark:hover:bg-green-700 add-child-btn">
                                     <i class="fas fa-baby"></i> Tambah Anak
                                 </button>
                             @endif
