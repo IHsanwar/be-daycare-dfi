@@ -17,22 +17,36 @@
             </div>
         </div>
        {{-- Search and Add User Section --}}
-       <div class="flex flex-col sm:flex-row gap-4 justify-between">
-         <div class="relative">
-                <input 
-                    type="text" 
-                    name="search" 
-                    placeholder="Cari nama anak..." 
-                    class="w-full pl-10 pr-4 py-3 rounded-xl border-none bg-white shadow-soft focus:ring-2 focus:ring-purple-300 text-gray-700 dark:bg-gray-900 dark:outline-gray-500 dark:outline"
-                    value="{{ request('search') }}"
-                >
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </div>
+       <form method="GET" action="{{ route('dashboardanak') }}">
+    <div class="flex flex-col sm:flex-row gap-4 justify-between">
+        <div class="relative">
+            <input 
+                type="text" 
+                name="search" 
+                placeholder="Cari nama anak..." 
+                class="w-full pl-10 pr-4 py-3 rounded-xl border-none bg-white shadow-soft focus:ring-2 focus:ring-purple-300 text-gray-700 dark:bg-gray-900 dark:outline-gray-500 dark:outline"
+                value="{{ request('search') }}"
+            >
+
+            {{-- Icon kaca pembesar --}}
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
             </div>
-       </div>
+
+            {{-- Tombol X untuk reset --}}
+            @if(request('search'))
+            <a href="{{ route('dashboardanak') }}" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-red-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 8.586l4.95-4.95a1 1 0 111.414 1.414L11.414 10l4.95 4.95a1 1 0 01-1.414 1.414L10 11.414l-4.95 4.95a1 1 0 01-1.414-1.414L8.586 10l-4.95-4.95a1 1 0 011.414-1.414L10 8.586z" clip-rule="evenodd" />
+                </svg>
+            </a>
+            @endif
+        </div>
+    </div>
+</form>
+
      <!-- Table view (hidden on mobile, visible on md screens and up) -->
      <div class="bg-white rounded-xl shadow-soft overflow-hidden dark:bg-gray-900 dark:border dark:border-gray-700">
         <table class="w-full hidden md:table">
@@ -105,6 +119,8 @@
             </table>
         </div>     
 </div>       
+
+
         <!-- Card view (visible on mobile, hidden on md screens and up) -->
         <div class="md:hidden space-y-4">
             @foreach ($children as $child)
@@ -190,6 +206,8 @@
             </div>
             @endforeach
         </div>
+
+        
 
         
                         <!-- Modal for displaying dashboardanak/info/{id} -->

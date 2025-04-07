@@ -160,7 +160,6 @@
         </div>
     </div>
 </div>
-
 <!-- Close modal function -->
 <script>
     function closeIframeModal() {

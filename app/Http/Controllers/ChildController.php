@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ChildHistoryExport;
 use Illuminate\Support\Facades\Log;
 
+
 class ChildController extends Controller
 {
     public function store(Request $request)
@@ -202,6 +203,19 @@ class ChildController extends Controller
     $child->update($validatedData);
 
     return redirect()->to('/success')->with('success', 'Data berhasil diperbarui.');
+}
+
+public function childIndex(Request $request)
+{
+    $search = $request->query('search');
+
+    $anak = Anak::query()
+        ->when($search, function ($query, $search) {
+            return $query->where('nama_anak', 'like', '%' . $search . '%');
+        })
+        ->paginate(10);
+
+    return view('dashboard.anak', compact('anak'));
 }
 
 

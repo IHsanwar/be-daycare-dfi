@@ -22,24 +22,39 @@ class DashboardController extends Controller
         return view('dashboard.dashboard', compact('children', 'selectedChild'));
     }
 
-    public function adminIndex()
-    {
-        if (Auth::check() && Auth::user()->role == 'admin') {
-            $users = User::all();
-            return view('dashboard.dashboardadmin', compact('users'));
-        }
+    public function adminIndex(Request $request)
+{
+    if (Auth::check() && Auth::user()->role == 'admin') {
+        $search = $request->query('search');
 
-        return redirect("login")->withErrors('Kamu tidak memiliki akses ke dashboard admin. Silahkan login kembali');
+        $users = User::when($search, function ($query, $search) {
+            return $query->where('name', 'like', '%' . $search . '%');
+        })->get();
+
+        return view('dashboard.dashboardadmin', compact('users'));
     }
 
-    public function childIndex()
-    {
-        if (Auth::check() && Auth::user()->role == 'admin') {
-            $children = Child::with('user')->get();
-            $users = User::where('role', 'user')->get();
-            return view('dashboard.dashboardanak', compact('children', 'users'));
-        }
-
-        return redirect("login")->withErrors('Anda tidak memiliki akses ke dashboard anak. Silakan login kembali');
-    }
+    return redirect("login")->withErrors('Kamu tidak memiliki akses ke dashboard admin. Silakan login kembali.');
 }
+
+
+    public function childIndex(Request $request)
+{
+    if (Auth::check() && Auth::user()->role == 'admin') {
+        $search = $request->query('search');
+
+        $children = Child::with('user')
+            ->when($search, function ($query, $search) {
+                return $query->where('nama', 'like', '%' . $search . '%');
+            })
+            ->get();
+
+        $users = User::where('role', 'user')->get();
+
+        return view('dashboard.dashboardanak', compact('children', 'users'));
+    }
+
+    return redirect("login")->withErrors('Anda tidak memiliki akses ke dashboard anak. Silakan login terlebih dahulu.');
+}
+}
+    

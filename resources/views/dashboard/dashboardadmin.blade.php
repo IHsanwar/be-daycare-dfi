@@ -25,21 +25,34 @@
         </div>
     </div>
 {{-- Search and Add User Section --}}
+<form method="GET" action="{{ route('dashboardadmin') }}">
 <div class="flex flex-col sm:flex-row gap-4 justify-between">
-        <div class="relative">
-            <input 
-                type="text" 
-                name="search" 
-                placeholder="Cari nama anak..." 
-                class="w-full pl-10 pr-4 py-3 rounded-xl border-none bg-white shadow-soft focus:ring-2 focus:ring-purple-300 text-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border dark:border-gray-700 dark:focus:ring-purple-500"
-                value="{{ request('search') }}"
-            >
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-            </div>
+    <div class="relative w-72">
+        <input 
+            type="text" 
+            name="search" 
+            placeholder="Cari nama user..." 
+            value="{{ request('search') }}"
+            class="pl-10 pr-10 py-3 rounded-xl border-none bg-white shadow-soft focus:ring-2 focus:ring-purple-300 text-gray-700 dark:bg-gray-900 dark:outline-gray-500 dark:outline w-full"
+        >
+        {{-- Icon kaca pembesar --}}
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
         </div>
+
+        {{-- Tombol X --}}
+        @if(request('search'))
+        <a href="{{ route('dashboardadmin') }}" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-red-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 8.586l4.95-4.95a1 1 0 111.414 1.414L11.414 10l4.95 4.95a1 1 0 01-1.414 1.414L10 11.414l-4.95 4.95a1 1 0 01-1.414-1.414L8.586 10l-4.95-4.95a1 1 0 011.414-1.414L10 8.586z" clip-rule="evenodd" />
+            </svg>
+        </a>
+        @endif
+    </div>
+</form>
+
 
     <a href="{{ route('register') }}" 
        class="inline-flex items-center justify-center px-6 py-3 bg-purple-500 text-white rounded-xl shadow-soft hover:bg-purple-600 transition-colors dark:bg-purple-600 dark:hover:bg-purple-700">
@@ -230,7 +243,16 @@
         </form>
     </div>
 </div>
+{{-- FOOTER --}}
+    <footer class="mt-auto bg-white py-4 border-t border-gray-100 dark:bg-gray-800 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-sm text-gray-500 dark:text-gray-400">
+                © 2025 DayCare Portal. All rights reserved.
+            </p>
+        </div>
+    </footer>
 </div>
+
 
 <!-- Include Notiflx -->
 <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.6/dist/notiflix-aio-3.2.6.min.js"></script>
