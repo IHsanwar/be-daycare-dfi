@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('title', 'Dashboard Anak')
 @section('content')
-<div class="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8 dark:bg-gray-900">
+<div class="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8 ">
     <div class="max-w-7xl mx-auto space-y-6">
-       <div class="bg-white rounded-xl shadow-soft p-6 dark:bg-gray-900 dark:outline-gray-500 dark:outline">
+       <div class="bg-white rounded-xl shadow-soft p-6">
         <div class="flex items-center justify-between">
             <div>
-             <h2 class="text-2xl font-semibold text-gray-800 mb-2 dark:text-gray-50">Selamat Datang, {{ Auth::user()->name }}</h2>
+             <h2 class="text-2xl font-semibold text-gray-800 mb-2">Selamat Datang, {{ Auth::user()->name }}</h2>
              <p class="text-gray-500 text-sm">Kelola data anak-anak di daycare Anda di sini.</p>
              </div>
              <div class="hidden sm:block">
@@ -24,7 +24,7 @@
                 type="text" 
                 name="search" 
                 placeholder="Cari nama anak..." 
-                class="w-full pl-10 pr-4 py-3 rounded-xl border-none bg-white shadow-soft focus:ring-2 focus:ring-purple-300 text-gray-700 dark:bg-gray-900 dark:outline-gray-500 dark:outline"
+                class="w-full pl-10 pr-4 py-3 rounded-xl border-none bg-white shadow-soft focus:ring-2 focus:ring-purple-300 text-gray-700"
                 value="{{ request('search') }}"
             >
 
@@ -48,24 +48,24 @@
 </form>
 
      <!-- Table view (hidden on mobile, visible on md screens and up) -->
-     <div class="bg-white rounded-xl shadow-soft overflow-hidden dark:bg-gray-900 dark:border dark:border-gray-700">
+     <div class="bg-white rounded-xl shadow-soft overflow-hidden">
         <table class="w-full hidden md:table">
-            <thead class="bg-gray-50 dark:bg-gray-100 border-b border-gray-300 dark:border-gray-700">
-                <tr class="bg-gray-50 dark:even:bg-gray-800 dark:odd:bg-gray-900" >
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  dark:outline-gray-500">Nama Anak</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  dark:outline-gray-500 ">Nama Orang tua</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  dark:outline-gray-500 ">Tanggal</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  dark:outline-gray-500 ">Status</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:outline-gray-500 ">Actions</th>
+            <thead class="bg-gray-50">
+                <tr class="bg-gray-50" >
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Anak</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Orang tua</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200 dark:divide-gray-700"">
+            <tbody class="divide-y divide-gray-200">
             @foreach ($children as $child)
-            <tr class="dark:odd:bg-gray-800 dark:even:bg-gray-900">
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:outline-gray-500 dark:text-white">{{ $child->nama }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:outline-gray-500 dark:text-white">{{ $child->user->name ?? '-' }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700  dark:outline-gray-500  dark:text-white">{{ \Carbon\Carbon::parse($child->tanggal)->format('d-m-Y') }}</td>
-                <td class="p-3 dark:outline-gray-500 dark:text-white">
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $child->nama }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $child->user->name ?? '-' }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ \Carbon\Carbon::parse($child->tanggal)->format('d-m-Y') }}</td>
+                <td class="p-3">
                 @php
     $childHistory = $child->histories()->latest()->first();
 
