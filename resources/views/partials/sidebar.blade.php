@@ -82,7 +82,7 @@
     </div>
 
     
-    <div class="p-4 flex gap-2 items-center hidden">
+    <div class="p-4 flex gap-2 items-center ">
         <label class="toggle-container ml-4 justify-center " id="dark-toggle"> 
           <div class="toggle-circle"></div>
         </label>

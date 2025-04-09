@@ -77,8 +77,8 @@
                             class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
                     </div>
                     <div>
-                        <label class="block font-medium text-purple-900">Malam:</label>
-                        <input type="number" name="tidur_malam" min="0" placeholder="Jumlah"
+                        <label class="block font-medium text-purple-900">Sore:</label>
+                        <input type="number" name="tidur_sore" min="0" placeholder="Jumlah"
                             class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
                     </div>
                 </div>

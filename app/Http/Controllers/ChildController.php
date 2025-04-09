@@ -32,18 +32,19 @@ class ChildController extends Controller
     }
 
     public function destroy(Request $request, $id)
-    {
-        $child = Child::find($id);
-    
-        if (!$child) {
-            return response()->json(['success' => false, 'message' => 'Data tidak ditemukan.'], 404);
+        {
+            $child = Child::find($id);
+
+            if (!$child) {
+                return response()->json(['success' => false, 'message' => 'Data tidak ditemukan.'], 404);
+            }
+
+            $child->delete();
+
+            return response()->json(['success' => true, 'message' => 'Anak berhasil dihapus.']);
         }
-    
-        $child->delete();
-    
-        return response()->json(['success' => true, 'message' => 'Data berhasil dihapus.']);
-    }
-    
+
+            
     public function updateStatusFinal($id)
     {
         $child = Child::findOrFail($id);
@@ -137,7 +138,7 @@ class ChildController extends Controller
             'air_putih_sore' => 'nullable|integer',
         ]);
 
-        // Gabungkan data custom jika ada
+        // Gabungkan data custom
         if ($validatedData['makan_pagi'] === 'custom' && !empty($validatedData['makan_pagi_custom'])) {
             $validatedData['makan_pagi'] = $validatedData['makan_pagi_custom'];
         }
@@ -148,7 +149,6 @@ class ChildController extends Controller
             $validatedData['makan_sore'] = $validatedData['makan_sore_custom'];
         }
 
-        // Gabungkan camilan custom jika ada
         foreach (['pagi', 'siang', 'sore'] as $waktu) {
             $key = "makanan_camilan_{$waktu}";
             $customKey = "{$key}_custom";
@@ -156,6 +156,16 @@ class ChildController extends Controller
                 $validatedData[$key][] = $validatedData[$customKey];
             }
         }
+
+        // Update ke tabel `children`
+        $child->update([
+            'susu_pagi' => $validatedData['susu_pagi'] ?? $child->susu_pagi,
+            'air_putih_pagi' => $validatedData['air_putih_pagi'] ?? $child->air_putih_pagi,
+            'susu_siang' => $validatedData['susu_siang'] ?? $child->susu_siang,
+            'air_putih_siang' => $validatedData['air_putih_siang'] ?? $child->air_putih_siang,
+            'susu_sore' => $validatedData['susu_sore'] ?? $child->susu_sore,
+            'air_putih_sore' => $validatedData['air_putih_sore'] ?? $child->air_putih_sore,
+        ]);
     }
 
     elseif ($type === 'buang-air') {
@@ -167,12 +177,18 @@ class ChildController extends Controller
             'bak_sore' => 'nullable|integer',
             'bab_sore' => 'nullable|integer',
         ]);
+
+        // Misalnya ingin update jumlah total buang air ke `children`
+        $child->update([
+            'total_bak' => ($validatedData['bak_pagi'] ?? 0) + ($validatedData['bak_siang'] ?? 0) + ($validatedData['bak_sore'] ?? 0),
+            'total_bab' => ($validatedData['bab_pagi'] ?? 0) + ($validatedData['bab_siang'] ?? 0) + ($validatedData['bab_sore'] ?? 0),
+        ]);
     }
 
     elseif ($type === 'kegiatan') {
         $validatedData = $request->validate([
-            'kegiatan_outdoor' => 'nullable|string',
-            'kegiatan_indoor' => 'nullable|string',
+            'kegiatan_outdoor' => 'nullable|array',
+            'kegiatan_indoor' => 'nullable|array',
         ]);
     }
 
@@ -187,23 +203,32 @@ class ChildController extends Controller
             'tidur_sore' => 'nullable|string',
             'keterangan' => 'nullable|string',
         ]);
+
+        // Simpan kondisi terakhir ke tabel `children`
+        $child->update([
+            'kondisi' => $validatedData['kondisi'] ?? $child->kondisi,
+        ]);
     }
 
     else {
         return redirect()->back()->withErrors(['error' => 'Tipe update tidak valid.']);
     }
 
-    // Serialize array fields (e.g., camilan) jika kamu simpan di satu kolom
+    // Serialize array fields
     foreach (['makanan_camilan_pagi', 'makanan_camilan_siang', 'makanan_camilan_sore'] as $key) {
         if (isset($validatedData[$key]) && is_array($validatedData[$key])) {
             $validatedData[$key] = implode(',', $validatedData[$key]);
         }
     }
 
-    $child->update($validatedData);
+    $child->histories()->updateOrCreate(
+        ['tanggal' => $validatedData['tanggal'] ?? today()],
+        $validatedData
+    );
 
     return redirect()->to('/success')->with('success', 'Data berhasil diperbarui.');
 }
+
 
 public function childIndex(Request $request)
 {

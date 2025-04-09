@@ -90,11 +90,10 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap flex space-x-2">
                             @if($user->role != 'admin')
-                                <button type="button" 
-                                        class="text-sm px-4 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors 
-                                            dark:bg-green-900 dark:text-green-300 dark:hover:bg-green-700 add-child-btn">
-                                    <i class="fas fa-baby"></i> Tambah Anak
-                                </button>
+                            <button type="button" class="btn text-sm px-4 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors 
+                                    dark:bg-red-900 dark:text-red-300 dark:hover:bg-green-700 add-child-btn" data-bs-toggle="modal" data-bs-target="#addChildModal" data-userid="{{ $user->id }}" data-username="{{ $user->name }}">
+                            <i class="fas fa-baby"></i> Tambah Anak
+                         </button>
                             @endif
                             <button 
     onclick="openEditModal({{ $user->id }}, '{{ $user->name }}', '{{ $user->role }}')"

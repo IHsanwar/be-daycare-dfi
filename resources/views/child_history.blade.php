@@ -76,9 +76,10 @@
     <div class="container-fluid">
     <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
-            <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary me-3">
+                    <a href="{{ url()->previous() }}" class="btn btn-outline-secondary me-3">
                 <i class="fas fa-arrow-left me-2"></i>Kembali
             </a>
+            
             <h1 class="d-inline-block mb-0">Riwayat {{ $child->nama }}</h1>
         </div>
         <button id="download-btn" class="btn btn-primary">
@@ -230,15 +231,20 @@
                                     @php
                                         $makananCamilan = json_decode($history->{'makanan_camilan_' . strtolower($time)}, true) ?? [];
                                     @endphp
-                                    @if(count($makananCamilan) > 0)
-                                        <ul class="list-unstyled mb-0">
-                                            @foreach($makananCamilan as $item)
-                                                <li><i class="fas fa-circle me-2 text-muted" style="font-size: 0.5rem;"></i>{{ $item }}</li>
-                                            @endforeach
-                                        </ul>
-                                    @else
-                                        <p class="text-muted mb-0">Tidak ada</p>
-                                    @endif
+                                    @if(is_array($makananCamilan) || $makananCamilan instanceof \Countable)
+    @if(count($makananCamilan) > 0)
+        <ul class="list-unstyled mb-0">
+            @foreach($makananCamilan as $item)
+                <li><i class="fas fa-circle me-2 text-muted" style="font-size: 0.5rem;"></i>{{ $item }}</li>
+            @endforeach
+        </ul>
+    @else
+        <p class="text-muted mb-0">Tidak ada</p>
+    @endif
+@else
+    <p class="text-danger">Data makananCamilan tidak bisa dihitung</p>
+@endif
+
                                 @endforeach
                             </div>
                         </div>

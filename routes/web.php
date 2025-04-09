@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::put('users/{id}', [AuthController::class, 'update'])->name('users.update');
     Route::post('children', [ChildController::class, 'store'])->name('children.store');
     Route::delete('children/{id}', [ChildController::class, 'destroy'])->name('children.destroy');
+
     
     Route::get('dashboardanak', [DashboardController::class, 'childIndex'])->name('dashboardanak');
     

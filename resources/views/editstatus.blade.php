@@ -81,7 +81,7 @@
                         <div class="font-medium text-sm group-hover:animate-pulse">Buang Air Kecil & Buang Air Besar</div>
                     </a>
 
-                    <a <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Kegiatan Indoor & Outdoor - {{ $child->nama }}','kegiatan')" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-purple-600 hover:to-purple-800 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
+                        <a onclick="openIframeModal('{{ $child->id }}', 'Informasi Kegiatan Indoor & Outdoor - {{ $child->nama }}','kegiatan')" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:from-purple-600 hover:to-purple-800 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
                         <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
                             <i class="fas fa-home text-lg"></i>
                         </div>
@@ -96,7 +96,7 @@
                     </a>
 
                 <!-- Recent Activity Section - Added to fill the gap -->
-                <div class="mt-4">
+                <div class="mt-4 w-screen ">
                     <h3 class="font-semibold text-gray-700 mb-2 dark:font-semibold dark:text-white dark:mb-2">Aktivitas Terbaru</h3>
                     <div class="bg-white rounded-xl shadow-sm p-4  dark:bg-gray-900 dark:outline-gray-500 dark:outline">
                         <div class="space-y-3">
@@ -138,44 +138,32 @@
             </div>
         </div>
     </div>
-    <!-- Modal for iframe content -->
-    <div id="infoIframeModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50 p-4">
-    <div class="relative w-full max-w-4xl bg-white rounded-xl shadow-2xl overflow-hidden">
-        <!-- Modal Header -->
-        <div class="flex items-center justify-between p-4 bg-purple-100 border-b border-gray-300">
-            <h3 id="childNameIframe" class="text-xl font-bold text-purple-700">Menu</h3>
-            <button onclick="closeIframeModal()" class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-        </div>
-        
-        <!-- Modal Loading Indicator -->
-        <div id="iframeLoader" class="flex items-center justify-center p-12">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-700"></div>
-        </div>
-        
-        <!-- Modal Iframe Content -->
-        <div class="h-[80vh] dark:bg-gray-800">
-            <iframe id="childInfoIframe" class="w-full h-full" frameborder="0"></iframe>
-        </div>
+                <!-- Modal for iframe content -->
+                <div id="infoIframeModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50 p-4">
+                <div class="relative w-full max-w-4xl bg-white rounded-xl shadow-2xl overflow-hidden">
+                    <!-- Modal Header -->
+                    <div class="flex items-center justify-between p-4 bg-purple-100 border-b border-gray-300">
+                        <h3 id="childNameIframe" class="text-xl font-bold text-purple-700">Menu</h3>
+                        <button onclick="closeIframeModal()" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Modal Loading Indicator -->
+                    <div id="iframeLoader" class="flex items-center justify-center p-12">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-700"></div>
+                    </div>
+                    
+                    <!-- Modal Iframe Content -->
+                    <div class="h-[80vh] dark:bg-gray-800">
+                        <iframe id="childInfoIframe" class="w-full h-full" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+
     </div>
-</div>
 <!-- Close modal function -->
-<script>
-    function closeIframeModal() {
-        const modal = document.getElementById("infoIframeModal");
-        if (modal) {
-            modal.classList.add("hidden");
-            modal.classList.remove("flex");
-            
-            // Reset iframe source when closing to stop any processes
-            const iframe = document.getElementById("childInfoIframe");
-            if (iframe) {
-                iframe.src = "";
-            }
-        }
-    }
-</script>
+
     
     <script>
     

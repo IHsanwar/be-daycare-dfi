@@ -66,29 +66,42 @@
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:outline-gray-500 dark:text-white">{{ $child->user->name ?? '-' }}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700  dark:outline-gray-500  dark:text-white">{{ \Carbon\Carbon::parse($child->tanggal)->format('d-m-Y') }}</td>
                 <td class="p-3 dark:outline-gray-500 dark:text-white">
-                    @php
-                        $today = \Carbon\Carbon::now()->format('Y-m-d');
-                        $childHistory = $child->histories()->whereDate('tanggal', $today)->latest()->first();
-                        
-                        $requiredFields = [
-                            'makan_pagi', 'makan_siang', 'makan_sore',
-                            'susu_pagi', 'susu_siang', 'susu_sore',
-                            'air_putih_pagi', 'air_putih_siang', 'air_putih_sore',
-                            'bak_pagi', 'bak_siang', 'bak_sore',
-                            'bab_pagi', 'bab_siang', 'bab_sore',
-                            'tidur_pagi', 'tidur_siang', 'tidur_sore',
-                            'kondisi', 'obat_pagi', 'obat_siang', 'obat_sore'
-                        ];
-                        
-                        $jsonFields = ['kegiatan_outdoor', 'kegiatan_indoor', 'makanan_camilan_pagi', 'makanan_camilan_siang', 'makanan_camilan_sore'];
-                        
-                        $isComplete = $childHistory && collect($requiredFields)->every(fn($field) => !empty($childHistory->$field))
-                            && collect($jsonFields)->every(fn($field) => !empty(json_decode($childHistory->$field, true)));
-                    @endphp
+                @php
+    $childHistory = $child->histories()->latest()->first();
 
-                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $isComplete ? 'bg-red-300 text-red-600' : 'bg-red-300 text-red-600' }}">
-                        {{ $isComplete ? 'Lengkap' : 'Belum Lengkap' }}                       
-                    </span>
+    $requiredFields = [
+        'makan_pagi', 'makan_siang', 'makan_sore',
+        'susu_pagi', 'susu_siang', 'susu_sore',
+        'air_putih_pagi', 'air_putih_siang', 'air_putih_sore',
+        'bak_pagi', 'bak_siang', 'bak_sore',
+        'bab_pagi', 'bab_siang', 'bab_sore',
+        'tidur_pagi', 'tidur_siang', 'tidur_sore',
+        'kondisi', 'obat_pagi', 'obat_siang', 'obat_sore',
+        'kegiatan_outdoor', 'kegiatan_indoor',
+        'makanan_camilan_pagi', 'makanan_camilan_siang', 'makanan_camilan_sore',
+    ];
+
+    $isComplete = false;
+    $missingFields = [];
+
+    if ($childHistory) {
+        $isComplete = collect($requiredFields)->every(function ($field) use ($childHistory, &$missingFields) {
+            $value = $childHistory->$field ?? null;
+            $isFilled = isset($value) && !(is_string($value) && trim($value) === '');
+            if (!$isFilled) {
+                $missingFields[] = $field;
+            }
+            return $isFilled;
+        });
+    }
+@endphp
+
+
+<span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $isComplete ? 'bg-green-300 text-green-800' : 'bg-red-300 text-red-600' }}">
+    {{ $isComplete ? 'Lengkap' : 'Belum Lengkap' }}
+</span>
+
+                    
 
                 </td>
                     </td>
@@ -108,11 +121,12 @@
     <i class="fas fa-sync"></i> Riwayat
 </a>
 
-    <button type="button" class="text-sm px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors" 
-            onclick="window.openDeleteModal({{ $child->id }}, '{{ $child->nama }}')">
-        <i class="fas fa-trash"></i> Hapus
-    </button>
-                        </td>
+        <button 
+            onclick="openDeleteModal({{ $child->id }}, '{{ $child->nama }}')" 
+            class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+            <i class="fas fa-trash"></i> Hapus
+        </button>
+
                     </tr>
                     @endforeach
                 </tbody>
@@ -196,11 +210,12 @@
             <i class="fas fa-sync"></i> Edit
         </button>
 
-        <button class="text-sm px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors delete-btn" 
-                data-id="{{ $child->id }}" data-name="{{ $child->nama }}" 
+        <button class="text-sm px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors delete-btn"
+                data-id="{{ $child->id }}" 
                 data-url="{{ route('children.destroy', $child->id) }}">
             <i class="fas fa-trash"></i> Hapus
         </button>
+
 
                 </div>
             </div>
@@ -317,83 +332,61 @@
 </div>
     
 
+<!-- Include Notiflx -->
+<script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.6/dist/notiflix-aio-3.2.6.min.js"></script>
         <script>
             
-    window.openDeleteModal = function(id, name) {
-        // Use standard confirm dialog if Notiflix is not loaded
-        if (typeof Notiflix === 'undefined') {
-            if (confirm(`Apakah Anda yakin ingin menghapus ${name}?`)) {
-                deleteChild(id);
-            }
-        } else {
-            Notiflix.Confirm.show(
-                'Konfirmasi Hapus',
-                `Apakah Anda yakin ingin menghapus <strong>${name}</strong>?`,
-                'Ya, Hapus',
-                'Batal',
-                function okCb() {
-                    deleteChild(id);
-                },
-                function cancelCb() {
-                    alert('Penghapusan dibatalkan.');
-                }
-            );
-        }
-    };function deleteChild(id) {
-    // Get CSRF token
-    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    
-    // Check if Notiflix exists
+            window.openDeleteModal = function(id, name) {
     if (typeof Notiflix !== 'undefined') {
-        // Use Notiflix for confirmation
         Notiflix.Confirm.show(
-            'Konfirmasi',
-            'Apakah Anda yakin ingin menghapus data ini?',
-            'Ya',
-            'Tidak',
-            function() {
-                performDelete(id, token);
+            'Konfirmasi Hapus',
+            `Apakah Anda yakin ingin menghapus <strong>${name}</strong>?`,
+            'Ya, Hapus',
+            'Batal',
+            function okCb() {
+                performDelete(id);
+            },
+            function cancelCb() {
+                Notiflix.Notify.info('Penghapusan dibatalkan.');
             }
         );
     } else {
-        // Fallback to regular confirm
-        if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-            performDelete(id, token);
+        if (confirm(`Apakah Anda yakin ingin menghapus ${name}?`)) {
+            performDelete(id);
         }
     }
-}
+};
 
-function performDelete(id, token) {
-    // Create form data
+function performDelete(id) {
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+
     const formData = new FormData();
     formData.append('_method', 'DELETE');
     formData.append('_token', token);
-    
-    // Make fetch request
-    fetch(`/users/${childId}`, {
-        method: "DELETE",
-        headers: {
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        }
+
+    fetch(`/children/${id}`, {
+        method: "POST", // Spoof DELETE
+        body: formData,
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error("Gagal menghapus pengguna.");
+            return response.json().then(err => {
+                throw new Error(err.message || "Gagal menghapus data.");
+            });
         }
         return response.json();
     })
     .then(data => {
-        Notiflix.Notify.success("User berhasil dihapus!");
+        Notiflix.Notify.success(data.message || "Data berhasil dihapus!");
         setTimeout(() => {
             location.reload();
-        }, 1000);
+        }, 800);
     })
     .catch(error => {
         Notiflix.Notify.failure(error.message);
     });
 }
+
     
     function fetchChildInfo(id) {
         // Show loading indicator
