@@ -296,11 +296,19 @@
                                 <i class="fas fa-plus-circle text-blue-500 mr-2"></i>
                                 <span class="text-sm text-gray-700">Add Child</span>
                             </a> -->
-                            <a href="{{ route('children.history', ['id' => $selectedChild->id, 'type' => 'null']) }}" ...
-                                 class="flex items-center justify-center p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors duration-200">
-                                <i class="fas fa-file-alt text-blue-500 mr-2"></i>
-                                <span class="text-sm text-gray-700">Reports</span>
-                            </a>
+
+                            @if (!empty($selectedChild) && !empty($selectedChild->id))
+                                <a href="{{ route('children.history', ['id' => $selectedChild->id, 'type' => 'null']) }}"
+                                class="flex items-center justify-center p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors duration-200">
+                                    <i class="fas fa-file-alt text-blue-500 mr-2"></i>
+                                    <span class="text-sm text-gray-700">Reports</span>
+                                </a>
+                            @else
+                                <div class="italic text-sm text-gray-500 p-3">
+                                    Tidak ada ID yang dipilih
+                                </div>
+                            @endif
+
                         </div>
                     </div>
                 </div>
