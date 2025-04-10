@@ -1,5 +1,3 @@
-
-
 <div id="sidebar" class="w-full md:w-64 bg-white h-screen fixed md:sticky top-0 z-20 -translate-x-full md:translate-x-0 shadow-lg no-scrollbar flex flex-col">
     
     <!-- Header Sidebar -->

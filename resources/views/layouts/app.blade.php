@@ -140,14 +140,14 @@
 <body class="font-inter bg-gray-50 text-gray-800 overflow-x-hidden dark:text-white transition-colors duration-300 dark:bg-gray-900">
     <div class="flex flex-col md:flex-row min-h-screen relative">
         <!-- Mobile Menu Button -->
-        <div class="md:hidden fixed top-4 right-4 z-30">
+        <div class="md:hidden absolute top-4 right-4 z-30">
             <button id="menuToggle" class="bg-white text-purple-600 p-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
         
         <!-- Sidebar Overlay -->
-        <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden" onclick="closeSidebar()"></div>
+        <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden md:hidden" onclick="closeSidebar()"></div>
 
         @include('partials.sidebar')
 
@@ -156,7 +156,36 @@
         </div>       
     </div>
 
-       
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebarOverlay");
+        const toggleBtn = document.getElementById("menuToggle");
 
+        function openSidebar() {
+            sidebar.classList.remove("-translate-x-full");
+            sidebar.classList.add("translate-x-0");
+            overlay.classList.remove("hidden");
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add("-translate-x-full");
+            sidebar.classList.remove("translate-x-0");
+            overlay.classList.add("hidden");
+        }
+
+        // Tombol hamburger
+        toggleBtn.addEventListener("click", function () {
+            if (sidebar.classList.contains("-translate-x-full")) {
+                openSidebar();
+            } else {
+                closeSidebar();
+            }
+        });
+
+        // Biar overlay bisa nutup sidebar juga
+        window.closeSidebar = closeSidebar;
+    });
+</script>
 </body>
 </html>
