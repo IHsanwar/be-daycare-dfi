@@ -113,35 +113,49 @@
     </div>
 
 
-        {{-- Mobile Card View --}}
+            {{-- Mobile Card View --}}
         <div class="md:hidden space-y-4 p-4">
             @foreach($users as $user)
             <div class="bg-white border border-gray-100 rounded-xl p-4 shadow-soft">
-                <div class="flex justify-between items-center mb-3 ">
+                <!-- Header with name and role badge -->
+                <div class="flex justify-between items-center mb-3">
                     <h3 class="text-lg font-semibold text-gray-800">{{ $user->name }}</h3>
                     <span class="px-3 py-1 text-xs font-semibold rounded-full 
                         {{ $user->role == 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' }}">
                         {{ ucfirst($user->role) }}
                     </span>
                 </div>
+                
+                <!-- Email -->
                 <p class="text-gray-500 mb-4">{{ $user->email }}</p>
-                <div class="flex space-x-3">
-                @if($user->role != 'admin')
-                <button type="button" class="btn btn-primary btn-sm btn-action mb-2 mb-md-0 me-md-2 add-child-btn" data-bs-toggle="modal" data-bs-target="#addChildModal" data-userid="{{ $user->id }}" data-username="{{ $user->name }}">
-                            <i class="fas fa-baby"></i> Tambah Anak
-                </button>
-                                            @endif
-
-                    <button 
-                        onclick="openEditModal({{ $user->id }}, '{{ $user->name }}', '{{ $user->role }}')"
-                        class="flex-1 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors">
-                        Edit
+                
+                <!-- Action buttons -->
+                <div class="flex flex-col space-y-2">
+                    <!-- Add Child button (only for non-admin users) -->
+                    @if($user->role != 'admin')
+                    <button type="button" 
+                        class="w-full py-2 flex justify-center items-center bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors add-child-btn"
+                        data-bs-toggle="modal" 
+                        data-bs-target="#addChildModal" 
+                        data-userid="{{ $user->id }}" 
+                        data-username="{{ $user->name }}">
+                        <i class="fas fa-baby mr-2"></i> Tambah Anak
                     </button>
-                    <button 
-                                onclick="alertDelete({{ $user->id }})"
-                                class="text-sm px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors">
-                                <i class="fas fa-trash"></i> Hapus
-                            </button>
+                    @endif
+                    
+                    <!-- Edit and Delete buttons in a row -->
+                    <div class="flex space-x-2">
+                        <button 
+                            onclick="openEditModal({{ $user->id }}, '{{ $user->name }}', '{{ $user->role }}')"
+                            class="flex-1 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors">
+                            <i class="fas fa-edit mr-1"></i> Edit
+                        </button>
+                        <button 
+                            onclick="alertDelete({{ $user->id }})"
+                            class="flex-1 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors">
+                            <i class="fas fa-trash mr-1"></i> Hapus
+                        </button>
+                    </div>
                 </div>
             </div>
             @endforeach

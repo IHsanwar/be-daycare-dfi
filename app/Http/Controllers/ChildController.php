@@ -176,6 +176,7 @@ class ChildController extends Controller
             'bab_siang' => 'nullable|integer',
             'bak_sore' => 'nullable|integer',
             'bab_sore' => 'nullable|integer',
+            'catatan_buang_air' => 'nullable|string',
         ]);
 
         // Misalnya ingin update jumlah total buang air ke `children`

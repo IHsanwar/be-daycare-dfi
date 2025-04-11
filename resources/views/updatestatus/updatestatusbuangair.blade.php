@@ -92,7 +92,12 @@
                             class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
                     </div>
                 </div>
-
+                
+                <!--catatan -->
+                <div class="mb-4">
+                    <label for="catatan_buang_air" class="block text-sm font-medium text-gray-700 mb-1">Catatan Buang Air</label>
+                    <textarea name="catatan_buang_air" id="catatan_buang_air" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"></textarea>
+                </div>
                 <!-- Tombol Submit -->
                 <div class="flex justify-end space-x-4">
                     <button type="reset" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-300">

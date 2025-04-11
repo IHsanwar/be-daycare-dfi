@@ -43,6 +43,7 @@ class ChildHistory extends Model
         'obat_pagi',
         'obat_siang',
         'obat_sore',
+        'catatan_buang_air',
     ];
 
     protected $dates = ['tanggal'];

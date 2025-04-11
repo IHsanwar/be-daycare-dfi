@@ -19,7 +19,8 @@
             <li class="py-2 border-b border-gray-200"><strong>Air Putih:</strong> {{ $latestMedicalRecord->air_putih_pagi ?? 'Tidak ada data' }}</li>             
             <li class="py-2 border-b border-gray-200"><strong>Susu:</strong> {{ $latestMedicalRecord->susu_pagi ?? 'Tidak ada data' }}</li>             
             <li class="py-2 border-b border-gray-200"><strong>Buang Air Besar:</strong> {{ $latestMedicalRecord->bab_pagi ?? 'Tidak ada data' }}</li>             
-            <li class="py-2 border-b border-gray-200"><strong>Buang Air Kecil:</strong> {{ $latestMedicalRecord->bak_pagik ?? 'Tidak ada data' }}</li>             
+            <li class="py-2 border-b border-gray-200"><strong>Buang Air Kecil:</strong> {{ $latestMedicalRecord->bak_pagik ?? 'Tidak ada data' }}</li>
+            <li class="py-2 border-b border-gray-200"><strong>catatan buang air:</strong> {{ $latestMedicalRecord->catatan_buang_air ?? 'Tidak ada data' }}</li>             
             <li class="py-2 border-b border-gray-200"><strong>Kegiatan Indoor:</strong> {{ $latestMedicalRecord->kegiatan_indoor ?? 'Tidak ada data' }}</li>             
             <li class="py-2 border-b border-gray-200"><strong>Kegiatan Outdoor:</strong> {{ $latestMedicalRecord->kegiatan_outdoor ?? 'Tidak ada data' }}</li>             
             <li class="py-2 border-b border-gray-200"><strong>Tidur:</strong> {{ $latestMedicalRecord->tidur_pagi ?? 'Tidak ada data' }}</li>  

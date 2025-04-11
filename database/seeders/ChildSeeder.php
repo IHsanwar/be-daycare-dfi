@@ -12,7 +12,7 @@ class ChildSeeder extends Seeder
     {
         DB::table('children')->insert([
             [
-                'user_id' => 1, // Adjust with an actual user ID
+                'user_id' => 1, 
                 'nama' => 'John Doe',
                 'makan_pagi' => 'Nasi + Telur',
                 'makan_siang' => 'Ayam + Sayur',
