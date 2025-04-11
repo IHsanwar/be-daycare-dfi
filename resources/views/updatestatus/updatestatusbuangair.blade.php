@@ -29,17 +29,17 @@
         }
     </style>
 </head>
-<body class="bg-white">
-    <div class="container mx-auto px-4 py-8">
-        <div class="bg-white rounded-xl shadow-lg p-6">
-            <!-- Header -->
-            <div class="flex items-center justify-between mb-6">
-                <h1 class="text-2xl font-bold text-purple-700">Update Informasi Buang Air</h1>
-                
-            </div>
+<body class="text-gray-800 p-4 md:p-8">
+  <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+    
+    <!-- Header nyatu dengan card -->
+    <div class="bg-purple-700 px-6 py-4">
+      <h1 class="text-2xl font-bold text-white">Update Informasi Buang Air</h1>
+    </div>
 
             <!-- Form -->
-            <form action="{{ url('/children/' . $child->id . '/update-status/buang-air') }}" method="POST" class="space-y-6">
+             <div class="p-6">
+              <form action="{{ url('/children/' . $child->id . '/update-status/buang-air') }}" method="POST" class="space-y-6">
                 @csrf
                 @method('PUT')
                 
@@ -51,53 +51,67 @@
                     </div>
                     <div>
                         <label for="tanggal" class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
-                        <input type="text" name="tanggal" id="tanggal" value="{{ \Carbon\Carbon::now()->format('d-m-Y') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" required>
+                        <input type="date" name="tanggal" id="tanggal" value="{{ \Carbon\Carbon::now()->format('d-m-Y') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" required>
                     </div>
                 </div>
 
-                <!-- Buang Air -->
-                <h3 class="text-lg font-semibold text-purple-700 mt-4">Buang Air</h3>
-                <div class="grid grid-cols-3 gap-2">
-                    <div>
-                        <label class="block font-medium text-purple-900">BAK Pagi:</label>
-                        <input type="number" name="bak_pagi" min="0" placeholder="Jumlah"
-                            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
-                    </div>
-                    <div>
-                        <label class="block font-medium text-purple-900">BAK Siang:</label>
-                        <input type="number" name="bak_siang" min="0" placeholder="Jumlah"
-                            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
-                    </div>
-                    <div>
-                        <label class="block font-medium text-purple-900">BAK Sore:</label>
-                        <input type="number" name="bak_sore" min="0" placeholder="Jumlah"
-                            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
-                    </div>
-                </div>
 
-                <div class="grid grid-cols-3 gap-2">
-                    <div>
-                        <label class="block font-medium text-purple-900">BAB Pagi:</label>
-                        <input type="number" name="bab_pagi" min="0" placeholder="Jumlah"
-                            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
-                    </div>
-                    <div>
-                        <label class="block font-medium text-purple-900">BAB Siang:</label>
-                        <input type="number" name="bab_siang" min="0" placeholder="Jumlah"
-                            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
-                    </div>
-                    <div>
-                        <label class="block font-medium text-purple-900">BAB Sore:</label>
-                        <input type="number" name="bab_sore" min="0" placeholder="Jumlah"
-                            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400">
-                    </div>
-                </div>
-                
-                <!--catatan -->
-                <div class="mb-4">
-                    <label for="catatan_buang_air" class="block text-sm font-medium text-gray-700 mb-1">Catatan Buang Air</label>
-                    <textarea name="catatan_buang_air" id="catatan_buang_air" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"></textarea>
-                </div>
+    <!-- Buang Air -->
+<div class="border border-gray-200 rounded-lg p-4 shadow">
+    
+    <h2 class="text-md font-semibold text-purple-700 mb-4">Buang Air</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- BAK -->
+        <div>
+            <label class="block font-medium text-purple-900">BAK Pagi:</label>
+            <input type="number" name="bak_pagi" min="0" placeholder="Jumlah"
+                class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none">
+        </div>
+        <div>
+            <label class="block font-medium text-purple-900">BAK Siang:</label>
+            <input type="number" name="bak_siang" min="0" placeholder="Jumlah"
+                class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none">
+        </div>
+        <div>
+            <label class="block font-medium text-purple-900">BAK Sore:</label>
+            <input type="number" name="bak_sore" min="0" placeholder="Jumlah"
+                class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none">
+        </div>
+
+        <!-- BAB -->
+        <div>
+            <label class="block font-medium text-purple-900">BAB Pagi:</label>
+            <input type="number" name="bab_pagi" min="0" placeholder="Jumlah"
+                class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none">
+        </div>
+        <div>
+            <label class="block font-medium text-purple-900">BAB Siang:</label>
+            <input type="number" name="bab_siang" min="0" placeholder="Jumlah"
+                class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none">
+        </div>
+        <div>
+            <label class="block font-medium text-purple-900">BAB Sore:</label>
+            <input type="number" name="bab_sore" min="0" placeholder="Jumlah"
+                class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none">
+        </div>
+    </div>
+</div>
+
+
+                <!-- Catatan -->
+<h2 class="text-lg font-semibold text-purple-700 mt-4">Catatan</h2>
+<div class="mt-2">
+  <textarea
+    name="catatan_buang_air"
+    id="catatan_buang_air"
+    rows="3"
+    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+    placeholder="Tulis catatan di sini..."></textarea>
+</div>
+
+
+
                 <!-- Tombol Submit -->
                 <div class="flex justify-end space-x-4">
                     <button type="reset" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-300">
@@ -108,6 +122,7 @@
                     </button>
                 </div>
             </form>
+        </div>
     </div>
 <script>
     document.querySelector("form").addEventListener("submit", function(e) {

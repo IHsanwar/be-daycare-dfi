@@ -30,16 +30,17 @@
         }
     </style>
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
-        <div class="bg-white rounded-xl shadow-lg p-6">
-            <!-- Header -->
-            <div class="flex items-center justify-between mb-6">
-                <h1 class="text-2xl font-bold text-purple-700">Update Informasi Kegiatan</h1>
-                
-            </div>
+<body class="text-gray-800 p-4 md:p-8">
+  <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+
+    <!-- Header di dalam card -->
+    <div class="bg-purple-700 px-6 py-4">
+    <h2 class="text-white text-xl font-semibold">Update Informasi Kegiatan Indoor & Outdoor</h2>
+</div>
+
 
             <!-- Form -->
+          <div class="p-6">
             <form action="{{ url('/children/' . $child->id . '/update-status/kegiatan') }}" method="POST" class="space-y-6">
                 @csrf
                 @method('PUT')
@@ -51,7 +52,7 @@
                     </div>
                     <div>
                         <label for="tanggal" class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
-                        <input type="text" name="tanggal" id="tanggal" value="{{ \Carbon\Carbon::now()->format('d-m-Y') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" required>
+                        <input type="date" name="tanggal" id="tanggal" value="{{ \Carbon\Carbon::now()->format('d-m-Y') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" required>
                     </div>
                 </div>
                 
@@ -122,6 +123,8 @@
         </div>
     </div>
 
+    
+
 
 <!-- Tombol Submit -->
 <div class="flex justify-end space-x-4 mt-4">
@@ -131,6 +134,7 @@
     <button type="submit" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-700 text-white rounded-lg hover:from-purple-600 hover:to-purple-800 transition duration-300">
         <i class="fas fa-save mr-2"></i>Simpan
     </button>
+   </div>
 </div>
 
 </form>
@@ -199,8 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // Re-run setup to configure the new element
     setupLainnyaCheckboxes();
-  }
-});
+  };
 </script>
 </body>
 </html>
