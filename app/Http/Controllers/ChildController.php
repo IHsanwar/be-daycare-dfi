@@ -159,12 +159,37 @@ class ChildController extends Controller
 
         // Update ke tabel `children`
         $child->update([
+            'nama_pendamping' => $validatedData['nama_pendamping'] ?? $child->nama_pendamping,
+            'tanggal' => $validatedData['tanggal'] ?? $child->tanggal,
+            'makan_pagi' => $validatedData['makan_pagi'] ?? $child->makan_pagi,
+            'makan_siang' => $validatedData['makan_siang'] ?? $child->makan_siang,
+            'makan_sore' => $validatedData['makan_sore'] ?? $child->makan_sore,
+            'makanan_camilan_pagi' => $validatedData['makanan_camilan_pagi'] ?? $child->makanan_camilan_pagi,
+            'makanan_camilan_siang' => $validatedData['makanan_camilan_siang'] ?? $child->makanan_camilan_siang,
+            'makanan_camilan_sore' => $validatedData['makanan_camilan_sore'] ?? $child->makanan_camilan_sore,
             'susu_pagi' => $validatedData['susu_pagi'] ?? $child->susu_pagi,
             'air_putih_pagi' => $validatedData['air_putih_pagi'] ?? $child->air_putih_pagi,
             'susu_siang' => $validatedData['susu_siang'] ?? $child->susu_siang,
             'air_putih_siang' => $validatedData['air_putih_siang'] ?? $child->air_putih_siang,
             'susu_sore' => $validatedData['susu_sore'] ?? $child->susu_sore,
             'air_putih_sore' => $validatedData['air_putih_sore'] ?? $child->air_putih_sore,
+            'kegiatan_outdoor' => json_encode($validatedData['kegiatan_outdoor'] ?? []),
+            'kegiatan_indoor' => json_encode($validatedData['kegiatan_indoor'] ?? []),
+            'keterangan' => $validatedData['keterangan'] ?? $child->keterangan,
+            'bak_pagi' => $validatedData['bak_pagi'] ?? $child->bak_pagi,
+            'bab_pagi' => $validatedData['bab_pagi'] ?? $child->bab_pagi,
+            'bak_siang' => $validatedData['bak_siang'] ?? $child->bak_siang,
+            'bab_siang' => $validatedData['bab_siang'] ?? $child->bab_siang,
+            'bak_sore' => $validatedData['bak_sore'] ?? $child->bak_sore,
+            'bab_sore' => $validatedData['bab_sore'] ?? $child->bab_sore,
+            'tidur_pagi' => $validatedData['tidur_pagi'] ?? $child->tidur_pagi,
+            'tidur_siang' => $validatedData['tidur_siang'] ?? $child->tidur_siang,
+            'tidur_sore' => $validatedData['tidur_sore'] ?? $child->tidur_sore,
+            'kondisi' => $validatedData['kondisi'] ?? $child->kondisi,
+            'obat_pagi' => $validatedData['obat_pagi'] ?? $child->obat_pagi,
+            'obat_siang' => $validatedData['obat_siang'] ?? $child->obat_siang,
+            'obat_sore' => $validatedData['obat_sore'] ?? $child->obat_sore,
+            'catatan_buang_air' => $validatedData['catatan_buang_air'] ?? $child->catatan_buang_air,
         ]);
     }
 

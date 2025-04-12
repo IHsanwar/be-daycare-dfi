@@ -212,7 +212,7 @@
 
         <button class="text-sm px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors delete-btn"
                 data-id="{{ $child->id }}" 
-                data-url="{{ route('children.destroy', $child->id) }}">
+                data-url="{{ route('children.destroy', $child->id,$child->name) }}">
             <i class="fas fa-trash"></i> Hapus
         </button>
 
@@ -330,8 +330,11 @@
         </div>
     </div>
 </div>
-    
 
+    </div>
+
+    {{-- FOOTER --}}
+    @include('footer.footer')
 <!-- Include Notiflx -->
 <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.6/dist/notiflix-aio-3.2.6.min.js"></script>
         <script>

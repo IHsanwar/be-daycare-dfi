@@ -15,11 +15,11 @@
             <li class="py-2 border-b border-gray-200"><strong>Makan Pagi:</strong> {{ $latestMedicalRecord->makan_pagi ?? 'Tidak ada data' }}</li>             
             <li class="py-2 border-b border-gray-200"><strong>Makan Siang:</strong> {{ $latestMedicalRecord->makan_siang ?? 'Tidak ada data' }}</li>             
             <li class="py-2 border-b border-gray-200"><strong>Makan Sore:</strong> {{ $latestMedicalRecord->makan_sore ?? 'Tidak ada data' }}</li>             
-            <li class="py-2 border-b border-gray-200"><strong>Camilan:</strong> {{ $latestMedicalRecord->camilan ?? 'Tidak ada data' }}</li>             
+            <li class="py-2 border-b border-gray-200"><strong>Camilan:</strong><b> Pagi:</b> {{ $latestMedicalRecord->makanan_camilan_pagi ?? 'Tidak ada data' }},<b>Siang:</b> {{ $latestMedicalRecord->makanan_camilan_siang ?? 'Tidak ada data' }}</li>             
             <li class="py-2 border-b border-gray-200"><strong>Air Putih:</strong> {{ $latestMedicalRecord->air_putih_pagi ?? 'Tidak ada data' }}</li>             
             <li class="py-2 border-b border-gray-200"><strong>Susu:</strong> {{ $latestMedicalRecord->susu_pagi ?? 'Tidak ada data' }}</li>             
             <li class="py-2 border-b border-gray-200"><strong>Buang Air Besar:</strong> {{ $latestMedicalRecord->bab_pagi ?? 'Tidak ada data' }}</li>             
-            <li class="py-2 border-b border-gray-200"><strong>Buang Air Kecil:</strong> {{ $latestMedicalRecord->bak_pagik ?? 'Tidak ada data' }}</li>
+            <li class="py-2 border-b border-gray-200"><strong>Buang Air Kecil:</strong> {{ $latestMedicalRecord->bak_pagi ?? 'Tidak ada data' }}</li>
             <li class="py-2 border-b border-gray-200"><strong>catatan buang air:</strong> {{ $latestMedicalRecord->catatan_buang_air ?? 'Tidak ada data' }}</li>             
             <li class="py-2 border-b border-gray-200"><strong>Kegiatan Indoor:</strong> {{ $latestMedicalRecord->kegiatan_indoor ?? 'Tidak ada data' }}</li>             
             <li class="py-2 border-b border-gray-200"><strong>Kegiatan Outdoor:</strong> {{ $latestMedicalRecord->kegiatan_outdoor ?? 'Tidak ada data' }}</li>             
