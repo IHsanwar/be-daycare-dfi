@@ -56,35 +56,36 @@
                     </div>
                 </div>
                 
-     <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
-        <h2 class="text-lg font-semibold text-purple-700 mb-4">Kegiatan Indoor</h2>
-        <!-- Kegiatan Indoor -->
-        <div class="bg-white p-4 mb-4 rounded">
-            <div class="grid grid-cols-3 gap-2">
-                <div class="flex items-center">
-                    <input type="checkbox" id="mengaji" name="kegiatan_indoor[]" value="Mengaji" class="mr-2 h-4 w-4">
-                    <label for="mengaji">Mengaji</label>
-                </div>
-                <div class="flex items-center">
-                    <input type="checkbox" id="senam" name="kegiatan_indoor[]" value="Senam" class="mr-2 h-4 w-4">
-                    <label for="senam">Senam</label>
-                </div>
-                <div class="flex items-center">
-                    <input type="checkbox" id="main_bebas" name="kegiatan_indoor[]" value="Main bebas" class="mr-2 h-4 w-4">
-                    <label for="main_bebas">Main Bebas</label>
-                </div>
-                <div class="flex items-center">
-                    <input type="checkbox" id="bahasa_inggris" name="kegiatan_indoor[]" value="Bahasa inggris" class="mr-2 h-4 w-4">
-                    <label for="bahasa_inggris">Bahasa Inggris</label>
-                </div>
-                <div class="flex items-center">
-                    <input type="checkbox" id="belajar_sensorik" name="kegiatan_indoor[]" value="Belajar sensorik" class="mr-2 h-4 w-4">
-                    <label for="belajar_sensorik">Belajar Sensorik</label>
-                </div>
-                <div class="flex items-center">
-                    <input type="checkbox" id="belajar_motorik" name="kegiatan_indoor[]" value="Belajar motorik" class="mr-2 h-4 w-4">
-                    <label for="belajar_motorik">Belajar Motorik</label>
-                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
+    <h2 class="text-lg font-semibold text-purple-700 mb-4">Kegiatan Indoor</h2>
+    
+    <!-- Kegiatan Indoor -->
+    <div class="bg-white p-4 mb-4 rounded">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" id="mengaji" name="kegiatan_indoor[]" value="Mengaji" class="h-4 w-4">
+                <label for="mengaji">Mengaji</label>
+            </div>
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" id="senam" name="kegiatan_indoor[]" value="Senam" class="h-4 w-4">
+                <label for="senam">Senam</label>
+            </div>
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" id="main_bebas" name="kegiatan_indoor[]" value="Main bebas" class="h-4 w-4">
+                <label for="main_bebas">Main Bebas</label>
+            </div>
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" id="bahasa_inggris" name="kegiatan_indoor[]" value="Bahasa inggris" class="h-4 w-4">
+                <label for="bahasa_inggris">Bahasa Inggris</label>
+            </div>
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" id="belajar_sensorik" name="kegiatan_indoor[]" value="Belajar sensorik" class="h-4 w-4">
+                <label for="belajar_sensorik">Belajar Sensorik</label>
+            </div>
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" id="belajar_motorik" name="kegiatan_indoor[]" value="Belajar motorik" class="h-4 w-4">
+                <label for="belajar_motorik">Belajar Motorik</label>
+            </div>
                 <div class="flex items-center lainnya-container">
                     <input type="checkbox" id="lainnya_indoor" class="lainnyaCheckbox mr-2 h-4 w-4">
                     <label for="lainnya_indoor" class="lainnyaLabel cursor-text">Lainnya</label>
@@ -95,24 +96,23 @@
     </div>
     
     <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
-        <h2 class="text-lg font-semibold text-purple-700 mb-4">Kegiatan Outdoor</h2>
-    <!-- Kegiatan Outdoor -->
+    <h2 class="text-lg font-semibold text-purple-700 mb-4">Kegiatan Outdoor</h2>
 
-        <div class="bg-white p-4 mb-4 rounded">
-            <div class="grid grid-cols-3 gap-2">
-                <div class="flex items-center">
-                    
-                    <input type="checkbox" id="berjemur" name="kegiatan_outdoor[]" value="Berjemur" class="mr-2 h-4 w-4">
-                    <label for="berjemur">Berjemur</label>
-                </div>
-                <div class="flex items-center">
-                    <input type="checkbox" id="jalan_jalan" name="kegiatan_outdoor[]" value="Jalan jalan" class="mr-2 h-4 w-4">
-                    <label for="jalan_jalan">Jalan Jalan</label>
-                </div>
-                <div class="flex items-center">
-                    <input type="checkbox" id="olahraga" name="kegiatan_outdoor[]" value="Olahraga" class="mr-2 h-4 w-4">
-                    <label for="olahraga">Olahraga</label>
-                </div>
+    <!-- Kegiatan Outdoor -->
+    <div class="bg-white p-4 mb-4 rounded">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" id="berjemur" name="kegiatan_outdoor[]" value="Berjemur" class="h-4 w-4">
+                <label for="berjemur">Berjemur</label>
+            </div>
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" id="jalan_jalan" name="kegiatan_outdoor[]" value="Jalan jalan" class="h-4 w-4">
+                <label for="jalan_jalan">Jalan Jalan</label>
+            </div>
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" id="olahraga" name="kegiatan_outdoor[]" value="Olahraga" class="h-4 w-4">
+                <label for="olahraga">Olahraga</label>
+            </div>
                 <div class="flex items-center lainnya-container">
                     <input type="checkbox" id="lainnya_outdoor" class="lainnyaCheckbox mr-2 h-4 w-4">
                     <label for="lainnya_outdoor" class="lainnyaLabel cursor-text">Lainnya</label>

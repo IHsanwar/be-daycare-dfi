@@ -3,14 +3,7 @@
 @section('title', 'Dashboard Anak')
 
 @section('content')
-    <div class="flex flex-col md:flex-row min-h-screen relative">
-        <!-- Mobile Menu Button -->
-        <div class="md:hidden fixed top-4 right-4 z-30">
-            <button id="menuToggle" class="bg-white text-purple-600 p-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-               
+    <div class="flex flex-col md:flex-row min-h-screen relative">             
         <!-- Main Content -->
         <div class="flex-1 md:ml-2">
             <!-- Header -->
