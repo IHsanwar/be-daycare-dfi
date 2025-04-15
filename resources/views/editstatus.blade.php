@@ -89,45 +89,7 @@
                     </a>
 
                 <!-- Recent Activity Section - Added to fill the gap -->
-                <div class="mt-4 w-screen ">
-                    <h3 class="font-semibold text-gray-900 mb-2">Aktivitas Terbaru</h3>
-                    <div class="bg-white rounded-xl shadow-sm p-4">
-                        <div class="space-y-3">
-                            <div class="flex items-start border-b border-gray-100 pb-3">
-                                <div class="h-8 w-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3">
-                                    <i class="fas fa-check text-sm"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="text-sm font-medium">Makan Pagi</div>
-                                    <div class="text-xs text-gray-900">Hari ini, 08:30</div>
-                                </div>
-                                <div class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">Selesai</div>
-                            </div>
-                            
-                            <div class="flex items-start border-b border-gray-100 pb-3">
-                                <div class="h-8 w-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
-                                    <i class="fas fa-bed text-sm"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="text-sm font-medium">Tidur Siang</div>
-                                    <div class="text-xs text-gray-900">Hari ini, 13:00 - 14:15</div>
-                                </div>
-                                <div class="text-xs px-2 py-1 bg-blue-100 text-blue-900 rounded-full">75 menit</div>
-                            </div>
-                            
-                            <div class="flex items-start">
-                                <div class="h-8 w-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mr-3">
-                                    <i class="fas fa-baby-bottle text-sm"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="text-sm font-medium">Minum Susu</div>
-                                    <div class="text-xs text-gray-900">Hari ini, 14:30</div>
-                                </div>
-                                <div class="text-xs px-2 py-1 bg-purple-100 text-purple-900 rounded-full">120ml</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>

@@ -39,7 +39,30 @@
     </script>
 
     <style>
-      
+      .animate-fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+        
+        .delay-300 {
+            animation-delay: 300ms;
+        }
+        
+        .delay-500 {
+            animation-delay: 500ms;
+        }
+        
+        .delay-700 {
+            animation-delay: 700ms;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(5px); }

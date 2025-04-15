@@ -86,7 +86,8 @@
             <i class="fas fa-download me-2"></i>Download
         </button>
     </div>
-
+    <!--buat tampilan list jadi wrap -->
+    <div class="flex-wrap">
     @foreach($histories as $history)
         <div class="card mb-3 shadow-sm">
             <div class="card-header bg-light" role="button" onclick="toggleHistory({{ $history->id }})">
@@ -229,8 +230,10 @@
                                         </small>
                                     </p>
                                     @php
-                                        $makananCamilan = json_decode($history->{'makanan_camilan_' . strtolower($time)}, true) ?? [];
-                                    @endphp
+    $makananCamilanString = $history->{'makanan_camilan_' . strtolower($time)} ?? '';
+    $makananCamilan = array_filter(array_map('trim', explode(',', $makananCamilanString)));
+@endphp
+
                                     @if(is_array($makananCamilan) || $makananCamilan instanceof \Countable)
     @if(count($makananCamilan) > 0)
         <ul class="list-unstyled mb-0">
@@ -264,6 +267,7 @@
             </div>
         </div>
     @endforeach
+                    </div>
     
     <div class="d-flex justify-content-center mt-4">
         {{ $histories->links('pagination::bootstrap-4') }}

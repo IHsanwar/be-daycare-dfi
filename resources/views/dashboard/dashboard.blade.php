@@ -36,7 +36,7 @@
         <!-- Welcome Card -->
         <div class="bg-white rounded-xl shadow-sm mb-6 overflow-hidden">
             <div class="md:flex">
-                <div class="p-6 md:flex-1">
+                <div class="p-6 md:flex-1 animate-fade-in-up delay-200">
                     <div class="flex items-center mb-2">
                         <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
                             <i class="fas fa-hand-sparkles"></i>
@@ -58,7 +58,7 @@
             <!-- Main Content Area -->
             <div class="md:col-span-8 space-y-6">
                 <!-- Child Information Panel -->
-                <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="bg-white rounded-xl shadow-sm p-6 animate-fade-in-up delay-300">
                     <div class="flex items-center mb-6">
                         <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
                             <i class="fas fa-child"></i>
@@ -85,8 +85,8 @@
                             </div>
                             
                             <div class="grid md:grid-cols-3 gap-4">
-                                <!-- Food Card -->
-                                <div class="bg-white rounded-lg p-4 border border-gray-100 hover:shadow-md transition-shadow">
+                                <!-- Food Card with animation fade up using previous code-->
+                                <div class="bg-white rounded-lg p-4 border border-gray-100 hover:shadow-md transition-shadow animate-fade-in-up delay-500">
                                     <h3 class="font-medium text-gray-800 mb-3 flex items-center">
                                         <div class="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-2">
                                             <i class="fas fa-utensils"></i>
@@ -199,7 +199,7 @@
                 </div>
 
                 <!-- History Section -->
-                <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="bg-white rounded-xl shadow-sm p-6 animate-fade-in-up delay-500">
                     <div class="flex items-center justify-between mb-6">
                         <div class="flex items-center">
                             <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
@@ -253,8 +253,8 @@
             </div>
 
             <div class="md:col-span-4">
-                <div class="bg-white rounded-xl shadow-sm p-6 sticky top-8">
-                    <div class="flex items-center mb-6">
+                <div class="bg-white rounded-xl shadow-sm p-6 sticky top-8 animate-fade-in-up delay-500">
+                    <div class="flex items-center mb-6 ">
                         <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
                             <i class="fas fa-users"></i>
                         </div>

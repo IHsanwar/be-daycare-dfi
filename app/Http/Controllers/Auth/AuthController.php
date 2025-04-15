@@ -84,7 +84,7 @@ class AuthController extends Controller
         
         Auth::login($currentUser);
 
-        return redirect("dashboard.dashboardadmin")->withSuccess('Berhasil membuat akun baru');
+        return redirect("success")->withSuccess('Berhasil membuat akun baru');
     }
     
     /**
