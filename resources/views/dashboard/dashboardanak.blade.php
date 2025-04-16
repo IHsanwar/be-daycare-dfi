@@ -4,7 +4,8 @@
 <div class="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8 ">
     <div class="max-w-7xl mx-auto space-y-6">
        <div class="bg-white rounded-xl shadow-soft p-6">
-        <div class="flex items-center justify-between">
+        <div class="p-6 md:flex-1 animate-fade-in-up delay-200">
+          <div class="flex items-center justify-between">
             <div>
              <h2 class="text-2xl font-semibold text-gray-800 mb-2">Selamat Datang, {{ Auth::user()->name }}</h2>
              <p class="text-gray-500 text-sm">Kelola data anak-anak di daycare Anda di sini.</p>
@@ -13,12 +14,13 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-purple-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                     </svg>
-                </div>            
+                </div> 
+              </div>           
             </div>
         </div>
        {{-- Search and Add User Section --}}
        <form method="GET" action="{{ route('dashboardanak') }}">
-    <div class="flex flex-col sm:flex-row gap-4 justify-between">
+    <div class="flex flex-col sm:flex-row gap-4 justify-between animate-fade-in-up delay-300">
         <div class="relative">
             <input 
                 type="text" 
@@ -48,7 +50,7 @@
 </form>
 
      <!-- Table view (hidden on mobile, visible on md screens and up) -->
-     <div class="bg-white rounded-xl shadow-soft overflow-hidden">
+     <div class="bg-white rounded-xl shadow-soft overflow-hidden animate-fade-in-up delay-300">
         <table class="w-full hidden md:table">
             <thead class="bg-gray-50">
                 <tr class="bg-gray-50" >
@@ -200,15 +202,17 @@
             <i class="fas fa-edit"></i> Update
         </a>
 
-        <button class="text-sm px-4 py-2 bg-purple-50 text-purple-600 rounded-lg hover:bg-purple-100 transition-colors info-btn" 
-                data-id="{{ $child->id }}" data-nama="{{ $child->nama }}">
-            <i class="fas fa-info-circle"></i> Info
-        </button>
+              
+        <a href="{{ route('children.info', $child->id) }}" 
+        class="text-sm px-4 py-2 bg-purple-50 text-purple-600 rounded-lg hover:bg-purple-100 transition-colors info-btn" 
+        data-id="{{ $child->id }}" data-nama="{{ $child->nama }}">
+        <i class="fas fa-info-circle"></i> Info
+    </a>
 
-        <button class="text-sm px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors edit-btn" 
-                data-id="{{ $child->id }}" data-nama="{{ $child->nama }}" data-user_id="{{ $child->user_id ?? 'null' }}">
-            <i class="fas fa-sync"></i> Edit
-        </button>
+    <a href="{{ route('children.history', $child->id) }}" class="text-sm px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors edit-btn" 
+    data-id="{{ $child->id }}" data-nama="{{ $child->nama }}">
+    <i class="fas fa-sync"></i> Riwayat
+</a>
 
         <button class="text-sm px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors delete-btn"
                 data-id="{{ $child->id }}" 

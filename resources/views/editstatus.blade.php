@@ -18,7 +18,7 @@
             
             <!-- Child Info Card -->
             <div class="p-4">
-                <div class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
+                <div class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md animate-fade-in-up delay-300">
                     <div class="flex flex-col md:flex-row md:justify-between gap-4">
                         <!-- Child and companion info -->
                         <div class="flex flex-col space-y-4">
@@ -58,7 +58,7 @@
                 </div>
 
                 <!-- Menu Grid -->
-                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4 animate-fade-in-up delay-300">
                 <!-- Dashboard link that opens the meal update modal -->
                 <a onclick="openIframeModal('{{ $child->id }}', 'Makan, Minum & Camilan - {{ $child->nama }}','makan')" class="group menu-item block bg-gradient-to-br from-purple-500 to-purple-700 text-white p-4 rounded-xl shadow-md flex items-center gap-3 cursor-pointer transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-purple-600 hover:to-purple-800 hover:-translate-y-2 hover:scale-105 hover:shadow-xl">
                     <div class="h-10 w-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
