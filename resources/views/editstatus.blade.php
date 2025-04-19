@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Anak')
+@section('title', 'Update Status')
 
 @section('content')
     <div class="flex flex-col md:flex-row min-h-screen relative">             
