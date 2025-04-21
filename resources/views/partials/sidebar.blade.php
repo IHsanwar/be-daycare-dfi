@@ -37,12 +37,13 @@
             <i class="fas fa-chart-pie mr-3 text-purple-500"></i>
             Dashboard User
         </a>
-        <!-- change password -->
-        <a href="{{ route('user.changePassword') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'password.change' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
-            <i class="fas fa-key mr-3 text-purple-500"></i>
-            Ubah Password
-        </a>        
+          
     @endif
+        <!-- change password -->
+        <a href="{{ route('user.settings') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'password.change' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
+            <i class="fas fa-gear mr-3 text-purple-500"></i>
+            Pengaturan
+        </a>      
     </div>
       
       <!-- Tombol Logout -->

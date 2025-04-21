@@ -231,48 +231,34 @@ class AuthController extends Controller
         return view('dashboard.dashboardadmin', compact('users'));
     }
 
-    //change password and username
-    public function changePassword(Request $request)
-    {
-        $request->validate([
-            'current_password' => 'required',
-            'new_password' => 'required|min:6|confirmed',
-        ]);
+    public function updateProfile(Request $request)
+{
+    $user = Auth::user();
 
-        $user = Auth::user();
+    $request->validate([
+        'email' => 'nullable|email|unique:users,email,' . $user->id,
+        'current_password' => 'nullable|required_with:new_password',
+        'new_password' => 'nullable|min:6|confirmed',
+    ]);
 
+    if ($request->filled('email')) {
+        $user->email = $request->email;
+    }
+
+    if ($request->filled('new_password')) {
         if (!Hash::check($request->current_password, $user->password)) {
-            return redirect()->back()->withErrors('Current password is incorrect.');
+            return redirect()->back()->withErrors(['current_password' => 'Password saat ini salah.']);
         }
-
         $user->password = Hash::make($request->new_password);
-        $user->save();
+    }
 
-        return redirect()->back()->with('success', 'Password changed successfully.');
-    }
-    public function changeUsername(Request $request)
-    {
-        $request->validate([
-            'new_username' => 'required|unique:users,username',
-        ]);
+    $user->save();
 
-        $user = Auth::user();
-        $user->username = $request->new_username;
-        $user->save();
+    return redirect()->to('/success')->with('success', 'Data berhasil diperbarui.');
+}
 
-        return redirect()->back()->with('success', 'Username changed successfully.');
-    }
-    public function showChangePasswordForm()
-    {
-        return view('auth.changepassword');
-    }
-    public function showChangeUsernameForm()
-    {
-        return view('auth.change-username');
-    }
-    
     public function settings()
     {
         return view('auth.settings');
     }
-}
+}    
