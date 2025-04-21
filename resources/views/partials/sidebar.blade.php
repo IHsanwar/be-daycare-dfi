@@ -37,7 +37,11 @@
             <i class="fas fa-chart-pie mr-3 text-purple-500"></i>
             Dashboard User
         </a>
-        
+        <!-- change password -->
+        <a href="{{ route('user.changePassword') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'password.change' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
+            <i class="fas fa-key mr-3 text-purple-500"></i>
+            Ubah Password
+        </a>        
     @endif
     </div>
       
@@ -45,7 +49,12 @@
     <div class="p-4">
         <form action="{{ route('logout') }}" method="POST">
             @csrf
-            <button type="submit" class="w-full p-2.5 text-white bg-gradient-to-r from-red-500 to-red-700 rounded-lg flex items-center justify-center transition-all hover:shadow-lg">
+            <button type="submit" class=" w-full p-2.5 
+    text-red-400 border border-red-400 
+    rounded-lg flex items-center justify-center 
+    transition-all duration-300 ease-in-out 
+    hover:bg-gradient-to-r from-red-500 to-red-700 
+    hover:text-white hover:shadow-lg">
                 <i class="fas fa-sign-out-alt mr-2"></i>
                 Logout
             </button>

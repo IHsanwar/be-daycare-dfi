@@ -300,7 +300,8 @@ public function childIndex(Request $request)
     try {
         $child = Child::findOrFail($id);
 
-        $latestMedicalRecord = $child->histories()->orderBy('tanggal')->first();
+        $latestMedicalRecord = $child->histories()->orderBy('tanggal', 'desc')->first();
+
 
         // Debugging output to log file
         Log::info('Child Info:', ['child' => $child]);

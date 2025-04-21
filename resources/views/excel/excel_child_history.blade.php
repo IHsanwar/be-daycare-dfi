@@ -36,6 +36,7 @@
                     <th>Air Putih</th>
                     <th>BAK</th>
                     <th>BAB</th>
+                    <th>Catatan Buang Air</th>
                     <th>Tidur</th>
                     <th>Kondisi Anak</th>
                     <th>Kegiatan Outdoor</th>
@@ -74,6 +75,17 @@
                             Siang: {{ $history->bab_siang ?? '-' }} X<br>
                             Sore: {{ $history->bab_sore ?? '-' }} X
                         </td>
+                        <td>
+                            @php
+                                $catatanBuangAir = json_decode($history->catatan_buang_air, true) ?? [];
+                            @endphp
+                            @if(count($catatanBuangAir) > 0)
+                                @foreach($catatanBuangAir as $catatan)
+                                    - {{ $catatan }}<br>
+                                @endforeach
+                            @else
+                                -
+                            @endif
                         <td>
                             Pagi: {{ $history->tidur_pagi ?? '-' }} X<br>
                             Siang: {{ $history->tidur_siang ?? '-' }} X<br>

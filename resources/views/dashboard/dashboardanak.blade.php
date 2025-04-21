@@ -203,11 +203,11 @@
         </a>
 
               
-        <a href="{{ route('children.info', $child->id) }}" 
-        class="text-sm px-4 py-2 bg-purple-50 text-purple-600 rounded-lg hover:bg-purple-100 transition-colors info-btn" 
-        data-id="{{ $child->id }}" data-nama="{{ $child->nama }}">
-        <i class="fas fa-info-circle"></i> Info
-    </a>
+        <button type="button" class="text-sm px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors" 
+                onclick="openInfoModal({{ $child->id }})" 
+                data-id="{{ $child->id }}" data-nama="{{ $child->nama }}">
+                <i class="fas fa-info-circle"></i> Info
+            </button>
 
     <a href="{{ route('children.history', $child->id) }}" class="text-sm px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors edit-btn" 
     data-id="{{ $child->id }}" data-nama="{{ $child->nama }}">
@@ -304,38 +304,38 @@
 
         
 
-        <!-- Modal for information -->
+ 
+<!-- Modal for information -->
 <div id="infoModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 p-4">
-    <div class="bg-white rounded-lg shadow-2xl w-auto max-w-3xl max-h-[90vh] flex flex-col transform transition-transform duration-200 scale-95">
+    <div class="bg-white rounded-lg shadow-2xl w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-3xl max-h-[90vh] flex flex-col transform transition-transform duration-200 scale-95 mx-4">
         <!-- Header Modal -->
-        <div class="flex justify-between items-center p-5 border-b border-gray-200">
-            <h2 class="text-lg font-bold text-purple-700">Informasi Tentang Anak</h2>
+        <div class="flex justify-between items-center p-3 sm:p-4 md:p-5 border-b border-gray-200">
+            <h2 class="text-base sm:text-lg font-bold text-purple-700">Informasi Tentang Anak</h2>
             <button onclick="closeModal()" class="text-gray-500 hover:text-red-500 transition-colors">
-                <i class="fas fa-times text-xl"></i>
+                <i class="fas fa-times text-lg sm:text-xl"></i>
             </button>
         </div>
 
         <!-- Body Modal -->
-        <div id="modalContent" class="p-5 overflow-auto max-h-[65vh]">
+        <div id="modalContent" class="p-3 sm:p-4 md:p-5 overflow-auto max-h-[50vh] sm:max-h-[60vh] md:max-h-[65vh]">
             <!-- Modal content will be loaded here -->
             <div class="flex items-center justify-center">
-                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-700"></div>
+                <div class="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 border-b-2 border-purple-700"></div>
             </div>
         </div>
 
         <!-- Footer Modal -->
-        <div class="p-5 border-t border-gray-200 flex justify-end gap-3">
-            <button type="button" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition duration-300">
+        <div class="p-3 sm:p-4 md:p-5 border-t border-gray-200 flex flex-col sm:flex-row justify-end gap-2 sm:gap-3">
+            <button type="button" class="bg-purple-600 text-white px-3 py-2 rounded hover:bg-purple-700 transition duration-300 text-sm sm:text-base w-full sm:w-auto mb-2 sm:mb-0">
                 Download Data
             </button>
-            <button onclick="closeModal()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors">
+            <button onclick="closeModal()" class="px-3 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors text-sm sm:text-base w-full sm:w-auto">
                 Tutup
             </button>
         </div>
     </div>
 </div>
 
-    </div>
 
     {{-- FOOTER --}}
     @include('footer.footer')
@@ -493,7 +493,7 @@ function performDelete(id) {
         });
     }
 
-    // Add event listeners for mobile buttons
+
     document.querySelectorAll('.info-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
@@ -521,7 +521,7 @@ function performDelete(id) {
 
     
 function openIframeModal(id) {
-    // Make sure the modal element exists
+    
     const modal = document.getElementById("infoIframeModal");
     if (!modal) {
         console.error("Modal element not found. Make sure to add the modal HTML to your page.");
@@ -590,7 +590,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
-
 function openInfoModal(childId) {
     fetch(`dashboardanak/info/${childId}`)
         .then(response => response.text())
@@ -605,9 +604,12 @@ function openInfoModal(childId) {
                     'bg-black', 'bg-opacity-50', 
                     'flex', 'items-center', 'justify-center',
                     'w-full', 'h-full', 'min-h-screen', 
-                    'p-4', 'sm:p-0'
+                    'p-4', 'sm:p-6', 'md:p-0'
                 );
                 document.body.appendChild(modalContainer);
+                
+                // Prevent scrolling on the body when modal is open
+                document.body.classList.add('overflow-hidden');
             }
 
             // Create modal content wrapper
@@ -615,26 +617,31 @@ function openInfoModal(childId) {
             modalWrapper.id = 'modalContent';
             modalWrapper.classList.add(
                 'relative', 'bg-white', 'rounded-lg', 'shadow-xl',
-                'max-w-4xl', 'w-full', 'max-h-[90vh]', 
+                'w-full', 'mx-4', 'sm:mx-6', 'md:mx-8',
+                'max-w-xs', 'sm:max-w-md', 'md:max-w-lg', 'lg:max-w-4xl', 
+                'max-h-[80vh]', 'sm:max-h-[85vh]', 'md:max-h-[90vh]', 
                 'overflow-y-auto', 'transform', 'transition-all',
                 'duration-300', 'ease-in-out',
                 'scale-95', 'opacity-0'
             );
 
-            // Create close button
+            // Create close button - make it more touch-friendly on mobile
             const closeButton = document.createElement('button');
             closeButton.innerHTML = '&times;';
             closeButton.classList.add(
-                'absolute', 'top-3', 'right-3', 'z-60',
+                'absolute', 'top-2', 'right-2', 'sm:top-3', 'sm:right-3', 'z-60',
                 'text-gray-500', 'hover:text-gray-700',
-                'text-3xl', 'font-bold', 'bg-transparent',
-                'border-none', 'cursor-pointer'
+                'text-2xl', 'sm:text-3xl', 'font-bold', 'bg-transparent',
+                'border-none', 'cursor-pointer',
+                'w-8', 'h-8', 'sm:w-10', 'sm:h-10',
+                'flex', 'items-center', 'justify-center',
+                'rounded-full', 'hover:bg-gray-100'
             );
             closeButton.addEventListener('click', closeInfoModal);
 
-            // Populate modal content
+            // Populate modal content with responsive padding
             modalWrapper.innerHTML = `
-                <div class="p-6 md:p-8">
+                <div class="p-4 sm:p-6 md:p-8">
                     ${data}
                 </div>
             `;
@@ -657,28 +664,94 @@ function openInfoModal(childId) {
                     closeInfoModal();
                 }
             });
+            
+            // Add keyboard accessibility - close on Escape key
+            document.addEventListener('keydown', handleEscapeKey);
         })
-        .catch(error => console.error("Error fetching modal content:", error));
+        .catch(error => {
+            console.error("Error fetching modal content:", error);
+            // Show error message in a mini modal
+            showErrorNotification("Gagal memuat data. Silakan coba lagi.");
+        });
 }
 
 function closeInfoModal() {
     const modalContainer = document.getElementById('modalContainer');
     const modalContent = document.getElementById('modalContent');
-
-    if (modalContent) {
+    
+    if (modalContainer && modalContent) {
+        // Animate closing
         modalContent.classList.remove('scale-100', 'opacity-100');
         modalContent.classList.add('scale-95', 'opacity-0');
-
-        // Remove modal after transition
+        
+        // Remove modal after animation completes
         setTimeout(() => {
-            if (modalContainer) {
-                modalContainer.remove();
-            }
+            modalContainer.remove();
+            // Re-enable scrolling on the body
+            document.body.classList.remove('overflow-hidden');
+            // Remove keyboard event listener
+            document.removeEventListener('keydown', handleEscapeKey);
         }, 300);
     }
 }
 
-// Optional: Add keyboard escape key support
+function handleEscapeKey(e) {
+    if (e.key === 'Escape') {
+        closeInfoModal();
+    }
+}
+
+function showErrorNotification(message) {
+    // Create a simple notification for errors
+    const notification = document.createElement('div');
+    notification.classList.add(
+        'fixed', 'bottom-4', 'left-4', 'right-4', 'sm:left-auto', 'sm:right-4',
+        'bg-red-100', 'border-l-4', 'border-red-500', 'text-red-700',
+        'p-4', 'rounded', 'shadow-md', 'z-50',
+        'transform', 'transition-all', 'duration-300',
+        'translate-y-full', 'opacity-0'
+    );
+    
+    notification.innerHTML = `
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm">${message}</p>
+            </div>
+            <div class="ml-auto pl-3">
+                <button class="inline-flex text-gray-400 focus:outline-none">
+                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Trigger transition
+    setTimeout(() => {
+        notification.classList.remove('translate-y-full', 'opacity-0');
+    }, 10);
+    
+    // Auto dismiss after 5 seconds
+    setTimeout(() => {
+        notification.classList.add('translate-y-full', 'opacity-0');
+        setTimeout(() => notification.remove(), 300);
+    }, 5000);
+    
+    // Close on click
+    notification.querySelector('button').addEventListener('click', () => {
+        notification.classList.add('translate-y-full', 'opacity-0');
+        setTimeout(() => notification.remove(), 300);
+    });
+}
+
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeInfoModal();

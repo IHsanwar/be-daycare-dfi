@@ -230,4 +230,49 @@ class AuthController extends Controller
         $users = User::where('name', 'LIKE', "%{$search}%")->get();
         return view('dashboard.dashboardadmin', compact('users'));
     }
+
+    //change password and username
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->withErrors('Current password is incorrect.');
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return redirect()->back()->with('success', 'Password changed successfully.');
+    }
+    public function changeUsername(Request $request)
+    {
+        $request->validate([
+            'new_username' => 'required|unique:users,username',
+        ]);
+
+        $user = Auth::user();
+        $user->username = $request->new_username;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Username changed successfully.');
+    }
+    public function showChangePasswordForm()
+    {
+        return view('auth.changepassword');
+    }
+    public function showChangeUsernameForm()
+    {
+        return view('auth.change-username');
+    }
+    
+    public function settings()
+    {
+        return view('auth.settings');
+    }
 }

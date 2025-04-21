@@ -40,7 +40,14 @@ Route::middleware('auth')->group(function () {
     Route::get('users/{id}', [AuthController::class, 'show'])->name('users.show');
     Route::get('users/{id}/edit', [AuthController::class, 'edit'])->name('users.edit');
     Route::delete('users/{id}/delete', [AuthController::class, 'destroy'])->name('users.destroy');
-        
+
+    Route::get('/settings', function () {return view('auth.settings');})->name('settings');
+    //change password
+    Route::get('user/change-password', [AuthController::class, 'showChangePasswordForm'])->name('user.changePassword');
+    Route::post('user/change-password', [AuthController::class, 'changePassword'])->name('user.changePassword.post');
+    Route::get('user/change-username', [AuthController::class, 'showChangeUsernameForm'])->name('user.changeUsername');
+    Route::post('user/change-username', [AuthController::class, 'changeUsername']);
+
     Route::put('users/{id}', [AuthController::class, 'update'])->name('users.update');
     Route::post('children', [ChildController::class, 'store'])->name('children.store');
     Route::delete('children/{id}', [ChildController::class, 'destroy'])->name('children.destroy');

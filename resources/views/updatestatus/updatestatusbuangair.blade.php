@@ -29,7 +29,7 @@
         }
     </style>
 </head>
-<body class="text-gray-800 p-4 md:p-8">
+<body class="text-gray-800 p-4 md:p-8 ">
   <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
     
     <!-- Header nyatu dengan card -->

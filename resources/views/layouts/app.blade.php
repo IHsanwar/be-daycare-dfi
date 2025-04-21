@@ -32,6 +32,19 @@
               800: '#5b21b6',
               900: '#4c1d95'
             }
+            gray: {
+              50: '#f9fafb',
+              100: '#f3f4f6',
+              200: '#e5e7eb',
+              300: '#d1d5db',
+              400: '#9ca3af',
+              500: '#6b7280',
+              600: '#4b5563',
+              700: '#374151',
+              800: '#1f2937',
+              900: '#111827'
+            }
+            white: '#f8f8ff',
           }
         }
       }
@@ -160,7 +173,7 @@
     @yield('styles')
 </head>
 
-<body class="font-inter bg-gray-50 text-gray-800 overflow-x-hidden dark:text-white transition-colors duration-300 dark:bg-gray-900">
+<body class="font-inter bg-gray-50 text-gray-800 overflow-x-hidden transition-colors duration-300">
     <div class="flex flex-col md:flex-row min-h-screen relative">
         <!-- Mobile Menu Button -->
         <div class="md:hidden absolute top-4 right-4 z-30">
