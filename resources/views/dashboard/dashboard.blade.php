@@ -7,7 +7,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <h1 class="text-xl font-bold text-blue-600">DayCare</h1>
+                    <h1 class="text-xl font-bold text-purple-600">DayCare</h1>
                 </div>
                 <div class="flex items-center space-x-4">
                     <span class="text-sm text-gray-600">
@@ -38,14 +38,14 @@
             <div class="md:flex">
                 <div class="p-6 md:flex-1 animate-fade-in-up delay-200">
                     <div class="flex items-center mb-2">
-                        <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                        <div class="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-3">
                             <i class="fas fa-hand-sparkles"></i>
                         </div>
                         <h2 class="text-2xl font-bold text-gray-800">Selamat Datang</h2>
                     </div>
                     <p class="text-gray-600 mb-4">
                         <span class="font-medium">{{ Auth::user()->name }}</span>, anda login sebagai 
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                             {{ Auth::user()->role }}
                         </span>
                     </p>
@@ -60,7 +60,7 @@
                 <!-- Child Information Panel -->
                 <div class="bg-white rounded-xl shadow-sm p-6 animate-fade-in-up delay-300">
                     <div class="flex items-center mb-6">
-                        <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                        <div class="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-3">
                             <i class="fas fa-child"></i>
                         </div>
                         <h2 class="text-xl font-bold text-gray-800">Informasi Anak</h2>
@@ -69,7 +69,7 @@
                     @if($selectedChild)
                         <div class="space-y-6">
                             <div class="flex items-center pb-4 border-b border-gray-100">
-                                <div class="h-14 w-14 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-4">
+                                <div class="h-14 w-14 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-4">
                                     <i class="fas fa-user-circle text-xl"></i>
                                 </div>
                                 <div>
@@ -118,7 +118,7 @@
                                 <!-- Sleep Card -->
                                 <div class="bg-white rounded-lg p-4 border border-gray-100 hover:shadow-md transition-shadow">
                                     <h3 class="font-medium text-gray-800 mb-3 flex items-center">
-                                        <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-2">
+                                        <div class="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-2">
                                             <i class="fas fa-bed"></i>
                                         </div>
                                         Tidur
@@ -126,26 +126,26 @@
                                     <div class="space-y-2">
                                         <div class="flex justify-between items-center">
                                             <span class="text-sm text-gray-600">Tidur Pagi</span>
-                                            <span class="text-sm {{ $selectedChild->tidur_mulai ? 'text-blue-600' : 'text-gray-400' }}">
+                                            <span class="text-sm {{ $selectedChild->tidur_mulai ? 'text-purple-600' : 'text-gray-400' }}">
                                                 {{ $selectedChild->tidur_pagi. ' kali'  ?? 'Belum' }}
                                             </span>
                                         </div>
                                         <div class="flex justify-between items-center">
                                             <span class="text-sm text-gray-600">Tidur Siang</span>
-                                            <span class="text-sm {{ $selectedChild->tidur_selesai ? 'text-blue-600' : 'text-gray-400' }}">
+                                            <span class="text-sm {{ $selectedChild->tidur_selesai ? 'text-purple-600' : 'text-gray-400' }}">
                                                 {{ $selectedChild->tidur_siang.' kali' ?? 'Belum' }}
                                             </span>
                                         </div>
                                         <div class="flex justify-between items-center">
                                             <span class="text-sm text-gray-600">Tidur Sore</span>
-                                            <span class="text-sm {{ $selectedChild->tidur_selesai ? 'text-blue-600' : 'text-gray-400' }}">
+                                            <span class="text-sm {{ $selectedChild->tidur_selesai ? 'text-purple-600' : 'text-gray-400' }}">
                                             {{ $selectedChild->tidur_sore.' kali' ?? 'Belum' }}
                                             </span>
                                             
                                         </div>
                                         <div class="flex justify-between items-center">
                                             <span class="text-sm text-gray-600">Total tidur hari ini</span>
-                                            <span class="text-sm {{ $selectedChild->tidur_malam ? 'text-blue-600' : 'text-gray-400' }}">
+                                            <span class="text-sm {{ $selectedChild->tidur_malam ? 'text-purple-600' : 'text-gray-400' }}">
                                             {{ ($selectedChild->tidur_sore ?? 0) + ($selectedChild->tidur_siang ?? 0) + ($selectedChild->tidur_pagi ?? 0) }} kali
                                             </span>
                                         </div>
@@ -202,7 +202,7 @@
                 <div class="bg-white rounded-xl shadow-sm p-6 animate-fade-in-up delay-500">
                     <div class="flex items-center justify-between mb-6">
                         <div class="flex items-center">
-                            <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                            <div class="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-3">
                                 <i class="fas fa-history"></i>
                             </div>
                             <h2 class="text-xl font-bold text-gray-800">Riwayat Anak</h2>
@@ -213,9 +213,9 @@
                     @if($selectedChild && isset($history) && count($history) > 0)
                         <div class="space-y-4">
                             @foreach($history as $item)
-                                <div class="border-l-4 border-blue-500 pl-4 py-2">
+                                <div class="border-l-4 border-purple-500 pl-4 py-2">
                                     <div class="flex items-center">
-                                        <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-2">
+                                        <div class="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-2">
                                             <i class="fas fa-calendar-day"></i>
                                         </div>
                                         <h4 class="text-md font-medium text-gray-800">{{ $item->tanggal }}</h4>
@@ -255,7 +255,7 @@
             <div class="md:col-span-4">
                 <div class="bg-white rounded-xl shadow-sm p-6 sticky top-8 animate-fade-in-up delay-500">
                     <div class="flex items-center mb-6 ">
-                        <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                        <div class="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-3">
                             <i class="fas fa-users"></i>
                         </div>
                         <h2 class="text-xl font-bold text-gray-800">Anak Anda</h2>
@@ -267,10 +267,10 @@
                                 <a href="{{ route('dashboard', ['child_id' => $child->id]) }}" 
                                    class="flex items-center px-4 py-3 rounded-lg transition-all duration-200 
                                    {{ $selectedChild && $selectedChild->id == $child->id 
-                                      ? 'bg-blue-100 text-blue-700' 
+                                      ? 'bg-purple-100 text-purple-700' 
                                       : 'hover:bg-gray-100 text-gray-700' }}">
                                     <div class="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 mr-3
-                                        {{ $selectedChild && $selectedChild->id == $child->id ? 'bg-blue-200 text-blue-600' : '' }}">
+                                        {{ $selectedChild && $selectedChild->id == $child->id ? 'bg-purple-200 text-purple-600' : '' }}">
                                         {{ substr($child->nama, 0, 1) }}
                                     </div>
                                     <div>
@@ -293,14 +293,14 @@
                         <h3 class="text-sm font-medium text-gray-500 mb-4">Quick Actions</h3>
                         <div class="grid grid-cols-2 gap-2"><!--
                             <a href="#" class="flex items-center justify-center p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors duration-200">
-                                <i class="fas fa-plus-circle text-blue-500 mr-2"></i>
+                                <i class="fas fa-plus-circle text-purple-500 mr-2"></i>
                                 <span class="text-sm text-gray-700">Add Child</span>
                             </a> -->
 
                             @if (!empty($selectedChild) && !empty($selectedChild->id))
                                 <a href="{{ route('children.history', ['id' => $selectedChild->id, 'type' => 'null']) }}"
                                 class="flex items-center justify-center p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors duration-200">
-                                    <i class="fas fa-file-alt text-blue-500 mr-2"></i>
+                                    <i class="fas fa-file-alt text-purple-500 mr-2"></i>
                                     <span class="text-sm text-gray-700">Reports</span>
                                 </a>
                             @else

@@ -31,7 +31,7 @@ class DashboardController extends Controller
             return $query->where('name', 'like', '%' . $search . '%');
         })->get();
 
-        return view('dashboard.dashboardadmin', compact('users'));
+        return view('dashboard.dashboarduser', compact('users'));
     }
 
     return redirect("login")->withErrors('Kamu tidak memiliki akses ke dashboard admin. Silakan login kembali.');

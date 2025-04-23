@@ -137,7 +137,7 @@ class AuthController extends Controller
     public function dashboardAdmin(): View|RedirectResponse
     {
         if(Auth::check() && Auth::user()->role == 'admin'){
-            return view('dashboard.dashboardadmin');
+            return view('dashboard.dashboarduser');
         }
 
         return redirect("login")->withErrors('Kamu tidak memiliki akses dashboard admin.');
@@ -228,7 +228,7 @@ class AuthController extends Controller
     {
         $search = $request->input('search');
         $users = User::where('name', 'LIKE', "%{$search}%")->get();
-        return view('dashboard.dashboardadmin', compact('users'));
+        return view('dashboard.dashboarduser', compact('users'));
     }
 
     public function updateProfile(Request $request)
@@ -254,7 +254,7 @@ class AuthController extends Controller
 
     $user->save();
 
-    return redirect()->to('/success')->with('success', 'Data berhasil diperbarui.');
+    return redirect('/success-update-profile')->with('success', 'Profile updated successfully');
 }
 
     public function settings()

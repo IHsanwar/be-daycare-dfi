@@ -81,6 +81,10 @@ Route::middleware('auth')->group(function () {
 Route::get('/success', function () {
     return view('success.success');
 });
+Route::get('/success-update-profile', function () {
+    return view('success.successprofile');
+});
+
 
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
