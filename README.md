@@ -36,7 +36,7 @@ Pastikan sudah menginstal PHP, Composer, dan MySQL/MariaDB.
 
 ```bash
 # Clone repo
-git clone https://github.com/username/daycare-app.git](https://github.com/IHsanwar/be-daycare-dfi/
+git clone https://github.com/IHsanwar/be-daycare-dfi/
 cd daycare-app
 
 # Install dependencies
