@@ -40,7 +40,10 @@
     </label>
 </div>
 
-
+    <div class = "justify-center">
+        <h2>
+            <span class="text-gray-500">Ubah Password</span>
+</h2>
     <div class="relative">
         <input type="password" id="new_password_confirmation" name="new_password_confirmation" 
                class="peer w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 placeholder-transparent transition-all duration-300" 

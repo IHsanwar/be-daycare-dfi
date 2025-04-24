@@ -1,43 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Menu Kegiatan</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        accentPurple: '#A855F7',
-                        accentHover: '#9333EA',
-                        accentLight: '#C084FC'
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-color: #f3f4f6;
-            min-height: 100vh;
-        }
-        .card-hover:hover {
-            transform: translateY(-2px);
-            transition: all 0.3s ease;
-        }
-    </style>
-</head>
+@extends('layouts.base')
 <body class="text-gray-800 p-4 md:p-8">
   <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
 
     <!-- Header di dalam card -->
-    <div class="bg-purple-700 px-6 py-4">
-    <h2 class="text-white text-xl font-semibold">Update Informasi Kegiatan Indoor & Outdoor</h2>
-</div>
-
 
             <!-- Form -->
           <div class="p-6">
