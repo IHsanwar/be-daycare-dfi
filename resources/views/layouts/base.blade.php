@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard Anak')</title> <!-- ✅ Judul bisa berubah otomatis -->
+    <title>@yield('title', 'Dashboard Anak')</title> 
     <link rel="icon" type="image/x-icon" href="{{ asset('images/Path_Harmony.webp') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -11,6 +11,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="{{ asset('js/main.js') }}"></script>
+    
     <script>
         tailwind.config = {
       darkMode: 'class', // or 'media' for system preference
@@ -50,6 +51,8 @@
       }
     }
     </script>
+
+
 
     <style>
       .animate-fade-in-up {
@@ -131,12 +134,10 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        /* Improved text contrast for dark mode */
 .dark .text-primary {
-  color: hsl(265, 80%, 80%); /* Brighter purple */
+  color: hsl(265, 80%, 80%); 
 }
 
-/* Better hover states for interactive elements */
 .dark .interactive:hover {
   background-color: rgba(255, 255, 255, 0.1);
   transform: translateY(-1px);
@@ -156,7 +157,6 @@
   background-color: hsl(0, 70%, 50%);
 }
 
-/* Improved form elements */
 .dark .input-field {
   background-color: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -189,6 +189,5 @@
     
 </head>
 
-<!-- Loader -->
-<div id="loader" style="position: fixed; top:0; left:0; width:100%; height:100%; background:white; display:flex; justify-content:center; align-items:center; z-index:9999;">
-    <div class="spinner"></div>
+
+   

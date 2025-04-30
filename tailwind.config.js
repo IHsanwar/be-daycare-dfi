@@ -1,14 +1,13 @@
-    /** @type {import('tailwindcss').Config} */
-export default {
-    content: [
-      "./resources/views/**/*.blade.php",
-      "./resources/css/**/*.css",
-      "./resources/js/**/*.js",
-    ],
-    theme: {
-      extend: {},
-    },
-    plugins: [],
-    darkMode: 'class', // Ubah ke 'media' jika ingin mengikuti preferensi sistem
-  };
-  
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './resources/**/*.blade.php',
+    './resources/**/*.js',
+    './resources/**/*.vue',
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}

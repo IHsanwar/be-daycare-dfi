@@ -81,34 +81,10 @@
                     <h2 class="text-lg font-semibold text-purple-700 mb-4">Camilan</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- Camilan Pagi -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Camilan Pagi</label>
-                            <div class="space-y-2">
-                                <div class="flex items-center">
-                                    <input type="checkbox" name="makanan_camilan_pagi[]" id="camilan_pagi_buah" value="buah" class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-                                    <label for="camilan_pagi_buah" class="ml-2 block text-sm text-gray-700">Buah</label>
-                                </div>
-                                <div class="flex items-center">
-                                    <input type="checkbox" name="makanan_camilan_pagi[]" id="camilan_pagi_biskuit" value="biskuit" class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-                                    <label for="camilan_pagi_biskuit" class="ml-2 block text-sm text-gray-700">Biskuit</label>
-                                </div>
-                                <div class="flex items-center">
-                                    <input type="checkbox" name="makanan_camilan_pagi[]" id="camilan_pagi_puding" value="puding" class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-                                    <label for="camilan_pagi_puding" class="ml-2 block text-sm text-gray-700">Puding</label>
-                                </div>
-                                <div class="flex items-center">
-                                    <input type="checkbox" name="makanan_camilan_pagi[]" id="camilan_pagi_yogurt" value="yogurt" class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-                                    <label for="camilan_pagi_yogurt" class="ml-2 block text-sm text-gray-700">Yogurt</label>
-                                </div>
-                                <div class="flex items-center">
-                                    <input type="checkbox" name="makanan_camilan_pagi[]" id="camilan_pagi_keju" value="keju" class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-                                    <label for="camilan_pagi_keju" class="ml-2 block text-sm text-gray-700">Keju</label>
-                                </div>
-                                
-                                <div class="mt-2">
-                                    <input type="text" name="makanan_camilan_pagi_custom" placeholder="Camilan lainnya" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-                                </div>
-                            </div>
+                        <div id="checkbox-container" class="space-y-2">
+                            
+                            <button onclick="addCheckbox()" class="mt-3 px-2 py-1 bg-purple-600 text-white rounded">Tambah Pilihan</button>
+
                         </div>
 
                         <!-- Camilan Siang -->
@@ -242,7 +218,76 @@ function toggleCustomMakanan(time) {
         customDiv.classList.add('hidden');
     }
 }
+const initialChoices = ["Buah", "Biskuit", "Puding", "Yogurt", "Keju"];
 
+function createCheckbox(value) {
+  const id = `camilan_pagi_${value.toLowerCase()}`;
+  const label = document.createElement("label");
+  label.className = "flex items-center";
+
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.name = "makanan_camilan_pagi[]";
+  checkbox.value = value.toLowerCase();
+  checkbox.id = id;
+  checkbox.className = "h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded";
+
+  const text = document.createElement("span");
+  text.textContent = value;
+  text.className = "ml-2 block text-sm text-gray-700";
+
+  const editBtn = document.createElement("button");
+  editBtn.type = "button";
+  editBtn.innerHTML = "✏️";
+  editBtn.className = "ml-2 text-sm";
+  editBtn.onclick = () => editLabel(text, checkbox);
+
+  label.appendChild(checkbox);
+  label.appendChild(text);
+  label.appendChild(editBtn);
+
+  return label;
+}
+
+function editLabel(labelSpan, checkboxInput) {
+  const currentValue = labelSpan.textContent;
+  const input = document.createElement("input");
+  input.type = "text";
+  input.value = currentValue;
+  input.className = "ml-2 text-sm border rounded px-1";
+
+  const saveBtn = document.createElement("button");
+  saveBtn.textContent = "✔️";
+  saveBtn.className = "ml-1 text-sm";
+  saveBtn.onclick = () => {
+    const newValue = input.value.trim();
+    if (newValue) {
+      labelSpan.textContent = newValue;
+      checkboxInput.value = newValue.toLowerCase();
+      checkboxInput.id = `camilan_pagi_${newValue.toLowerCase()}`;
+      labelSpan.style.display = "";
+      saveBtn.remove();
+      input.remove();
+    }
+  };
+
+  labelSpan.parentElement.appendChild(input);
+  labelSpan.parentElement.appendChild(saveBtn);
+  labelSpan.style.display = "none";
+  input.focus();
+}
+
+function addCheckbox() {
+  const container = document.getElementById("checkbox-container");
+  const newLabel = prompt("Masukkan nama pilihan baru:");
+  if (newLabel) {
+    container.appendChild(createCheckbox(newLabel));
+  }
+}
+
+// Inisialisasi
+const container = document.getElementById("checkbox-container");
+initialChoices.forEach(choice => container.appendChild(createCheckbox(choice)));
     </script>
 </body>
 </html>
