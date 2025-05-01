@@ -1,10 +1,10 @@
-<div id="sidebar" class="w-64 bg-white h-screen fixed md:sticky top-0 z-20 transition-all duration-300 shadow-lg no-scrollbar flex flex-col hidden md:flex">
+<div id="sidebar" class="w-64 bg-purple-600 h-screen fixed md:sticky top-0 z-20 transition-all duration-300 shadow-lg no-scrollbar flex flex-col hidden md:flex">
     <!-- Header Sidebar -->
     <div class="p-4 flex items-center">
-        <div class="h-10 w-10 rounded-full bg-gradient-to-r from-purple-500 to-purple-700 flex items-center justify-center text-white mr-3">
+        <div class="h-10 w-10 rounded-full bg-purple-800 flex items-center justify-center text-white mr-3">
             <i class="fas fa-child"></i>
         </div>
-        <h2 class="text-xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 text-transparent bg-clip-text">
+        <h2 class="text-xl font-bold text-white">
             @if (Request::route()->getName() == 'dashboardadmin')
                 Dashboard User
             @else
@@ -13,60 +13,73 @@
         </h2>
     </div>
 
-    <!-- Sidebar Content (visible on desktop) -->
+    <!-- Sidebar Content -->
     <div class="sidebar-content px-4 py-2 flex-grow overflow-y-auto space-y-1">
-        <!-- Sidebar links remain the same as in your original code -->
-        <a href="{{ route('dashboard') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'dashboard' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
-            <i class="fas fa-house mr-3 text-purple-600"></i>
+
+        <!-- Dashboard Utama -->
+        <a href="{{ route('dashboard') }}" class="w-full p-2.5 text-left font-medium 
+        {{ Request::route()->getName() == 'dashboard' ? 'bg-white text-purple-800' : 'text-white hover:bg-purple-700' }} 
+        rounded-lg flex items-center transition-all">
+            <i class="fas fa-house mr-3 {{ Request::route()->getName() == 'dashboard' ? 'text-purple-800' : 'text-white' }}"></i>
             Dashboard Utama
         </a>
 
         @if (Auth::user() && Auth::user()->role === 'admin')
-        <div class="text-gray-400 uppercase text-xs font-bold mt-3 mb-2 px-2">Menu (Khusus Admin)</div>
-        
-        <a href="{{ route('dashboardanak') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'dashboardanak' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
-            <i class="fas fa-child mr-3 text-purple-600"></i>
-            Dashboard Anak
-        </a>
-        <a href="{{ route('dashboardadmin') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'dashboardadmin' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
-            <i class="fas fa-chart-pie mr-3 text-purple-500"></i>
-            Dashboard User
-        </a>
+            <!-- Section Title -->
+            <div class="text-purple-200 uppercase text-xs font-bold mt-3 mb-2 px-2">Menu (Khusus Admin)</div>
+
+            <!-- Dashboard Anak -->
+            <a href="{{ route('dashboardanak') }}" class="w-full p-2.5 text-left font-medium 
+            {{ Request::route()->getName() == 'dashboardanak' ? 'bg-white text-purple-800' : 'text-white hover:bg-purple-700' }} 
+            rounded-lg flex items-center transition-all">
+                <i class="fas fa-child mr-3 {{ Request::route()->getName() == 'dashboardanak' ? 'text-purple-800' : 'text-white' }}"></i>
+                Dashboard Anak
+            </a>
+
+            <!-- Dashboard User -->
+            <a href="{{ route('dashboardadmin') }}" class="w-full p-2.5 text-left font-medium 
+            {{ Request::route()->getName() == 'dashboardadmin' ? 'bg-white text-purple-800' : 'text-white hover:bg-purple-700' }} 
+            rounded-lg flex items-center transition-all">
+                <i class="fas fa-chart-pie mr-3 {{ Request::route()->getName() == 'dashboardadmin' ? 'text-purple-800' : 'text-white' }}"></i>
+                Dashboard User
+            </a>
         @endif
-        
-        <a href="{{ route('user.settings') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'password.change' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
-            <i class="fas fa-gear mr-3 text-purple-500"></i>
+
+        <!-- Pengaturan -->
+        <a href="{{ route('user.settings') }}" class="w-full p-2.5 text-left font-medium 
+        {{ Request::route()->getName() == 'password.change' ? 'bg-white text-purple-800' : 'text-white hover:bg-purple-700' }} 
+        rounded-lg flex items-center transition-all">
+            <i class="fas fa-gear mr-3 {{ Request::route()->getName() == 'password.change' ? 'text-purple-800' : 'text-white' }}"></i>
             Pengaturan
         </a>
     </div>
-      
-    <!-- Tombol Logout -->
-    <div class="p-4">
-        <form action="{{ route('logout') }}" method="POST">
+
+    <!-- Logout button di bawah -->
+    <div class="px-4 py-4">
+        <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="w-full p-2.5 text-red-400 border border-red-400 rounded-lg flex items-center justify-center transition-all duration-300 ease-in-out hover:bg-gradient-to-r from-red-500 to-red-700 hover:text-white hover:shadow-lg">
-                <i class="fas fa-sign-out-alt mr-2"></i>
-                Logout
+            <button type="submit" class="w-full border border-purple-300 text-purple-200 hover:bg-purple-700 hover:text-white transition-all font-semibold py-2 rounded-lg flex items-center justify-center">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </button>
         </form>
     </div>
 </div>
 
-<!-- Mobile Navbar (new addition) -->
-<div class="md:hidden fixed top-0 left-0 right-0 bg-white shadow-md z-10">
-    <div class="flex items-center justify-between p-3">
-        <!-- Toggle Button (left side) -->
-        <button id="menuToggle" class="text-purple-600 p-2 rounded-full hover:bg-purple-50 transition-all duration-300">
-    <i id="menuIcon" class="fas fa-bars transition-all duration-300"></i>
-</button>
 
-        
-        <!-- Logo/Title (center) -->
+<!-- Mobile Navbar -->
+<div class="md:hidden fixed top-0 left-0 right-0 bg-purple-600 shadow-md z-30">
+    <div class="flex items-center justify-between p-3">
+        <!-- Toggle Button -->
+        <button id="menuToggle" class="text-white p-2 rounded-full hover:bg-purple-700 transition-all duration-300">
+            <i id="menuIcon" class="fas fa-bars transition-all duration-300"></i>
+        </button>
+
+        <!-- Logo/Title -->
         <div class="flex items-center justify-center">
-            <div class="h-8 w-8 rounded-full bg-gradient-to-r from-purple-500 to-purple-700 flex items-center justify-center text-white mr-2">
+            <div class="h-8 w-8 rounded-full bg-purple-800 flex items-center justify-center text-white mr-2">
                 <i class="fas fa-child text-sm"></i>
             </div>
-            <h2 class="text-lg font-bold bg-gradient-to-r from-purple-600 to-purple-800 text-transparent bg-clip-text">
+            <h2 class="text-lg font-bold text-white">
                 @if (Request::route()->getName() == 'dashboardadmin')
                     Dashboard User
                 @else
@@ -74,49 +87,61 @@
                 @endif
             </h2>
         </div>
-        
-        <!-- Placeholder for right side (to keep title centered) -->
-        <div class="w-8"></div>
+
+        <div class="w-8"></div> <!-- Spacer -->
     </div>
 </div>
 
-<!-- Mobile Menu (dropdown from top) -->
-<div id="mobileMenu" class="fixed md:hidden top-14 left-0 right-0 bg-white shadow-lg z-20 max-h-0 overflow-hidden transition-all duration-300">
+<!-- Mobile Menu (Dropdown) -->
+<div id="mobileMenu" class="fixed md:hidden top-14 left-0 right-0 bg-purple-600 shadow-lg z-20 max-h-0 overflow-hidden transition-all duration-300 text-white">
     <div class="p-4 space-y-2">
-        <a href="{{ route('dashboard') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'dashboard' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
-            <i class="fas fa-house mr-3 text-purple-600"></i>
+        <!-- Menu Links -->
+        <a href="{{ route('dashboard') }}" class="w-full p-2.5 text-left font-medium 
+            {{ Request::route()->getName() == 'dashboard' ? 'bg-white text-purple-800' : 'hover:bg-purple-700' }} 
+            rounded-lg flex items-center transition-all">
+            <i class="fas fa-house mr-3 {{ Request::route()->getName() == 'dashboard' ? 'text-purple-800' : 'text-white' }}"></i>
             Dashboard Utama
         </a>
-        
+
         @if (Auth::user() && Auth::user()->role === 'admin')
-        <div class="text-gray-400 uppercase text-xs font-bold mt-3 mb-2 px-2">Menu (Khusus Admin)</div>
-        
-        <a href="{{ route('dashboardanak') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'dashboardanak' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
-            <i class="fas fa-child mr-3 text-purple-600"></i>
+        <div class="text-purple-200 uppercase text-xs font-bold mt-3 mb-2 px-2">Menu (Khusus Admin)</div>
+
+        <a href="{{ route('dashboardanak') }}" class="w-full p-2.5 text-left font-medium 
+            {{ Request::route()->getName() == 'dashboardanak' ? 'bg-white text-purple-800' : 'hover:bg-purple-700' }} 
+            rounded-lg flex items-center transition-all">
+            <i class="fas fa-child mr-3 {{ Request::route()->getName() == 'dashboardanak' ? 'text-purple-800' : 'text-white' }}"></i>
             Dashboard Anak
         </a>
-        <a href="{{ route('dashboardadmin') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'dashboardadmin' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
-            <i class="fas fa-chart-pie mr-3 text-purple-500"></i>
+
+        <a href="{{ route('dashboardadmin') }}" class="w-full p-2.5 text-left font-medium 
+            {{ Request::route()->getName() == 'dashboardadmin' ? 'bg-white text-purple-800' : 'hover:bg-purple-700' }} 
+            rounded-lg flex items-center transition-all">
+            <i class="fas fa-chart-pie mr-3 {{ Request::route()->getName() == 'dashboardadmin' ? 'text-purple-800' : 'text-white' }}"></i>
             Dashboard User
         </a>
         @endif
-        
-        <a href="{{ route('user.settings') }}" class="w-full p-2.5 text-left font-medium {{ Request::route()->getName() == 'password.change' ? 'bg-purple-100 text-purple-800' : 'text-gray-600 hover:bg-purple-50' }} rounded-lg flex items-center transition-all">
-            <i class="fas fa-gear mr-3 text-purple-500"></i>
+
+        <a href="{{ route('user.settings') }}" class="w-full p-2.5 text-left font-medium 
+            {{ Request::route()->getName() == 'password.change' ? 'bg-white text-purple-800' : 'hover:bg-purple-700' }} 
+            rounded-lg flex items-center transition-all">
+            <i class="fas fa-gear mr-3 {{ Request::route()->getName() == 'password.change' ? 'text-purple-800' : 'text-white' }}"></i>
             Pengaturan
         </a>
-        
-        <!-- Logout Button in Mobile Menu -->
+
+        <!-- Logout Button -->
         <form action="{{ route('logout') }}" method="POST" class="mt-4">
             @csrf
-            <button type="submit" class="w-full p-2.5 text-red-400 border border-red-400 rounded-lg flex items-center justify-center transition-all duration-300 ease-in-out hover:bg-gradient-to-r from-red-500 to-red-700 hover:text-white hover:shadow-lg">
+            <button type="submit" class="w-full p-2.5 border border-white text-white rounded-lg flex items-center justify-center hover:bg-white hover:text-purple-700 transition-all">
                 <i class="fas fa-sign-out-alt mr-2"></i>
                 Logout
             </button>
         </form>
     </div>
 </div>
-<div id="mobileOverlay" class="fixed inset-0 bg-black opacity-50 z-15 hidden md:hidden"></div>
+
+<!-- Overlay -->
+<div id="mobileOverlay" class="fixed inset-0 bg-black opacity-50 z-10 hidden md:hidden"></div>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Dashboard Anak')
 @section('content')
-<div class="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8 ">
+<div class="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8"
     <div class="max-w-7xl mx-auto space-y-6">
        <div class="bg-white rounded-xl shadow-soft p-6">
         <div class="p-6 md:flex-1 animate-fade-in-up delay-200">
