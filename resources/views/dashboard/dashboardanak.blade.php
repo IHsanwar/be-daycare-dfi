@@ -134,11 +134,11 @@
                 </tbody>
             </table>
         </div>     
-</div>       
+
 
 
         <!-- Card view (visible on mobile, hidden on md screens and up) -->
-        <div class="md:hidden space-y-4">
+        <div class="md:hidden space-y-2">
             @foreach ($children as $child)
             <div class="bg-white rounded-lg shadow p-4"> 
                 <div class="flex justify-between items-center mb-3">
