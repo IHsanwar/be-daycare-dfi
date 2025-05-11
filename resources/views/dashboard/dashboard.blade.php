@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('title', 'Dashboard Utama')
 @section('content')
-<div class="bg-gray-50 min-h-screen">
+
+<div class="bg-white min-h-screen ">
     <!-- Top Navigation Bar -->
     <div class="bg-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -315,7 +316,13 @@
             </div>
         </div>
     </div>
-    
+
+
+    <div id="scrollHint" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 bg-gray-800 text-white text-sm rounded-full shadow-lg animate-bounce z-50 hidden">
+  <i class="fas fa-child mr-3"> </i>Scroll ke bawah untuk melihat detail anak anda!
+</div>
+
+
     <!-- Footer -->
     <footer class="bg-white py-4 mt-6 border-t border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -323,7 +330,7 @@
         </div>
     </footer>
 </div>
-
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 function toggleHistory(id) {
@@ -340,5 +347,27 @@ function toggleHistory(id) {
         toggleIcon.classList.add('fa-chevron-up');
     }
 }
+
+  window.onload = function () {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const hint = document.getElementById("scrollHint");
+
+    if (isMobile && hint) {
+      hint.classList.remove("hidden");
+
+      // Sembunyikan setelah 5 detik
+      setTimeout(() => {
+        hint.classList.add("hidden");
+      }, 10000);
+
+      // Atau sembunyikan jika user scroll
+      window.addEventListener("scroll", () => {
+        hint.classList.add("hidden");
+      }, { once: true }); // hanya satu kali trigger
+    }
+  };
+
 </script>
+
+
 @endsection
